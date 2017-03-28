@@ -1,0 +1,276 @@
+package com.mingsoft.people.action.people;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.mingsoft.base.entity.ListJson;
+import com.mingsoft.people.action.BaseAction;
+import com.mingsoft.people.biz.IPeopleAddressBiz;
+import com.mingsoft.people.constant.ModelCode;
+import com.mingsoft.people.constant.e.PeopleAddressEnum;
+import com.mingsoft.people.entity.PeopleAddressEntity;
+import com.mingsoft.people.entity.PeopleEntity;
+import com.mingsoft.util.StringUtil;
+
+import net.mingsoft.basic.util.BasicUtil;
+
+/**
+ * 
+ * 普通用户收货地址信息控制层(外部请求接口)
+ * 
+ * @author yangxy
+ * @version 版本号：【100-000-000】 创建日期：2015年8月23日 历史修订：
+ */
+@Controller("peopleAddress")
+@RequestMapping("/people/address")
+public class PeopleAddressAction extends BaseAction {
+	/**
+	 * 注入用户收货地址业务层
+	 */
+	@Autowired
+	private IPeopleAddressBiz peopleAddressBiz;
+
+	/**
+	 * 用户收货地址列表
+	 * <dt><span class="strong">返回</span></dt><br/>
+	 * [{<br/>
+	 * peopleAddressId:"自增长编号"<br/>
+	 * "peopleAddressConsigneeName": "收货人姓名"<br/>
+	 * "peopleAddressAddress": "地址"<br/>
+	 * "peopleAddressPhone": "手机号"<br/>
+	 * "peopleAddressMail": "邮箱"<br/>
+	 * "peopleAddressProvince": "省"<br/>
+	 * "peopleAddressCity": "城市"<br/>
+	 * "peopleAddressDistrict": "县／区"<br/>
+	 * "peopleAddressStreet": "街道" <br/>
+	 * "peopleAddressDefault": 1默认 0非默认 <br/>
+	 * }]<br/>
+	 */
+	@RequestMapping("/list")
+	public void list(@ModelAttribute PeopleAddressEntity peopleAddress, HttpServletRequest request,
+			HttpServletResponse response) {
+		// 通过session得到用户实体
+		PeopleEntity people = this.getPeopleBySession(request);
+		// 通过用户id和站点id查询用户收货地址列表
+		peopleAddress.setPeopleAddressAppId(BasicUtil.getAppId());
+		peopleAddress.setPeopleAddressPeopleId(people.getPeopleId());
+		List list = peopleAddressBiz.query(peopleAddress);
+		this.outJson(response, JSONArray.toJSONString(list));
+	}
+
+	/**
+	 * 保存用户收货地址
+	 * 
+	 * @param peopleAddress
+	 *            地址信息<br/>
+	 *            <i>peopleAddress参数包含字段信息参考：</i><br/>
+	 *            "peopleAddressConsigneeName": "收货人姓名"<br/>
+	 *            "peopleAddressAddress": "地址"<br/>
+	 *            "peopleAddressPhone": "手机号"<br/>
+	 *            "peopleAddressMail": "邮箱"<br/>
+	 *            "peopleAddressProvince": "省"<br/>
+	 *            "peopleAddressCity": "城市"<br/>
+	 *            "peopleAddressDistrict": "县／区"<br/>
+	 *            "peopleAddressStreet": "街道" <br/>
+	 *            "peopleAddressDefault": 1默认 0非默认 <br/>
+	 *            <dt><span class="strong">返回</span></dt><br/>
+	 *            {code:"错误编码",<br/>
+	 *            result:"true｜false",<br/>
+	 *            resultMsg:"错误信息"<br/>
+	 *            }
+	 */
+	@RequestMapping(value="/save",method=RequestMethod.POST)
+	public void save(@ModelAttribute PeopleAddressEntity peopleAddress, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		// 通过session得到用户实体
+		PeopleEntity peopleEntity = this.getPeopleBySession(request);
+		// 判断用户信息是否为空
+		if (peopleAddress == null) {
+			this.outJson(response, ModelCode.PEOPLE, false, this.getResString("people.msg.null.error"),
+					this.getResString("people.msg.null.error"));
+			return;
+		}
+		// 验证手机号
+		if (StringUtil.isBlank(peopleAddress.getPeopleAddressPhone())) {
+			this.outJson(response, ModelCode.PEOPLE, false,
+					this.getResString("people.msg.phone.error", com.mingsoft.people.constant.Const.RESOURCES));
+			return;
+		}
+		// 验证邮箱
+		if (!StringUtil.isBlank(peopleAddress.getPeopleAddressMail())) {
+			if (StringUtil.checkEmail(peopleAddress.getPeopleAddressMail())) {
+				this.outJson(response, ModelCode.PEOPLE, false,
+						this.getResString("people.msg.mail.error", com.mingsoft.people.constant.Const.RESOURCES));
+				return;
+			}
+		}
+		// 判断省、市、详细地址是否为空
+		if (StringUtil.isBlank(peopleAddress.getPeopleAddressProvince())
+				|| StringUtil.isBlank(peopleAddress.getPeopleAddressCity())
+				|| StringUtil.isBlank(peopleAddress.getPeopleAddressAddress())) {
+			this.outJson(response, ModelCode.PEOPLE, false, this.getResString("people.user.msg.null.error"));
+			return;
+		}
+		// 注入用户id
+		peopleAddress.setPeopleAddressPeopleId(peopleEntity.getPeopleId());
+		// 注入站点id
+		peopleAddress.setPeopleAddressAppId(BasicUtil.getAppId());
+		// 进行保存
+		peopleAddressBiz.saveEntity(peopleAddress);
+		this.outJson(response, null, true, JSONObject.toJSONString(peopleAddress));
+	}
+
+	/**
+	 * 更新用户收货地址
+	 * 
+	 * @param peopleAddress
+	 *            地址信息<br/>
+	 *            <i>peopleAddress参数包含字段信息参考：</i><br/>
+	 *            "peopleAddressConsigneeName": "收货人姓名"<br/>
+	 *            peopleAddressId 自增长编号<br/>
+	 *            "peopleAddressAddress": "地址"<br/>
+	 *            "peopleAddressPhone": "手机号"<br/>
+	 *            "peopleAddressMail": "邮箱"<br/>
+	 *            "peopleAddressProvince": "省"<br/>
+	 *            "peopleAddressCity": "城市"<br/>
+	 *            "peopleAddressDistrict": "县／区"<br/>
+	 *            "peopleAddressStreet": "街道" <br/>
+	 *            "peopleAddressDefault": 1默认 0非默认 <br/>
+	 *            <dt><span class="strong">返回</span></dt><br/>
+	 *            {code:"错误编码",<br/>
+	 *            result:"true｜false",<br/>
+	 *            resultMsg:"错误信息"<br/>
+	 *            }
+	 */
+	@RequestMapping(value="/update",method=RequestMethod.POST)
+	public void update(@ModelAttribute PeopleAddressEntity peopleAddress, HttpServletRequest request,
+			HttpServletResponse response) {
+		// 通过session得到用户实体
+		PeopleEntity people = this.getPeopleBySession();
+		peopleAddress.setPeopleAddressPeopleId(people.getPeopleId());
+		PeopleAddressEntity address = (PeopleAddressEntity) peopleAddressBiz.getEntity(peopleAddress);
+		if (people.getPeopleId() != address.getPeopleAddressPeopleId()) {
+			this.outJson(response, false);
+			return;
+		}
+		// 判断用户信息是否为空
+		if (StringUtil.isBlank(peopleAddress.getPeopleAddressProvince())
+				|| StringUtil.isBlank(peopleAddress.getPeopleAddressCity())
+				|| StringUtil.isBlank(peopleAddress.getPeopleAddressAddress())) {
+			this.outJson(response, ModelCode.PEOPLE, false, this.getResString("people.msg.null.error"),
+					this.getResString("people.msg.null.error"));
+			return;
+		}
+		// 验证手机号
+		if (StringUtil.isBlank(peopleAddress.getPeopleAddressPhone())) {
+			this.outJson(response, ModelCode.PEOPLE, false,
+					this.getResString("people.msg.phone.error", com.mingsoft.people.constant.Const.RESOURCES));
+			return;
+		}
+		peopleAddress.setPeopleAddressPeopleId(people.getPeopleId());
+		peopleAddress.setPeopleAddressAppId(BasicUtil.getAppId());
+		// 更新用户地址
+		peopleAddressBiz.updateEntity(peopleAddress);
+		this.outJson(response, null, true);
+	}
+
+	/**
+	 * 设置默认地址
+	 * 
+	 * @param peopleAddress
+	 *            地址信息<br/>
+	 *            <i>peopleAddress参数包含字段信息参考：</i><br/>
+	 *            peopleAddressId 自增长编号<br/>
+	 *            <dt><span class="strong">返回</span></dt><br/>
+	 *            {code:"错误编码",<br/>
+	 *            result:"true｜false",<br/>
+	 *            resultMsg:"错误信息"<br/>
+	 *            }
+	 */
+	@RequestMapping("/setDefault")
+	public void setDefault(@ModelAttribute PeopleAddressEntity peopleAddress, HttpServletRequest request,
+			HttpServletResponse response) {
+		// 通过session得到用户实体
+		PeopleEntity people = this.getPeopleBySession();
+		peopleAddress.setPeopleAddressPeopleId(people.getPeopleId());
+		PeopleAddressEntity address = (PeopleAddressEntity) peopleAddressBiz.getEntity(peopleAddress);
+		if (people.getPeopleId() != address.getPeopleAddressPeopleId()) {
+			this.outJson(response, false);
+			return;
+		}
+		peopleAddress.setPeopleAddressPeopleId(people.getPeopleId());
+		peopleAddress.setPeopleAddressAppId(BasicUtil.getAppId());
+		// 更新用户地址
+		peopleAddressBiz.setDefault(peopleAddress);
+		this.outJson(response, null, true);
+	}
+
+	/**
+	 * 根据收货地址id删除收货信息
+	 * 
+	 * @param peopleAddress
+	 *            地址信息<br/>
+	 *            <i>peopleAddress参数包含字段信息参考：</i><br/>
+	 *            peopleAddressId 自增长编号<br/>
+	 *            <dt><span class="strong">返回</span></dt><br/>
+	 *            {code:"错误编码",<br/>
+	 *            result:"true｜false",<br/>
+	 *            resultMsg:"错误信息"<br/>
+	 *            }
+	 */
+	@RequestMapping("/delete")
+	public void delete(@ModelAttribute PeopleAddressEntity peopleAddress, HttpServletRequest request,
+			HttpServletResponse response) {
+		// 根据收货地址id删除收货信息
+		peopleAddress.setPeopleAddressPeopleId(this.getPeopleBySession().getPeopleId());
+		peopleAddress.setPeopleAddressAppId(BasicUtil.getAppId());
+		peopleAddressBiz.deleteEntity(peopleAddress);
+		this.outJson(response, null, true);
+	}
+
+	/**
+	 * 通过peopleAddressId查询用户收货地址实体
+	 * 
+	 * @param peopleAddress
+	 *            地址信息<br/>
+	 *            <i>peopleAddress参数包含字段信息参考：</i><br/>
+	 *            peopleAddressId 自增长编号<br/>
+	 *            peopleAddressDefault 大于0获取默认地址<br/>
+	 *            <dt><span class="strong">返回</span></dt><br/>
+	 * 
+	 *            "{peopleAddressConsigneeName": "收货人姓名"<br/>
+	 *            peopleAddressId 自增长编号<br/>
+	 *            "peopleAddressAddress": "地址"<br/>
+	 *            "peopleAddressPhone": "手机号"<br/>
+	 *            "peopleAddressMail": "邮箱"<br/>
+	 *            "peopleAddressProvince": "省"<br/>
+	 *            "peopleAddressCity": "城市"<br/>
+	 *            "peopleAddressDistrict": "县／区"<br/>
+	 *            "peopleAddressStreet": "街道" <br/>
+	 *            "peopleAddressDefault": 1默认 0非默认 }<br/>
+	 */
+	@RequestMapping("/get")
+	public void get(@ModelAttribute PeopleAddressEntity peopleAddress, HttpServletRequest request,
+			HttpServletResponse response) {
+		// 通过用户地址id查询用户地址实体
+		peopleAddress.setPeopleAddressPeopleId(this.getPeopleBySession().getPeopleId());
+		PeopleAddressEntity address = (PeopleAddressEntity) peopleAddressBiz.getEntity(peopleAddress);
+		if (this.getPeopleBySession(request).getPeopleId() != address.getPeopleAddressPeopleId()) {
+			this.outJson(response, false);
+			return;
+		}
+		this.outJson(response, JSONObject.toJSONString(address));
+	}
+}
