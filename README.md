@@ -1,6 +1,7 @@
 #用户模块
 包含登陆、注册、取回密码、修改密码、基本资料编辑、后台用户管理等常规功能
 > [java doc](http://api.ms.mingsoft.net/people)
+
 > [JavaScript API Doc](http://ms.mingsoft.net/html/86/6507/6511/index.html)
 
 #maven依赖方式使用
