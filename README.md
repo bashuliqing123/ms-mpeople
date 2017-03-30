@@ -1,6 +1,7 @@
 #用户模块
 
-
+[java doc](http://api.ms.mingsoft.net/people)
+[JavaScript API Doc](http://ms.mingsoft.net/html/86/6507/6511/index.html)
 
 #maven依赖
 ```
