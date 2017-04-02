@@ -9,16 +9,16 @@
 <!--war包含用户模块编译好的字节码文件与前端试图ftl页面-->
 <dependency>
   <groupId>net.mingsoft</groupId>
-  <artifactId>ms-basic</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <artifactId>ms-mpeople</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <type>war</type>
 </dependency>
 
 <!--用户模块的源代码-->
 <dependency>
   <groupId>net.mingsoft</groupId>
-  <artifactId>ms-basic</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <artifactId>ms-mpeople</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <classifier>sources</classifier>
   <scope>provided</scope>
 </dependency>
@@ -26,8 +26,8 @@
 <!--jar包依赖方便业务开发调用-->
 <dependency>
   <groupId>net.mingsoft</groupId>
-  <artifactId>ms-basic</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <artifactId>ms-mpeople</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <classifier>classes</classifier>
   <scope>provided</scope>
 </dependency> 
@@ -35,5 +35,3 @@
 #源码方式使用
 直接将在MStore下载的源代码解压覆盖到项目中，编译并运行
 
-#数据库文件导入
-将doc/ms-mpeople-版本号.sql导入到数据库当中
