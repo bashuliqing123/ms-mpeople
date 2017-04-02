@@ -29,7 +29,7 @@
 										<input type="checkbox" name="ids" value="${people.peopleId?c?default(0)}">
 			            			</td>
 						            <td ><#if people.peopleUser?has_content><img src="${base}${people.peopleUser.peopleUserIcon?default("暂无")}" width="25" height="25"/></#if></td>
-						            <td>  <a class="btn btn-xs tooltips editPeople" data-id="${people.peopleId?c?default(0)}"  href="${managerPath}/people/user/${people.peopleId?c?default(0)}/edit.do" data-original-title="编辑用户信息" data-toggle="tooltip">${people.peopleName?default("暂无")}</a></td>
+						            <td>  <a class="btn btn-xs tooltips editPeople" data-id="${people.peopleId?c?default(0)}"  href="${managerPath}/people/user/${people.peopleId?c?default(0)}/edit.do" target="_self" data-original-title="编辑用户信息" data-toggle="tooltip">${people.peopleName?default("暂无")}</a></td>
 						            <td><#if people.peopleUser?has_content>${people.peopleUser.peopleUserRealName?default("暂无")}</#if></td>
 					            	<td ><#if people.peopleUser?has_content>${people.peopleUser.peopleUserNickName?default("暂无")}</#if></td>
 					             	<td >${people.peoplePhone?default("暂无")}</td>
