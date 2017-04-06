@@ -1,4 +1,4 @@
-#用户模块
+#用户插件
 包含登陆、注册、取回密码、修改密码、基本资料编辑、后台用户管理等常规功能
 > [java doc](http://api.ms.mingsoft.net/people)
 
