@@ -627,8 +627,10 @@ public class PeopleAction extends BaseAction {
 			return;
 		}
 		if (people.getPeopleUser() != null) {
-			params.put("content",
-					"{code:'" + peopleCode + "',userName:'" + people.getPeopleUser().getPeopleUserNickName() + "'}");
+			CodeBean code = new CodeBean();
+			code.setCode(peopleCode);
+			code.setUserName(people.getPeopleUser().getPeopleUserNickName());
+			params.put("content",JSONObject.toJSONString(code));
 		}
 
 		// 将生成的验证码加入用户实体
@@ -652,6 +654,7 @@ public class PeopleAction extends BaseAction {
 			LOG.debug("send mail" + receive + ":content " + peopleCode + " " + re);
 			this.outJson(response, re);
 		}
+
 
 	}
 
@@ -736,3 +739,23 @@ public class PeopleAction extends BaseAction {
 	}
 
 }
+
+//创建一个bean方便邮件发送，避免userName特色字符导致json格式转换失败
+class CodeBean {
+	String code;
+	String userName;
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+}
+
+
