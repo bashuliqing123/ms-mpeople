@@ -224,11 +224,16 @@ public class PeopleAddressAction extends BaseAction {
 		// 通过session得到用户实体
 		PeopleEntity people = this.getPeopleBySession();
 		peopleAddress.setPeopleAddressPeopleId(people.getPeopleId());
+		// 前段此时发来的 用户实体的 PeopleAddressDefault 值设为1，会找不到当前对象
+		// 此处将获取用户 PeopleAddressDefault 值设为0，以获取当前用户对象
+		peopleAddress.setPeopleAddressDefault(PeopleAddressEnum.ADDRESS_DEFAULT);
 		PeopleAddressEntity address = (PeopleAddressEntity) peopleAddressBiz.getEntity(peopleAddress);
 		if (people.getPeopleId() != address.getPeopleAddressPeopleId()) {
 			this.outJson(response, false);
 			return;
 		}
+		// 将获取用户 PeopleAddressDefault 值还原为1，更新设为用户默认地址
+		peopleAddress.setPeopleAddressDefault(PeopleAddressEnum.ADDRESS_NOT_DEFAULT);
 		peopleAddress.setPeopleAddressPeopleId(people.getPeopleId());
 		peopleAddress.setPeopleAddressAppId(BasicUtil.getAppId());
 		// 更新用户地址
