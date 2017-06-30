@@ -348,7 +348,7 @@ public class PeopleAction extends BaseAction {
 					this.getResString("err.empty", this.getResString("people")));
 			return;
 		}
-
+		
 		int appId = this.getAppId(request);
 		// 如果用户名不为空表示使用的是账号注册方式
 		if (!StringUtil.isBlank(people.getPeopleName())) {
@@ -356,6 +356,12 @@ public class PeopleAction extends BaseAction {
 			if (StringUtil.isBlank(people.getPeopleName())) {
 				this.outJson(response, ModelCode.PEOPLE_REGISTER, false,
 						this.getResString("err.empty", this.getResString("people.name")));
+				return;
+			}
+
+			if (people.getPeopleName().contains(" ") || people.getPeopleName().contains("￥")) {
+				this.outJson(response, ModelCode.PEOPLE_REGISTER, false,
+						 this.getResString("people.name") + "不能含有空格");
 				return;
 			}
 
