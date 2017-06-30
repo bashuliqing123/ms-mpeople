@@ -137,6 +137,13 @@ public class PeopleAction extends BaseAction {
 					this.getResString("err.length", this.getResString("people.password"), "6", "20"));
 			return;
 		}
+		
+		// 验证新密码的合法：空格字符
+		if (people.getPeoplePassword().contains(" ")) {
+			this.outJson(response, ModelCode.PEOPLE, false,
+					 this.getResString("people.password") + this.getResString("msgSpace"));
+			return;
+		}
 
 		// 获取用户session
 		PeopleEntity _people = this.getPeopleBySession(request);

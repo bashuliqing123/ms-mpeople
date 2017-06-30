@@ -164,7 +164,7 @@ public class PeopleAction extends BaseAction {
 		if (peopleEntity == null) {
 			// 用户名或密码错误
 			this.outJson(response, ModelCode.PEOPLE_LOGIN, false,
-					this.getResString("err.error", this.getResString("people")));
+					this.getResString("err.error", this.getResString("people.name") + "或" + this.getResString("people.password")));
 			return;
 		}
 
@@ -190,7 +190,7 @@ public class PeopleAction extends BaseAction {
 		} else {
 			// 用户名或密码错误
 			this.outJson(response, ModelCode.PEOPLE_LOGIN, false,
-					this.getResString("err.error", this.getResString("people")));
+					this.getResString("err.error", this.getResString("people.name") + "或" + this.getResString("people.password")));
 		}
 
 	}
@@ -435,11 +435,10 @@ public class PeopleAction extends BaseAction {
 		
 		if (people.getPeoplePassword().contains(" ")) {
 			this.outJson(response, ModelCode.PEOPLE_REGISTER, false,
-					this.getResString("people.password") + "不能含有空格");
+					this.getResString("people.password") + this.getResString("msgSpace"));
 			return;
 		}
 
-		
 		if (people.getPeoplePassword().length() < 6 || people.getPeoplePassword().length() > 30) {
 			this.outJson(response, ModelCode.PEOPLE_REGISTER, false,
 					this.getResString("err.length", this.getResString("people.password"), "6", "30"));
@@ -491,7 +490,7 @@ public class PeopleAction extends BaseAction {
 					this.getResString("err.error", this.getResString("people.password")));
 			return;
 		}
-
+		
 		PeopleEntity _people = (PeopleEntity) this.getSession(request, SessionConstEnum.PEOPLE_RESET_PASSWORD_SESSION);
 
 		if (_people == null) {
