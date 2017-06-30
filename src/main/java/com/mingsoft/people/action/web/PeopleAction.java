@@ -359,9 +359,9 @@ public class PeopleAction extends BaseAction {
 				return;
 			}
 
-			if (people.getPeopleName().contains(" ") || people.getPeopleName().contains("￥")) {
+			if (people.getPeopleName().contains(" ")) {
 				this.outJson(response, ModelCode.PEOPLE_REGISTER, false,
-						 this.getResString("people.name") + "不能含有空格");
+						 this.getResString("people.name") + this.getResString("msgSpace"));
 				return;
 			}
 
@@ -432,6 +432,14 @@ public class PeopleAction extends BaseAction {
 					this.getResString("err.empty", this.getResString("people.password")));
 			return;
 		}
+		
+		if (people.getPeoplePassword().contains(" ")) {
+			this.outJson(response, ModelCode.PEOPLE_REGISTER, false,
+					this.getResString("people.password") + "不能含有空格");
+			return;
+		}
+
+		
 		if (people.getPeoplePassword().length() < 6 || people.getPeoplePassword().length() > 30) {
 			this.outJson(response, ModelCode.PEOPLE_REGISTER, false,
 					this.getResString("err.length", this.getResString("people.password"), "6", "30"));
