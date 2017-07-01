@@ -404,6 +404,12 @@ public class PeopleAction extends BaseAction {
 		}
 
 		if (!StringUtil.isBlank(people.getPeopleMail())) {// 验证邮箱
+			// 检查邮箱格式是否含有空格
+			if (people.getPeopleMail().contains(" ")) {
+				this.outJson(response, ModelCode.PEOPLE_REGISTER, false,
+						this.getResString("people.mail") + this.getResString("msgSpace"));
+				return;
+			}
 			PeopleEntity peopleMail = this.peopleBiz.getEntityByUserName(people.getPeopleMail(), appId);
 			if (peopleMail != null && peopleMail.getPeopleMailCheck() == PeopleEnum.MAIL_CHECK.toInt()) {
 				this.outJson(response, ModelCode.PEOPLE_REGISTER, false,
