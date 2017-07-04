@@ -141,7 +141,7 @@ public class PeopleAction extends BaseAction {
 		// 验证新密码的合法：空格字符
 		if (people.getPeoplePassword().contains(" ")) {
 			this.outJson(response, ModelCode.PEOPLE, false,
-					 this.getResString("people.password") + this.getResString("msgSpace"));
+					 this.getResString("people.password") + this.getResString("people.space"));
 			return;
 		}
 

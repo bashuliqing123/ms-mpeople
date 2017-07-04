@@ -164,7 +164,7 @@ public class PeopleAction extends BaseAction {
 		if (peopleEntity == null) {
 			// 用户名或密码错误
 			this.outJson(response, ModelCode.PEOPLE_LOGIN, false,
-					this.getResString("err.error", this.getResString("people.name") + "或" + this.getResString("people.password")));
+					this.getResString("err.error", this.getResString("pepple.no.exist")));
 			return;
 		}
 
@@ -190,7 +190,7 @@ public class PeopleAction extends BaseAction {
 		} else {
 			// 用户名或密码错误
 			this.outJson(response, ModelCode.PEOPLE_LOGIN, false,
-					this.getResString("err.error", this.getResString("people.name") + "或" + this.getResString("people.password")));
+					this.getResString("err.error", this.getResString("pepple.no.exist")));
 		}
 
 	}
@@ -361,7 +361,7 @@ public class PeopleAction extends BaseAction {
 
 			if (people.getPeopleName().contains(" ")) {
 				this.outJson(response, ModelCode.PEOPLE_REGISTER, false,
-						 this.getResString("people.name") + this.getResString("msgSpace"));
+						 this.getResString("people.name") + this.getResString("people.space"));
 				return;
 			}
 
@@ -407,7 +407,7 @@ public class PeopleAction extends BaseAction {
 			// 检查邮箱格式是否含有空格
 			if (people.getPeopleMail().contains(" ")) {
 				this.outJson(response, ModelCode.PEOPLE_REGISTER, false,
-						this.getResString("people.mail") + this.getResString("msgSpace"));
+						this.getResString("people.mail") + this.getResString("people.space"));
 				return;
 			}
 			PeopleEntity peopleMail = this.peopleBiz.getEntityByUserName(people.getPeopleMail(), appId);
@@ -441,7 +441,7 @@ public class PeopleAction extends BaseAction {
 		
 		if (people.getPeoplePassword().contains(" ")) {
 			this.outJson(response, ModelCode.PEOPLE_REGISTER, false,
-					this.getResString("people.password") + this.getResString("msgSpace"));
+					this.getResString("people.password") + this.getResString("people.space"));
 			return;
 		}
 
