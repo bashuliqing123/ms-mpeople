@@ -564,6 +564,8 @@ public class PeopleAction extends BaseAction {
 	 * 
 	 * @param receive
 	 *            接收地址，只能是邮箱或手机号，邮箱需要使用邮箱插件，手机号需要短信插件
+	 * @param peopleName
+	 *            对应用户名称
 	 * @param modelCode
 	 *            对应邮件插件的模块编号
 	 * @param thrid
@@ -579,6 +581,7 @@ public class PeopleAction extends BaseAction {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/sendCode")
 	public void sendCode(HttpServletRequest request, HttpServletResponse response) {
+		String peopleName = request.getParameter("peopleName");
 		String receive = request.getParameter("receive");
 		String modelCode = request.getParameter("modelCode");
 		String thrid = request.getParameter("thrid");
@@ -639,7 +642,7 @@ public class PeopleAction extends BaseAction {
 			return;
 		}
 		// 通过邮箱地址和应用id得到用户实体
-		PeopleEntity people = peopleBiz.getEntityByMailOrPhone(receive, this.getAppId(request));
+		PeopleEntity people = peopleBiz.getEntityByUserName(peopleName, this.getAppId(request));
 		if (people == null) {
 			this.outJson(response, ModelCode.PEOPLE, false,
 					this.getResString("err.not.exist", this.getResString("people")));
@@ -684,11 +687,14 @@ public class PeopleAction extends BaseAction {
 	 *            接收到的验证码
 	 * @param receive
 	 *            接收地址，只能是邮箱或手机号
+	 * @param peopleName
+	 *            对应用户名称
 	 *            <dt><span class="strong">返回</span></dt><br/>
 	 *            {result:"true｜false"}<br/>
 	 */
 	@RequestMapping(value = "/checkSendCode", method = RequestMethod.POST)
 	public void checkSendCode(HttpServletRequest request, HttpServletResponse response) {
+		String peopleName = request.getParameter("peopleName");
 		String code = request.getParameter("code");
 		String receive = request.getParameter("receive");
 		// 验证码
@@ -699,7 +705,7 @@ public class PeopleAction extends BaseAction {
 		}
 
 		// 根据邮箱地址查找用户实体
-		PeopleEntity peopleEntity = this.peopleBiz.getEntityByMailOrPhone(receive, this.getAppId(request));
+		PeopleEntity peopleEntity = this.peopleBiz.getEntityByUserName(peopleName, this.getAppId(request));
 
 		// 在注册流程，在发送验证码的时数据库可能还不存在用户信息
 		if (BasicUtil.getSession(SessionConstEnum.SEND_CODE_SESSION) != null) {
