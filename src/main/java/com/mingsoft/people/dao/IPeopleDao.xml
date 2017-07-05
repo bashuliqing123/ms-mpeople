@@ -4,9 +4,9 @@
 <mapper namespace="com.mingsoft.people.dao.IPeopleDao">
 	<!-- 表字段开始 -->
 	<sql id="column_list">
-		P.PEOPLE_ID,P.PEOPLE_PHONE,P.PEOPLE_NAME,P.PEOPLE_PASSWORD,P.PEOPLE_CODE,
-		P.PEOPLE_DATETIME,P.PEOPLE_APP_ID,P.PEOPLE_MAIL,P.PEOPLE_STATE,P.PEOPLE_CODESENDDATE,
-		P.PEOPLE_PHONECHECK,P.PEOPLE_MAILLCHECK
+		PEOPLE_ID,PEOPLE_PHONE,PEOPLE_NAME,PEOPLE_PASSWORD,PEOPLE_CODE,
+		PEOPLE_DATETIME,PEOPLE_APP_ID,PEOPLE_MAIL,PEOPLE_STATE,PEOPLE_CODESENDDATE,
+		PEOPLE_PHONECHECK,PEOPLE_MAILLCHECK
 	</sql>
 
 	<!-- 将实体属性与表字段对接开始 -->
@@ -83,8 +83,10 @@
 		select
 		<include refid="column_list" />
 		,PU_NICKNAME,PU_REAL_NAME
-		from v_people_user p where
-		p.people_id =
+		from people LEFT JOIN people_user ON
+		(people.PEOPLE_ID = people_user.PU_PEOPLE_ID)
+ 		where
+		people.people_id =
 		#{peopleId}
 	</select>
 	<!-- 查询用户结束 -->
@@ -119,7 +121,9 @@
 	<!-- 根据用户名(帐号,手机,邮箱)查询用户信息开始 -->
 	<select id="getEntityByUserName" resultMap="resultMap">
 		select * from
-		v_people_user where (people_name=#{userName} or
+		people LEFT JOIN people_user ON
+		(people.PEOPLE_ID = people_user.PU_PEOPLE_ID)
+		 where (people_name=#{userName} or
 		(people_phone=#{userName} and PEOPLE_PHONECHECK=1) or
 		people_mail=#{userName} and PEOPLE_MAILLCHECK=1) and
 		people_app_id=#{appId}
@@ -127,14 +131,18 @@
 	<!-- 根据用户名(帐号,手机,邮箱)查询用户信息结束 -->
 	<select id="getEntityByMailOrPhone" resultMap="resultMap">
 		select * from
-		v_people_user where people_phone=#{userName} or
+		people LEFT JOIN people_user ON
+		(people.PEOPLE_ID = people_user.PU_PEOPLE_ID)
+		where people_phone=#{userName} or
 		people_mail=#{userName} and people_app_id=#{appId}
 	</select>
 
 	<select id="getByPeople" parameterType="com.mingsoft.people.entity.PeopleEntity"
 		resultMap="resultMap">
 		<if test="people != null">
-			select * from v_people_user
+			select * from
+			people LEFT JOIN people_user ON
+			(people.PEOPLE_ID = people_user.PU_PEOPLE_ID) 
 			<trim prefix="WHERE" prefixOverrides="AND|OR">
 				and people_app_id = #{appId} 
 				and 
@@ -166,7 +174,7 @@
 		from people p left join people_user on
 		people_id=pu_people_id
 		<where>
-			p.PEOPLE_APP_ID = #{appId}
+			PEOPLE_APP_ID = #{appId}
 			<if test="where!=null">
 				<if test="where.peopleName != null">
 					and PEOPLE_NAME=#{where.peopleName}
@@ -211,7 +219,7 @@
 		,people_user.*
 		from people p left join people_user on
 		people_id=pu_people_id
-		where p.people_app_id=#{appId}
+		where people_app_id=#{appId}
 		order by people_id
 		desc
 		<if test="page != null">
@@ -233,11 +241,11 @@
 		select
 		<include refid="column_list" />
 		from people p
-		where (p.people_name=#{userName} or
-		p.people_phone=#{userName} or
-		p.people_mail=#{userName}) and
-		p.people_app_id=#{appId} and
-		p.people_code=#{peopleCode}
+		where (people_name=#{userName} or
+		people_phone=#{userName} or
+		people_mail=#{userName}) and
+		people_app_id=#{appId} and
+		people_code=#{peopleCode}
 	</select>
 	<!-- 根据用户名(帐号,手机,邮箱)和验证码用户信息结束 -->
 
@@ -280,7 +288,7 @@
 		from people p left join people_user on
 		people_id=pu_people_id
 		<where>
-			p.PEOPLE_APP_ID = #{appId}
+			PEOPLE_APP_ID = #{appId}
 			<if test="whereMap!=null">
 				<!-- 用户审核状态 -->
 				<if test="whereMap.peopleState">
@@ -320,7 +328,7 @@
 		from people p left join people_user on
 		people_id=pu_people_id
 		<where>
-			p.PEOPLE_APP_ID = #{appId}
+			PEOPLE_APP_ID = #{appId}
 			<if test="whereMap!=null">
 				<!-- 用户审核状态 -->
 				<if test="whereMap.peopleState">
