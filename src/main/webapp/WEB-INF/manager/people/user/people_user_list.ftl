@@ -6,7 +6,7 @@
 							<@ms.text label="昵称"  name="peopleUserNickName"  title="请输入用户昵称"  placeholder="请输入用户昵称" value="${peopleUserNickName?default('')}"   />			  
 							<@ms.text label="真实姓名"   name="peopleUserRealName"  title="请输入真实姓名"  placeholder="请输入真实姓名" value="${peopleUserRealName?default('')}"   />			  
 							<#assign status=[{"id":"-1","name":"全部"},{"id":"1","name":"男"},{"id":"2","name":"女"}]>
-							<@ms.select label="性别" list=status listValue="name" listKey="id"    name="peopleUserSex" value="${peopleUser_peopleUserSex?default(-1)}" />
+							<@ms.select label="性别" list=status listValue="name" listKey="id"    name="peopleUserSex" value="${peopleUserSex?default(-1)}" />
 							<#assign status=[{"id":"-1","name":"全部"},{"id":"0","name":"未审核"},{"id":"1","name":"已审核"}]>
 							<@ms.select label="审核状态" list=status listValue="name" listKey="id"    name="peopleState" value="${peopleState?default(-1)}" />
 							<@ms.date label="注册时间" name="peopleDateTimeWhere"     value="${peopleDateTimeWhere?default('')}" />
