@@ -641,7 +641,7 @@ public class PeopleAction extends BaseAction {
 			}
 			return;
 		}
-		// 通过邮箱地址和应用id得到用户实体
+		// 通过用户名和应用id得到用户实体
 		PeopleEntity people = peopleBiz.getEntityByUserName(peopleName, this.getAppId(request));
 		if (people == null) {
 			this.outJson(response, ModelCode.PEOPLE, false,
@@ -689,6 +689,8 @@ public class PeopleAction extends BaseAction {
 	 *            接收地址，只能是邮箱或手机号
 	 * @param peopleName
 	 *            对应用户名称
+	 * @param peopleName
+	 *            对应用户名称
 	 *            <dt><span class="strong">返回</span></dt><br/>
 	 *            {result:"true｜false"}<br/>
 	 */
@@ -704,7 +706,7 @@ public class PeopleAction extends BaseAction {
 			return;
 		}
 
-		// 根据邮箱地址查找用户实体
+		// 根据用户名查找用户实体
 		PeopleEntity peopleEntity = this.peopleBiz.getEntityByUserName(peopleName, this.getAppId(request));
 
 		// 在注册流程，在发送验证码的时数据库可能还不存在用户信息
@@ -719,20 +721,6 @@ public class PeopleAction extends BaseAction {
 				this.outJson(response, ModelCode.PEOPLE, true);
 			}
 		} else {
-			if (StringUtil.isMobile(receive)) {
-				// 如果用户已经绑定过手机直接返回错误
-				if (peopleEntity.getPeoplePhoneCheck() == PeopleEnum.PHONE_CHECK.toInt()) {
-					this.outJson(response, ModelCode.PEOPLE, false);
-					return;
-				}
-			} else {
-				// 如果用户已经绑定过邮箱直接返回错误
-				if (peopleEntity.getPeopleMailCheck() == PeopleEnum.MAIL_CHECK.toInt()) {
-					this.outJson(response, ModelCode.PEOPLE, false);
-					return;
-				}
-			}
-
 			// 得到发送验证码时间，并转换为String类型
 			String date = peopleEntity.getPeopleCodeSendDate().toString();
 
@@ -751,10 +739,20 @@ public class PeopleAction extends BaseAction {
 
 			// 将随机码在数据库中清空
 			peopleEntity.setPeopleCode("");
-			if (StringUtil.isMobile(receive)) {
-				peopleEntity.setPeoplePhoneCheck(PeopleEnum.PHONE_CHECK);
-			} else {
-				peopleEntity.setPeopleMailCheck(PeopleEnum.MAIL_CHECK);
+			
+			// 判断用户邮箱是否绑定 （暂未判定手机验证）
+			if(peopleEntity.getPeopleMailCheck() == PeopleEnum.MAIL_NO_CHECK.toInt()){ 
+				if (StringUtil.isMobile(receive)) {
+					peopleEntity.setPeoplePhoneCheck(PeopleEnum.PHONE_CHECK);
+				} else {
+					peopleEntity.setPeopleMailCheck(PeopleEnum.MAIL_CHECK);
+				}
+			}else if(peopleEntity.getPeopleMailCheck() == PeopleEnum.MAIL_CHECK.toInt()){
+				if (StringUtil.isMobile(receive)) {
+					peopleEntity.setPeoplePhoneCheck(PeopleEnum.PHONE_NO_CHECK);
+				} else {
+					peopleEntity.setPeopleMailCheck(PeopleEnum.MAIL_NO_CHECK);
+				}
 			}
 			peopleBiz.updateEntity(peopleEntity);
 			this.outJson(response, ModelCode.PEOPLE, true);
