@@ -100,7 +100,6 @@ public class PeopleAction extends BaseAction {
 	 * @param people
 	 *            用户信息<br/>
 	 *            <i>people参数包含字段信息参考：</i><br/>
-	 *            peopleName 用名称<br/>
 	 *            peopleMail 邮箱<br/>
 	 *            peoplePhone 手机号<br/>
 	 *            <dt><span class="strong">返回</span></dt><br/>
@@ -579,7 +578,6 @@ public class PeopleAction extends BaseAction {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/sendCode")
 	public void sendCode(HttpServletRequest request, HttpServletResponse response) {
-		String peopleName = "333333"; // 写死
 		String receive = request.getParameter("receive");
 		String modelCode = request.getParameter("modelCode");
 		String thrid = request.getParameter("thrid");
@@ -640,7 +638,7 @@ public class PeopleAction extends BaseAction {
 			return;
 		}
 		// 通过用户名地址和应用id得到用户实体
-		PeopleEntity people = peopleBiz.getEntityByMailOrPhone(peopleName, this.getAppId(request));
+		PeopleEntity people = peopleBiz.getEntityByMailOrPhone(receive, this.getAppId(request));
 		if (people == null) {
 			this.outJson(response, ModelCode.PEOPLE, false,
 					this.getResString("err.not.exist", this.getResString("people")));
