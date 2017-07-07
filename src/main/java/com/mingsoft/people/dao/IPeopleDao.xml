@@ -102,7 +102,7 @@
  			<if test="peopleName != null and peopleName != ''">and PEOPLE_NAME=#{peopleName}</if>
  			<if test="peopleMail != null and peopleMail != ''">and PEOPLE_MAIL=#{peopleMail}</if>
  			<if test="peoplePhone != null and peoplePhone != ''">and PEOPLE_PHONE=#{peoplePhone}</if>
-			<if test="peopleAppId != null">PEOPLE_APP_ID</if>
+			<if test="peopleAppId != null">and PEOPLE_APP_ID=#{peopleAppId}</if>
  		</where>
 	</select>
 	<!-- 查询用户结束 -->
