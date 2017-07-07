@@ -294,6 +294,7 @@ public class PeopleAction extends BaseAction {
 		// 获取应用ID
 		int appId = this.getAppId(request);
 		people.setPeopleAppId(appId);
+		// 如果接收到mail值，就给mail_check赋值1
 		if(!StringUtil.isBlank(people.getPeopleMail())){
 			people.setPeopleMailCheck(PeopleEnum.MAIL_CHECK.toInt());
 		}
@@ -644,7 +645,7 @@ public class PeopleAction extends BaseAction {
 		peopleEntity.setPeopleAppId(appId);
 		// 通过用户名地址和应用id得到用户实体
 		PeopleEntity people = (PeopleEntity) this.peopleBiz.getEntity(peopleEntity);
-		if (StringUtil.isBlank(people)) {
+		if (people == null) {
 			this.outJson(response, ModelCode.PEOPLE, false,
 					this.getResString("err.not.exist", this.getResString("people")));
 			return;
@@ -763,6 +764,91 @@ public class PeopleAction extends BaseAction {
 		}
 
 	}
+	
+	/**
+	 * 解绑邮箱->
+	 * 验证用户输入的接收验证码
+	 * 
+	 * @param code
+	 *            接收到的验证码
+	 * @param receive
+	 *            接收地址，只能是邮箱或手机号
+	 *            <dt><span class="strong">返回</span></dt><br/>
+	 *            {result:"true｜false"}<br/>
+	 */
+	@RequestMapping(value = "/unCheckSendCode", method = RequestMethod.POST)
+	public void unCheckSendCode(@ModelAttribute PeopleEntity people, HttpServletRequest request, HttpServletResponse response) {
+		String code = request.getParameter("code");
+		String receive = request.getParameter("receive");
+		// 验证码
+		if (StringUtil.isBlank(code)) {
+			this.outJson(response, ModelCode.PEOPLE, false,
+					this.getResString("err.error", this.getResString("people.code")));
+			return;
+		}
+
+		// 获取应用ID
+		int appId = this.getAppId(request);
+		people.setPeopleAppId(appId);
+		// 根据用户名邮箱地址查找用户实体
+		PeopleEntity peopleEntity = (PeopleEntity) this.peopleBiz.getEntity(people);
+
+		// 在注册流程，在发送验证码的时数据库可能还不存在用户信息
+		if (BasicUtil.getSession(SessionConstEnum.SEND_CODE_SESSION) != null) {
+			peopleEntity = (PeopleEntity) BasicUtil.getSession(SessionConstEnum.SEND_CODE_SESSION);
+			// 判断用户输入的随机码是否正确
+			if (!peopleEntity.getPeopleCode().equals(code)) {
+				this.outJson(response, ModelCode.PEOPLE, false,
+						this.getResString("err.error", this.getResString("people.code")));
+				return;
+			} else {
+				this.outJson(response, ModelCode.PEOPLE, true);
+			}
+		} else {
+			if (StringUtil.isMobile(receive)) {
+				// 如果用户未绑定过手机直接返回错误
+				if (peopleEntity.getPeoplePhoneCheck() == PeopleEnum.PHONE_NO_CHECK.toInt()) {
+					this.outJson(response, ModelCode.PEOPLE, false);
+					return;
+				}
+			} else {
+				// 如果用户未绑定过邮箱直接返回错误
+				if (peopleEntity.getPeopleMailCheck() == PeopleEnum.MAIL_NO_CHECK.toInt()) {
+					this.outJson(response, ModelCode.PEOPLE, false);
+					return;
+				}
+			}
+
+			// 得到发送验证码时间，并转换为String类型
+			String date = peopleEntity.getPeopleCodeSendDate().toString();
+
+			// 如果发送时间和当前时间只差大于30分钟，则返回false
+			if (DateUtil.secondBetween(date) > 60 * 60 * 24) {
+				this.outJson(response, ModelCode.PEOPLE, false, this.getResString("people.msg.code.error"));
+				return;
+			}
+
+			// 判断用户输入的随机码是否正确
+			if (!peopleEntity.getPeopleCode().equals(code)) {
+				this.outJson(response, ModelCode.PEOPLE, false,
+						this.getResString("err.error", this.getResString("people.code")));
+				return;
+			}
+
+			// 将随机码在数据库中清空
+			peopleEntity.setPeopleCode("");
+			if (StringUtil.isMobile(receive)) {
+				peopleEntity.setPeoplePhoneCheck(PeopleEnum.PHONE_NO_CHECK);
+			} else {
+				peopleEntity.setPeopleMailCheck(PeopleEnum.MAIL_NO_CHECK);
+			}
+			peopleBiz.updateEntity(peopleEntity);
+			this.outJson(response, ModelCode.PEOPLE, true);
+
+		}
+
+	}
+
 
 }
 
