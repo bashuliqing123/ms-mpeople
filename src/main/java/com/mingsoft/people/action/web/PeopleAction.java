@@ -293,8 +293,11 @@ public class PeopleAction extends BaseAction {
 
 		// 获取应用ID
 		int appId = this.getAppId(request);
-
-		PeopleEntity _people = this.peopleBiz.getByPeople(people, appId);
+		people.setPeopleAppId(appId);
+		if(!StringUtil.isBlank(people.getPeopleMail())){
+			people.setPeopleMailCheck(PeopleEnum.MAIL_CHECK.toInt());
+		}
+		PeopleEntity _people = (PeopleEntity) this.peopleBiz.getEntity(people);
 		if (_people != null) {
 			this.setSession(request, SessionConstEnum.PEOPLE_EXISTS_SESSION, _people);
 			this.outJson(response, ModelCode.PEOPLE, true);
@@ -577,7 +580,7 @@ public class PeopleAction extends BaseAction {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/sendCode")
-	public void sendCode(HttpServletRequest request, HttpServletResponse response) {
+	public void sendCode(@ModelAttribute PeopleEntity peopleEntity, HttpServletRequest request, HttpServletResponse response) {
 		String receive = request.getParameter("receive");
 		String modelCode = request.getParameter("modelCode");
 		String thrid = request.getParameter("thrid");
@@ -592,7 +595,6 @@ public class PeopleAction extends BaseAction {
 			return;
 		}
 		String peopleCode = StringUtil.randomNumber(6);
-
 		// 解密得到的模块编码
 		String _modelCode = this.encryptByAES(request, modelCode);
 		Map params = new HashMap();
@@ -637,9 +639,12 @@ public class PeopleAction extends BaseAction {
 			}
 			return;
 		}
+		// 获取应用ID
+		int appId = this.getAppId(request);
+		peopleEntity.setPeopleAppId(appId);
 		// 通过用户名地址和应用id得到用户实体
-		PeopleEntity people = peopleBiz.getEntityByMailOrPhone(receive, this.getAppId(request));
-		if (people == null) {
+		PeopleEntity people = (PeopleEntity) this.peopleBiz.getEntity(peopleEntity);
+		if (StringUtil.isBlank(people)) {
 			this.outJson(response, ModelCode.PEOPLE, false,
 					this.getResString("err.not.exist", this.getResString("people")));
 			return;
@@ -687,7 +692,7 @@ public class PeopleAction extends BaseAction {
 	 *            {result:"true｜false"}<br/>
 	 */
 	@RequestMapping(value = "/checkSendCode", method = RequestMethod.POST)
-	public void checkSendCode(HttpServletRequest request, HttpServletResponse response) {
+	public void checkSendCode(@ModelAttribute PeopleEntity people, HttpServletRequest request, HttpServletResponse response) {
 		String code = request.getParameter("code");
 		String receive = request.getParameter("receive");
 		// 验证码
@@ -697,8 +702,11 @@ public class PeopleAction extends BaseAction {
 			return;
 		}
 
+		// 获取应用ID
+		int appId = this.getAppId(request);
+		people.setPeopleAppId(appId);
 		// 根据邮箱地址查找用户实体
-		PeopleEntity peopleEntity = this.peopleBiz.getEntityByMailOrPhone(receive, this.getAppId(request));
+		PeopleEntity peopleEntity = (PeopleEntity) this.peopleBiz.getEntity(people);
 
 		// 在注册流程，在发送验证码的时数据库可能还不存在用户信息
 		if (BasicUtil.getSession(SessionConstEnum.SEND_CODE_SESSION) != null) {
