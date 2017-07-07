@@ -298,6 +298,10 @@ public class PeopleAction extends BaseAction {
 		if(!StringUtil.isBlank(people.getPeopleMail())){
 			people.setPeopleMailCheck(PeopleEnum.MAIL_CHECK.toInt());
 		}
+		// 如果接收到phone值，就给phone_check赋值1
+		if(!StringUtil.isBlank(people.getPeoplePhone())){
+			people.setPeoplePhoneCheck(PeopleEnum.PHONE_CHECK.toInt());
+		}
 		PeopleEntity _people = (PeopleEntity) this.peopleBiz.getEntity(people);
 		if (_people != null) {
 			this.setSession(request, SessionConstEnum.PEOPLE_EXISTS_SESSION, _people);
@@ -581,7 +585,7 @@ public class PeopleAction extends BaseAction {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/sendCode")
-	public void sendCode(@ModelAttribute PeopleEntity peopleEntity, HttpServletRequest request, HttpServletResponse response) {
+	public void sendCode(@ModelAttribute PeopleEntity people, HttpServletRequest request, HttpServletResponse response) {
 		String receive = request.getParameter("receive");
 		String modelCode = request.getParameter("modelCode");
 		String thrid = request.getParameter("thrid");
@@ -642,32 +646,32 @@ public class PeopleAction extends BaseAction {
 		}
 		// 获取应用ID
 		int appId = this.getAppId(request);
-		peopleEntity.setPeopleAppId(appId);
+		people.setPeopleAppId(appId);
 		// 通过用户名地址和应用id得到用户实体
-		PeopleEntity people = (PeopleEntity) this.peopleBiz.getEntity(peopleEntity);
-		if (people == null) {
+		PeopleEntity peopleEntity = (PeopleEntity) this.peopleBiz.getEntity(people);
+		if (peopleEntity == null) {
 			this.outJson(response, ModelCode.PEOPLE, false,
 					this.getResString("err.not.exist", this.getResString("people")));
 			return;
 		}
-		if (people.getPeopleUser() != null) {
+		if (peopleEntity.getPeopleUser() != null) {
 			CodeBean code = new CodeBean();
 			code.setCode(peopleCode);
-			code.setUserName(people.getPeopleUser().getPeopleUserNickName());
+			code.setUserName(peopleEntity.getPeopleUser().getPeopleUserNickName());
 			params.put("content",JSONObject.toJSONString(code));
 		}
 
 		// 将生成的验证码加入用户实体
-		people.setPeopleCode(peopleCode);
+		peopleEntity.setPeopleCode(peopleCode);
 
 		// 将当前时间转换为时间戳格式保存进people表
-		people.setPeopleCodeSendDate(DateUtil.dateToTimestamp(new Date()));
+		peopleEntity.setPeopleCodeSendDate(DateUtil.dateToTimestamp(new Date()));
 		// 更新该实体
-		this.peopleBiz.updateEntity(people);
+		this.peopleBiz.updateEntity(peopleEntity);
 
 		PeopleEntity _people = (PeopleEntity) this.getSession(request, SessionConstEnum.PEOPLE_EXISTS_SESSION);
 		if (_people != null) {
-			this.setSession(request, SessionConstEnum.PEOPLE_EXISTS_SESSION, people);
+			this.setSession(request, SessionConstEnum.PEOPLE_EXISTS_SESSION, peopleEntity);
 		}
 		if (StringUtil.isMobile(receive)) {
 			Result rs = Proxy.post(this.getUrl(request) + "/sms/send.do", null, params, Const.UTF8);
@@ -702,7 +706,12 @@ public class PeopleAction extends BaseAction {
 					this.getResString("err.error", this.getResString("people.code")));
 			return;
 		}
-
+		if (StringUtil.isMobile(receive)){
+			people.setPeoplePhone(receive);
+		}
+		if (StringUtil.isEmail(receive)){
+			people.setPeopleMail(receive);
+		}
 		// 获取应用ID
 		int appId = this.getAppId(request);
 		people.setPeopleAppId(appId);
@@ -776,8 +785,8 @@ public class PeopleAction extends BaseAction {
 	 *            <dt><span class="strong">返回</span></dt><br/>
 	 *            {result:"true｜false"}<br/>
 	 */
-	@RequestMapping(value = "/unCheckSendCode", method = RequestMethod.POST)
-	public void unCheckSendCode(@ModelAttribute PeopleEntity people, HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/cancelBind", method = RequestMethod.POST)
+	public void cancelBind(@ModelAttribute PeopleEntity people, HttpServletRequest request, HttpServletResponse response) {
 		String code = request.getParameter("code");
 		String receive = request.getParameter("receive");
 		// 验证码
@@ -786,11 +795,16 @@ public class PeopleAction extends BaseAction {
 					this.getResString("err.error", this.getResString("people.code")));
 			return;
 		}
-
+		if (StringUtil.isMobile(receive)){
+			people.setPeoplePhone(receive);
+		}
+		if (StringUtil.isEmail(receive)){
+			people.setPeopleMail(receive);
+		}
 		// 获取应用ID
 		int appId = this.getAppId(request);
 		people.setPeopleAppId(appId);
-		// 根据用户名邮箱地址查找用户实体
+		// 根据用户名和邮箱或手机号查找用户实体
 		PeopleEntity peopleEntity = (PeopleEntity) this.peopleBiz.getEntity(people);
 
 		// 在注册流程，在发送验证码的时数据库可能还不存在用户信息
