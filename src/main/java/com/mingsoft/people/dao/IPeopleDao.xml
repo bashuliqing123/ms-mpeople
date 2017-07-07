@@ -91,6 +91,22 @@
 	</select>
 	<!-- 查询用户结束 -->
 
+	<!-- 查询用户开始 -->
+	<select id="getByEntity" resultMap="resultMap" parameterType="com.mingsoft.people.entity.PeopleEntity">
+		select
+		<include refid="column_list" />
+		,PU_NICKNAME,PU_REAL_NAME
+		from people LEFT JOIN people_user ON
+		(people.PEOPLE_ID = people_user.PU_PEOPLE_ID)
+ 		<where>
+ 			<if test="peopleName != null and peopleName != ''">and PEOPLE_NAME=#{peopleName}</if>
+ 			<if test="peopleMail != null and peopleMail != ''">and PEOPLE_MAIL=#{peopleMail}</if>
+ 			<if test="peoplePhone != null and peoplePhone != ''">and PEOPLE_PHONE=#{peoplePhone}</if>
+			<if test="peopleAppId != null">PEOPLE_APP_ID</if>
+ 		</where>
+	</select>
+	<!-- 查询用户结束 -->
+	
 	<!-- 更新用户开始 -->
 	<update id="updateEntity" parameterType="com.mingsoft.base.entity.BaseEntity">
 		update people
