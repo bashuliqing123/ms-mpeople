@@ -630,11 +630,6 @@ public class PeopleAction extends BaseAction {
 			PeopleEntity _people = new PeopleEntity();
 			_people.setPeopleCode(peopleCode);
 			_people.setPeopleCodeSendDate(DateUtil.dateToTimestamp(new Date()));
-			if (StringUtil.isMobile(receive)) {
-				_people.setPeoplePhone(receive);
-			} else {
-				_people.setPeopleMail(receive);
-			}
 			this.setSession(request, SessionConstEnum.SEND_CODE_SESSION, _people);
 			if (StringUtil.isMobile(receive)) {
 				Result rs = Proxy.post(this.getUrl(request) + "/sms/send.do", null, params, Const.UTF8);
@@ -646,6 +641,12 @@ public class PeopleAction extends BaseAction {
 				this.outJson(response, re);
 			}
 			return;
+		}
+		// 给people赋值（邮箱或电话）
+		if (StringUtil.isMobile(receive)) {
+			people.setPeoplePhone(receive);
+		} else {
+			people.setPeopleMail(receive);
 		}
 		// 如果接收到mail值，就给mail_check赋值1
 		if(!StringUtil.isBlank(people.getPeopleMail())){
