@@ -296,11 +296,11 @@ public class PeopleAction extends BaseAction {
 		people.setPeopleAppId(appId);
 		// 如果接收到mail值，就给mail_check赋值1
 		if(!StringUtil.isBlank(people.getPeopleMail())){
-			people.setPeopleMailCheck(PeopleEnum.MAIL_CHECK.toInt());
+			people.setPeopleMailCheck(PeopleEnum.MAIL_CHECK);
 		}
 		// 如果接收到phone值，就给phone_check赋值1
 		if(!StringUtil.isBlank(people.getPeoplePhone())){
-			people.setPeoplePhoneCheck(PeopleEnum.PHONE_CHECK.toInt());
+			people.setPeoplePhoneCheck(PeopleEnum.PHONE_CHECK);
 		}
 		PeopleEntity _people = (PeopleEntity) this.peopleBiz.getEntity(people);
 		if (_people != null) {
@@ -579,7 +579,10 @@ public class PeopleAction extends BaseAction {
 	 *            图片验证码 如果isSession=true rand_code为必填项
 	 * @param isSession
 	 *            true启用session保存code,false 关联用户信息，true一般是当用户手机还不存在系统中时使用，
-	 * 
+	 * @param people
+	 *            用户信息<br/>
+	 *            <i>people参数包含字段信息参考：</i><br/>
+	 *            peopleName 用户名<br/>
 	 *            <dt><span class="strong">返回</span></dt><br/>
 	 *            {result:"true｜false"}<br/>
 	 */
@@ -644,6 +647,14 @@ public class PeopleAction extends BaseAction {
 			}
 			return;
 		}
+		// 如果接收到mail值，就给mail_check赋值1
+		if(!StringUtil.isBlank(people.getPeopleMail())){
+			people.setPeopleMailCheck(PeopleEnum.MAIL_CHECK);
+		}
+		// 如果接收到phone值，就给phone_check赋值1
+		if(!StringUtil.isBlank(people.getPeoplePhone())){
+			people.setPeoplePhoneCheck(PeopleEnum.PHONE_CHECK);
+		}
 		// 获取应用ID
 		int appId = this.getAppId(request);
 		people.setPeopleAppId(appId);
@@ -693,6 +704,10 @@ public class PeopleAction extends BaseAction {
 	 *            接收到的验证码
 	 * @param receive
 	 *            接收地址，只能是邮箱或手机号
+	 * @param people
+	 *            用户信息<br/>
+	 *            <i>people参数包含字段信息参考：</i><br/>
+	 *            peopleName 用户名<br/>           
 	 *            <dt><span class="strong">返回</span></dt><br/>
 	 *            {result:"true｜false"}<br/>
 	 */
@@ -782,6 +797,10 @@ public class PeopleAction extends BaseAction {
 	 *            接收到的验证码
 	 * @param receive
 	 *            接收地址，只能是邮箱或手机号
+	 * @param people
+	 *            用户信息<br/>
+	 *            <i>people参数包含字段信息参考：</i><br/>
+	 *            peopleName 用户名<br/>           
 	 *            <dt><span class="strong">返回</span></dt><br/>
 	 *            {result:"true｜false"}<br/>
 	 */
