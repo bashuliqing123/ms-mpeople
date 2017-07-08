@@ -648,13 +648,16 @@ public class PeopleAction extends BaseAction {
 		} else {
 			people.setPeopleMail(receive);
 		}
-		// 如果接收到mail值，就给mail_check赋值1
-		if(!StringUtil.isBlank(people.getPeopleMail())){
-			people.setPeopleMailCheck(PeopleEnum.MAIL_CHECK);
-		}
-		// 如果接收到phone值，就给phone_check赋值1
-		if(!StringUtil.isBlank(people.getPeoplePhone())){
-			people.setPeoplePhoneCheck(PeopleEnum.PHONE_CHECK);
+		// 判断是否接到用户名，应用于找回密码发送验证码
+		if(StringUtil.isBlank(people.getPeopleName())){
+			// 如果接收到mail值，就给mail_check赋值1
+			if(!StringUtil.isBlank(people.getPeopleMail())){
+				people.setPeopleMailCheck(PeopleEnum.MAIL_CHECK);
+			}
+			// 如果接收到phone值，就给phone_check赋值1
+			if(!StringUtil.isBlank(people.getPeoplePhone())){
+				people.setPeoplePhoneCheck(PeopleEnum.PHONE_CHECK);
+			}
 		}
 		// 获取应用ID
 		int appId = this.getAppId(request);
