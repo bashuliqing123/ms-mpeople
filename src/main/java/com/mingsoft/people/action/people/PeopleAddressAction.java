@@ -224,7 +224,6 @@ public class PeopleAddressAction extends BaseAction {
 		// 通过session得到用户实体
 		PeopleEntity people = this.getPeopleBySession();
 		// 将获取用户 PeopleAddressDefault 值还原为1，更新设为用户默认地址
-		peopleAddress.setPeopleAddressDefault(PeopleAddressEnum.ADDRESS_NOT_DEFAULT);
 		peopleAddress.setPeopleAddressPeopleId(people.getPeopleId());
 		peopleAddress.setPeopleAddressAppId(BasicUtil.getAppId());
 		// 更新用户地址
