@@ -21,19 +21,19 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技
 
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.annotation.Resources;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.mingsoft.base.entity.ListJson;
 import com.mingsoft.people.action.BaseAction;
 import com.mingsoft.people.biz.IPeopleAddressBiz;
 import com.mingsoft.people.constant.ModelCode;
@@ -129,7 +129,7 @@ public class PeopleAddressAction extends BaseAction {
 		}
 		// 验证邮箱
 		if (!StringUtil.isBlank(peopleAddress.getPeopleAddressMail())) {
-			if (StringUtil.checkEmail(peopleAddress.getPeopleAddressMail())) {
+			if (!StringUtil.checkEmail(peopleAddress.getPeopleAddressMail())) {
 				this.outJson(response, ModelCode.PEOPLE, false,
 						this.getResString("people.msg.mail.error", com.mingsoft.people.constant.Const.RESOURCES));
 				return;
@@ -223,15 +223,6 @@ public class PeopleAddressAction extends BaseAction {
 			HttpServletResponse response) {
 		// 通过session得到用户实体
 		PeopleEntity people = this.getPeopleBySession();
-		peopleAddress.setPeopleAddressPeopleId(people.getPeopleId());
-		// 前段此时发来的 用户实体的 PeopleAddressDefault 值设为1，会找不到当前对象
-		// 此处将获取用户 PeopleAddressDefault 值设为0，以获取当前用户对象
-		peopleAddress.setPeopleAddressDefault(PeopleAddressEnum.ADDRESS_DEFAULT);
-		PeopleAddressEntity address = (PeopleAddressEntity) peopleAddressBiz.getEntity(peopleAddress);
-		if (people.getPeopleId() != address.getPeopleAddressPeopleId()) {
-			this.outJson(response, false);
-			return;
-		}
 		// 将获取用户 PeopleAddressDefault 值还原为1，更新设为用户默认地址
 		peopleAddress.setPeopleAddressDefault(PeopleAddressEnum.ADDRESS_NOT_DEFAULT);
 		peopleAddress.setPeopleAddressPeopleId(people.getPeopleId());
