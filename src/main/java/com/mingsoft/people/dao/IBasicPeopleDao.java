@@ -42,6 +42,9 @@ package com.mingsoft.people.dao;
 import com.mingsoft.base.dao.IBaseDao;
 import com.mingsoft.util.*;
 import java.util.*;
+
+import org.springframework.stereotype.Component;
+
 import com.mingsoft.people.entity.BasicPeopleEntity;
 
 /**
@@ -52,6 +55,7 @@ import com.mingsoft.people.entity.BasicPeopleEntity;
  * 创建日期：<br/>
  * 历史修订：<br/>
  */
+@Component("IPeoplePeopleDao")
 public interface IBasicPeopleDao extends IBaseDao {
 	/**
 	 * 查询

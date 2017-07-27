@@ -46,6 +46,9 @@ import com.mingsoft.base.biz.impl.BaseBizImpl;
 import com.mingsoft.base.dao.IBaseDao;
 import com.mingsoft.util.*;
 import java.util.*;
+
+import javax.annotation.Resource;
+
 import com.mingsoft.people.entity.BasicPeopleEntity;
 import com.mingsoft.people.biz.IBasicPeopleBiz;
 import com.mingsoft.people.dao.IBasicPeopleDao;
@@ -58,11 +61,11 @@ import com.mingsoft.people.dao.IBasicPeopleDao;
  * 创建日期：<br/>
  * 历史修订：<br/>
  */
- @Service("basicPeopleBizImpl")
+ @Service("peoplePeopleBizImpl")
 public class BasicPeopleBizImpl extends BaseBizImpl implements IBasicPeopleBiz {
 
 	
-	@Autowired
+	 @Resource(name="IPeoplePeopleDao")
 	private IBasicPeopleDao basicPeopleDao;
 	
 	

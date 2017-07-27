@@ -135,10 +135,8 @@ public class PeopleAddressAction extends BaseAction {
 				return;
 			}
 		}
-		// 判断省、市、详细地址是否为空
-		if (StringUtil.isBlank(peopleAddress.getPeopleAddressProvince())
-				|| StringUtil.isBlank(peopleAddress.getPeopleAddressCity())
-				|| StringUtil.isBlank(peopleAddress.getPeopleAddressAddress())) {
+		// 判断省是否为空
+		if (StringUtil.isBlank(peopleAddress.getPeopleAddressProvince())) {
 			this.outJson(response, ModelCode.PEOPLE, false, this.getResString("people.user.msg.null.error"));
 			return;
 		}
