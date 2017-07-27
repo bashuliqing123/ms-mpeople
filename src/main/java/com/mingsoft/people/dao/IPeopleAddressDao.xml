@@ -92,8 +92,8 @@
 		where pa_id = #{peopleAddressId} and pa_app_id = #{peopleAddressAppId} and pa_people_id=#{peopleAddressPeopleId}
 	</update>
 	<update id="setDefault" parameterType="com.mingsoft.people.entity.PeopleAddressEntity">
-		update people_address set  pa_default=0 where  pa_app_id = ${peopleAddressAppId} and pa_people_id=${peopleAddressPeopleId};
-		update people_address set  pa_default=1 where  pa_app_id = ${peopleAddressAppId} and pa_people_id=${peopleAddressPeopleId} and pa_id = ${peopleAddressId};
+		update people_address set  pa_default=0 where  pa_app_id = #{peopleAddressAppId} and pa_people_id=#{peopleAddressPeopleId};
+		update people_address set  pa_default=1 where  pa_app_id = #{peopleAddressAppId} and pa_people_id=#{peopleAddressPeopleId} and pa_id = #{peopleAddressId};
 	</update>
 	<!-- 更新用户收货地址结束 -->
 	

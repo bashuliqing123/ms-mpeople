@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import com.mingsoft.base.entity.SessionEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mingsoft.base.constant.e.BaseEnum;
 
 /**
@@ -364,6 +365,7 @@ public class PeopleEntity extends SessionEntity {
 	 * 
 	 * @param peopleState
 	 */
+	@JsonIgnore
 	public void setPeopleState(BaseEnum e) {
 		this.peopleState = e.toInt();
 	}
