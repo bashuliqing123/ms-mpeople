@@ -649,7 +649,7 @@ public class PeopleAction extends BaseAction {
 			people.setPeopleMail(receive);
 		}
 		// 判断是否接到用户名，应用于找回密码发送验证码
-		if(StringUtil.isBlank(people.getPeopleName())){
+		if(!StringUtil.isBlank(people.getPeopleName())){
 			// 如果接收到mail值，就给mail_check赋值1
 			if(!StringUtil.isBlank(people.getPeopleMail())){
 				people.setPeopleMailCheck(PeopleEnum.MAIL_CHECK);
