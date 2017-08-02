@@ -372,9 +372,9 @@ public class PeopleAction extends BaseAction {
 				return;
 			}
 
-			if (!StringUtil.checkLength(people.getPeopleName(), 3, 12)) {
+			if (!StringUtil.checkLength(people.getPeopleName(), 3, 30)) {
 				this.outJson(response, ModelCode.PEOPLE_REGISTER, false,
-						this.getResString("err.length", this.getResString("people.name"), "3", "12"));
+						this.getResString("err.length", this.getResString("people.name"), "3", "30"));
 				return;
 			}
 
