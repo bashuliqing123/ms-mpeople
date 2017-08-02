@@ -56,27 +56,27 @@ public class PeopleAddressEntity extends BaseEntity{
 	/**
 	 * 收货人所在的省
 	 */
-	int peopleAddressProvinceId;
+	long peopleAddressProvinceId;
 	
 	/**
 	 * 收货人所在的市
 	 */
 	String peopleAddressCity;
 	
-	int peopleAddressCityId;
+	long peopleAddressCityId;
 	
 	/**
 	 * 收货人所在区
 	 */
 	String peopleAddressDistrict;
-	int peopleAddressDistrictId;
+	long peopleAddressDistrictId;
 	
 	/**
 	 * 街道
 	 */
 	String peopleAddressStreet;
 	
-	int peopleAddressStreetId;
+	long peopleAddressStreetId;
 	
 	/**
 	 * 收货人的详细收货地址
@@ -211,35 +211,35 @@ public class PeopleAddressEntity extends BaseEntity{
 		this.peopleAddressStreet = peopleAddressStreet;
 	}
 
-	public int getPeopleAddressProvinceId() {
+	public long getPeopleAddressProvinceId() {
 		return peopleAddressProvinceId;
 	}
 
-	public void setPeopleAddressProvinceId(int peopleAddressProvinceId) {
+	public void setPeopleAddressProvinceId(long peopleAddressProvinceId) {
 		this.peopleAddressProvinceId = peopleAddressProvinceId;
 	}
 
-	public int getPeopleAddressCityId() {
+	public long getPeopleAddressCityId() {
 		return peopleAddressCityId;
 	}
 
-	public void setPeopleAddressCityId(int peopleAddressCityId) {
+	public void setPeopleAddressCityId(long peopleAddressCityId) {
 		this.peopleAddressCityId = peopleAddressCityId;
 	}
 
-	public int getPeopleAddressDistrictId() {
+	public long getPeopleAddressDistrictId() {
 		return peopleAddressDistrictId;
 	}
 
-	public void setPeopleAddressDistrictId(int peopleAddressDistrictId) {
+	public void setPeopleAddressDistrictId(long peopleAddressDistrictId) {
 		this.peopleAddressDistrictId = peopleAddressDistrictId;
 	}
 
-	public int getPeopleAddressStreetId() {
+	public long getPeopleAddressStreetId() {
 		return peopleAddressStreetId;
 	}
 
-	public void setPeopleAddressStreetId(int peopleAddressStreetId) {
+	public void setPeopleAddressStreetId(long peopleAddressStreetId) {
 		this.peopleAddressStreetId = peopleAddressStreetId;
 	}
 	
