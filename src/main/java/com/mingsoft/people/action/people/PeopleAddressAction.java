@@ -184,10 +184,9 @@ public class PeopleAddressAction extends BaseAction {
 		}
 		// 判断用户信息是否为空
 		if (StringUtil.isBlank(peopleAddress.getPeopleAddressProvince())
-				|| StringUtil.isBlank(peopleAddress.getPeopleAddressCity())
 				|| StringUtil.isBlank(peopleAddress.getPeopleAddressAddress())) {
-			this.outJson(response, ModelCode.PEOPLE, false, this.getResString("people.msg.null.error"),
-					this.getResString("people.msg.null.error"));
+			this.outJson(response, ModelCode.PEOPLE, false,
+					this.getResString("people.address", com.mingsoft.people.constant.Const.RESOURCES));
 			return;
 		}
 		// 验证手机号
