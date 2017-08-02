@@ -136,7 +136,7 @@ public class PeopleStudentBizImpl extends PeopleBizImpl implements IPeopleStuden
 		
 		PeopleStudentEntity peopleStudent = (PeopleStudentEntity) this.peopleStudentDao.getPeopleStudent(peopleId);
 		//查询学生的城市信息
-		CategoryEntity city = categoryBiz.getCategory(peopleStudent.getPeopleStudentCityID());
+		CategoryEntity city = (CategoryEntity)categoryBiz.getEntity(peopleStudent.getPeopleStudentCityID());
 		
 		
 		Map map = new HashMap();
