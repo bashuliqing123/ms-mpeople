@@ -73,6 +73,15 @@
 	
 	<!-- 更新用户收货地址开始 -->
 	<update id="updateEntity" parameterType="com.mingsoft.people.entity.PeopleAddressEntity">
+		UPDATE people_address
+		SET pa_province = "",
+			pa_province_id = NULL,
+			pa_city = "",
+			pa_city_id = NULL,
+			pa_district = "",
+			pa_district_id = NULL
+		where  
+		pa_id = #{peopleAddressId} and pa_app_id = #{peopleAddressAppId} and pa_people_id=#{peopleAddressPeopleId};
 		update people_address
 		<set>
 			<if test="peopleAddressConsigneeName != null">pa_consignee_name=#{peopleAddressConsigneeName},</if>
