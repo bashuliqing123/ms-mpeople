@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import net.mingsoft.basic.biz.IPeopleBiz;
-import net.mingsoft.basic.entity.PeopleEntity;
+import net.mingsoft.basic.biz.IBasicPeopleBiz;
+import net.mingsoft.basic.entity.BasicPeopleEntity;
 
 import com.mingsoft.people.action.BaseAction;
 import com.mingsoft.util.PageUtil;
@@ -43,7 +43,7 @@ public class BasicPeopleAction extends BaseAction{
 	 * 注入通用用户与信息一对多表业务层
 	 */	
 	@Resource(name="basicPeopleBizImpl")
-	private IPeopleBiz peopleBiz;
+	private IBasicPeopleBiz peopleBiz;
 	
 	
 	/**
@@ -66,9 +66,9 @@ public class BasicPeopleAction extends BaseAction{
 	 */
 	@RequestMapping("/list")
 	@ResponseBody
-	public void list(@ModelAttribute PeopleEntity people,HttpServletResponse response, HttpServletRequest request,ModelMap model) {
+	public void list(@ModelAttribute BasicPeopleEntity people,HttpServletResponse response, HttpServletRequest request,ModelMap model) {
 		if(people != null){
-			people = new PeopleEntity();
+			people = new BasicPeopleEntity();
 		}
 		BasicUtil.startPage();
 		List peopleList = peopleBiz.query(people);
@@ -92,13 +92,13 @@ public class BasicPeopleAction extends BaseAction{
 	 */
 	@PostMapping("/save")
 	@ResponseBody
-	public void save(@ModelAttribute PeopleEntity people, HttpServletResponse response, HttpServletRequest request) {
+	public void save(@ModelAttribute BasicPeopleEntity people, HttpServletResponse response, HttpServletRequest request) {
 		if(StringUtil.isBlank(this.getPeopleBySession())){
 			this.outJson(response, false);
 			return;
 		}
 		people.setBpPeopleId(this.getPeopleBySession().getPeopleId());
-		PeopleEntity peopleEntity  = (PeopleEntity) peopleBiz.getEntity(people);
+		BasicPeopleEntity peopleEntity  = (BasicPeopleEntity) peopleBiz.getEntity(people);
 		if(!StringUtil.isBlank(peopleEntity)){
 			peopleEntity.setBpDatetime(new Date());
 			peopleBiz.updateEntity(peopleEntity);
@@ -123,7 +123,7 @@ public class BasicPeopleAction extends BaseAction{
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
-	public void delete(@ModelAttribute PeopleEntity people,HttpServletResponse response, HttpServletRequest request) {
+	public void delete(@ModelAttribute BasicPeopleEntity people,HttpServletResponse response, HttpServletRequest request) {
 		int[] ids = BasicUtil.getInts("bpId");
 		if(ids==null){
 			this.outJson(response,null, false);
