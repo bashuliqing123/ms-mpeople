@@ -43,7 +43,7 @@ public class BasicPeopleAction extends BaseAction{
 	 * 注入通用用户与信息一对多表业务层
 	 */	
 	@Resource(name="basicPeopleBizImpl")
-	private IBasicPeopleBiz peopleBiz;
+	private IBasicPeopleBiz basicPeopleBiz;
 	
 	
 	/**
@@ -71,7 +71,7 @@ public class BasicPeopleAction extends BaseAction{
 			people = new BasicPeopleEntity();
 		}
 		BasicUtil.startPage();
-		List peopleList = peopleBiz.query(people);
+		List peopleList = basicPeopleBiz.query(people);
 		BasicUtil.endPage(peopleList);
 		this.outJson(response, JSONArray.toJSONStringWithDateFormat(peopleList, "yyyy-MM-dd"));
 	}
@@ -81,7 +81,6 @@ public class BasicPeopleAction extends BaseAction{
 	 * @param people 通用用户与信息一对多表实体
 	 * <i>people参数包含字段信息参考：</i><br/>
 	 * bpBasicId 信息编号<br/>
-	 * bpPeopleId 用户编号<br/>
 	 * <dt><span class="strong">返回</span></dt><br/>
 	 * <dd>{ <br/>
 	 * bpId: <br/>
@@ -98,14 +97,14 @@ public class BasicPeopleAction extends BaseAction{
 			return;
 		}
 		people.setBpPeopleId(this.getPeopleBySession().getPeopleId());
-		BasicPeopleEntity peopleEntity  = (BasicPeopleEntity) peopleBiz.getEntity(people);
+		BasicPeopleEntity peopleEntity  = (BasicPeopleEntity) basicPeopleBiz.getEntity(people);
 		if(!StringUtil.isBlank(peopleEntity)){
 			peopleEntity.setBpDatetime(new Date());
-			peopleBiz.updateEntity(peopleEntity);
+			basicPeopleBiz.updateEntity(peopleEntity);
 			this.outJson(response, peopleEntity);
 		}else{
 			people.setBpDatetime(new Date());
-			peopleBiz.saveEntity(people);
+			basicPeopleBiz.saveEntity(people);
 			this.outJson(response, people);
 		}
 	}
@@ -113,7 +112,7 @@ public class BasicPeopleAction extends BaseAction{
 	/**
 	 * @param people 通用用户与信息一对多表实体
 	 * <i>people参数包含字段信息参考：</i><br/>
-	 * bpId:多个bpId直接用逗号隔开,例如bpId=1,2,3,4
+	 * bpBasicId:多个bpBasicId直接用逗号隔开,例如bpBasicId=1,2,3,4
 	 * 批量删除通用用户与信息一对多表
 	 *            <dt><span class="strong">返回</span></dt><br/>
 	 *            <dd>{code:"错误编码",<br/>
@@ -124,12 +123,13 @@ public class BasicPeopleAction extends BaseAction{
 	@RequestMapping("/delete")
 	@ResponseBody
 	public void delete(@ModelAttribute BasicPeopleEntity people,HttpServletResponse response, HttpServletRequest request) {
-		int[] ids = BasicUtil.getInts("bpId");
-		if(ids==null){
+		int[] bpBasicIds = BasicUtil.getInts("bpBasicId");
+		if((bpBasicIds==null) || (this.getPeopleBySession() == null)){
 			this.outJson(response,null, false);
 			return;
 		}
-		peopleBiz.delete(ids);		
+		int bpPeopleId = this.getPeopleBySession().getPeopleId();
+		basicPeopleBiz.delete(bpBasicIds, bpPeopleId);		
 		this.outJson(response, true);
 	}
 	
