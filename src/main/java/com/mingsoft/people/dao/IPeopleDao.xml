@@ -30,17 +30,16 @@
 			用户是否通过电话验证 -->
 		<association property="peopleUser"
 			javaType="com.mingsoft.people.entity.PeopleUserEntity">
-			<result column="PU_REAL_NAME" property="peopleUserRealName" /><!--用户的真实名称 -->
-			<result column="PU_ADDRESS" property="peopleUserAddress" /><!-- 
+			<result column="PU_REAL_NAME" property="puRealName" /><!--用户的真实名称 -->
+			<result column="PU_ADDRESS" property="puAddress" /><!-- 
 				用户地址 -->
-			<result column="PU_ICON" property="peopleUserIcon" /><!-- 用户头像 -->
-			<result column="PU_NICKNAME" property="peopleUserNickName" /><!-- 
+			<result column="PU_ICON" property="puIcon" /><!-- 用户头像 -->
+			<result column="PU_NICKNAME" property="puNickname" /><!-- 
 				用户昵称 -->
-			<result column="PU_SEX" property="peopleUserSex" /><!-- 用户性别0.未知;1.男;2.女 -->
-			<result column="PU_BIRTHDAY" property="peopleUserBirthday" /><!-- 
+			<result column="PU_SEX" property="puSex" /><!-- 用户性别0.未知;1.男;2.女 -->
+			<result column="PU_BIRTHDAY" property="puBirthday" /><!-- 
 				用户生日 -->
-			<result column="PU_APP_ID" property="peopleUserAppId" /><!-- 用户应用ID -->
-			<result column="PU_CARD" property="peopleUserCard" /><!-- 用户身份证号码 -->
+			<result column="PU_CARD" property="puCard" /><!-- 用户身份证号码 -->
 		</association>
 	</resultMap>
 	<!-- 将实体属性与表字段对接结束 -->
@@ -205,18 +204,18 @@
 
 				<!-- 根据用户昵称 -->
 				<if
-					test="where.peopleUserNickName !=null and where.peopleUserNickName!=''">
-					and PU_NICKNAME=#{where[peopleUserNickName]}
+					test="where.puNickname !=null and where.puNickname!=''">
+					and PU_NICKNAME=#{where[puNickname]}
 				</if>
 				<!-- 根据用户性别 -->
 				<if
-					test="where.peopleUserSex != null and  where.peopleUserSex &gt; -1 ">
-					and PU_SEX=#{where[peopleUserSex]}
+					test="where.puSex != null and  where.puSex &gt; -1 ">
+					and PU_SEX=#{where[puSex]}
 				</if>
 				<!-- 根据用户真实姓名 -->
 				<if
-					test="where.peopleUserRealName != null and where.peopleUserRealName !=''">
-					and PU_REAL_NAME=#{where[peopleUserRealName]}
+					test="where.puRealName != null and where.puRealName !=''">
+					and PU_REAL_NAME=#{where[puRealName]}
 				</if>
 				<if
 					test="where.peopleDateStartTime != null and where.peopleDateEndTime !=null ">
@@ -312,12 +311,12 @@
 					and PEOPLE_STATE=#{whereMap.peopleState}
 				</if>
 				<!-- 根据用户昵称 -->
-				<if test="whereMap.peopleUserNickName">
-					and PU_NICKNAME=#{whereMap.peopleUserNickName}
+				<if test="whereMap.puNickname">
+					and PU_NICKNAME=#{whereMap.puNickname}
 				</if>
 				<!-- 根据用户性别 -->
-				<if test="whereMap.peopleUserSex">
-					and PU_SEX=#{whereMap.peopleUserSex}
+				<if test="whereMap.puSex">
+					and PU_SEX=#{whereMap.puSex}
 				</if>
 				<!-- 根据用户注册时间 -->
 				<if test="whereMap.peopleDateTime">
@@ -326,8 +325,8 @@
 					#{where.peopleDateEndTime})
 				</if>
 				<!-- 根据用户真实姓名 -->
-				<if test="whereMap.peopleUserRealName">
-					and PU_REAL_NAME=#{whereMap.peopleUserRealName}
+				<if test="whereMap.puRealName">
+					and PU_REAL_NAME=#{whereMap.puRealName}
 				</if>
 			</if>
 		</where>
@@ -352,12 +351,12 @@
 					and PEOPLE_STATE=#{whereMap.peopleState}
 				</if>
 				<!-- 根据用户昵称 -->
-				<if test="whereMap.peopleUserNickName">
-					and PU_NICKNAME=#{whereMap.peopleUserNickName}
+				<if test="whereMap.puNickname">
+					and PU_NICKNAME=#{whereMap.puNickname}
 				</if>
 				<!-- 根据用户性别 -->
-				<if test="whereMap.peopleUserSex">
-					and PU_SEX=#{whereMap.peopleUserSex}
+				<if test="whereMap.puSex">
+					and PU_SEX=#{whereMap.puSex}
 				</if>
 				<!-- 根据用户注册时间 -->
 				<if test="whereMap.peopleDateTime">
@@ -366,8 +365,8 @@
 					#{where.peopleDateEndTime})
 				</if>
 				<!-- 根据用户真实姓名 -->
-				<if test="whereMap.peopleUserRealName">
-					and PU_REAL_NAME=#{whereMap.peopleUserRealName}
+				<if test="whereMap.puRealName">
+					and PU_REAL_NAME=#{whereMap.puRealName}
 				</if>
 			</if>
 		</where>

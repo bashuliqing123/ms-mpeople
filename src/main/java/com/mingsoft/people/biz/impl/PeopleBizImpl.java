@@ -162,6 +162,7 @@ public class PeopleBizImpl  extends BaseBizImpl implements IPeopleBiz{
 			return;
 		}
 		this.peopleDao.deletePeoples(peopleIds);
+		delete(peopleIds);
 	}
 	
 	@Override

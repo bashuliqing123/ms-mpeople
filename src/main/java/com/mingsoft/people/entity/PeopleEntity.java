@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import com.mingsoft.base.entity.SessionEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mingsoft.base.constant.e.BaseEnum;
 
@@ -81,11 +82,13 @@ public class PeopleEntity extends SessionEntity {
 	/**
 	 * 发送验证码的时间
 	 */
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp peopleCodeSendDate;
 
 	/**
 	 * 注册时间
 	 */
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date peopleDateTime;
 	
 	
@@ -164,7 +167,7 @@ public class PeopleEntity extends SessionEntity {
 	public String getPeopleCode() {
 		return peopleCode;
 	}
-
+	
 	public Timestamp getPeopleCodeSendDate() {
 		return peopleCodeSendDate;
 	}

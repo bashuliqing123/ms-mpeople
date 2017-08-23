@@ -1,85 +1,55 @@
-/**
-The MIT License (MIT) * Copyright (c) 2016 铭飞科技
-
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
-
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
-
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */package com.mingsoft.people.action;
+package com.mingsoft.people.action;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.springframework.ui.ModelMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import com.alibaba.fastjson.JSONObject;
-import com.mingsoft.basic.constant.Const;
-import com.mingsoft.basic.constant.e.CookieConstEnum;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.mingsoft.people.bean.PeopleBean;
 import com.mingsoft.people.biz.IPeopleBiz;
 import com.mingsoft.people.biz.IPeopleUserBiz;
 import com.mingsoft.people.constant.ModelCode;
 import com.mingsoft.people.entity.PeopleEntity;
 import com.mingsoft.people.entity.PeopleUserEntity;
+import net.mingsoft.base.util.JSONObject;
 import com.mingsoft.util.PageUtil;
 import com.mingsoft.util.StringUtil;
-
+import com.mingsoft.base.entity.BaseEntity;
 import net.mingsoft.basic.util.BasicUtil;
-
+import net.mingsoft.basic.bean.ListBean;
+import com.mingsoft.base.filter.DateValueFilter;
+import com.mingsoft.base.filter.DoubleValueFilter;
+import net.mingsoft.basic.bean.EUListBean;
+	
 /**
- * 
- * <p>
- * <b>铭飞科技-会员系统</b>
- * </p>
- * 
- * <p>
- * Copyright: Copyright (c) 2014 - 2015 
- * </p>
- *
- * @author 成卫雄
- *                QQ:330216230
- *
- * <p>
- * Comments: 普通用户信息
- * </p>
- *
- * <p>
- * Create Date:2014-10-31
- * </p>
- *
- * <p>
- * Modification history:
- * </p>
+ * 用户基础信息表管理控制层
+ * @author 伍晶晶
+ * @version 
+ * 版本号：0.0<br/>
+ * 创建日期：2017-8-23 10:10:22<br/>
+ * 历史修订：<br/>
  */
-
 @Controller
-@RequestMapping("/${managerPath}/people/user")
-public class PeopleUserAction extends BaseAction{
+@RequestMapping("/${managerPath}/people/peopleUser")
+public class PeopleUserAction extends com.mingsoft.people.action.BaseAction{
 	
 	/**
-	 * 注入普通用户控制层
-	 */
+	 * 注入用户基础信息表业务层
+	 */	
 	@Autowired
 	private IPeopleUserBiz peopleUserBiz;
 	
@@ -88,178 +58,295 @@ public class PeopleUserAction extends BaseAction{
 	 */
 	@Autowired
 	private IPeopleBiz peopleBiz;
-
+	
 	/**
-	 * 用户列表
-	 * @param mode
-	 * @param request
-	 * @param response
-	 * @return
+	 * 返回主界面index
+	 */
+	@RequestMapping("/index")
+	public String index(HttpServletResponse response,HttpServletRequest request){
+		return view ("/people/user/index");
+	}
+	
+	/**
+	 * 查询用户基础信息表列表
+	 * @param peopleUser 用户基础信息表实体
+	 * <i>peopleUser参数包含字段信息参考：</i><br/>
+	 * puPeopleId 用户ID关联people表的（people_id）<br/>
+	 * puRealName 用户真实名称<br/>
+	 * puAddress 用户地址<br/>
+	 * puIcon 用户头像图标地址<br/>
+	 * puNickname 用户昵称<br/>
+	 * puSex 用户性别(0.未知、1.男、2.女)<br/>
+	 * puBirthday 用户出生年月日<br/>
+	 * puCard 身份证<br/>
+	 * puAppId 用户所属应用ID<br/>
+	 * puProvince 省<br/>
+	 * puCity 城市<br/>
+	 * puDistrict 区<br/>
+	 * puStreet 街道<br/>
+	 * <dt><span class="strong">返回</span></dt><br/>
+	 * <dd>[<br/>
+	 * { <br/>
+	 * puPeopleId: 用户ID关联people表的（people_id）<br/>
+	 * puRealName: 用户真实名称<br/>
+	 * puAddress: 用户地址<br/>
+	 * puIcon: 用户头像图标地址<br/>
+	 * puNickname: 用户昵称<br/>
+	 * puSex: 用户性别(0.未知、1.男、2.女)<br/>
+	 * puBirthday: 用户出生年月日<br/>
+	 * puCard: 身份证<br/>
+	 * puAppId: 用户所属应用ID<br/>
+	 * puProvince: 省<br/>
+	 * puCity: 城市<br/>
+	 * puDistrict: 区<br/>
+	 * puStreet: 街道<br/>
+	 * }<br/>
+	 * ]</dd><br/>	 
 	 */
 	@RequestMapping("/list")
-	public String list(PeopleEntity people,ModelMap mode,HttpServletRequest request,HttpServletResponse response){
-		int appId = BasicUtil.getAppId();
-		BasicUtil.startPage();
-		Map where = BasicUtil.assemblyRequestMap();
-		Object peopleDateTimeWhere = where.get("peopleDateTimeWhere");
-		if (!StringUtil.isBlank(peopleDateTimeWhere) ) {
-			where.put("peopleDateStartTime", peopleDateTimeWhere.toString().split("至")[0]);
-			where.put("peopleDateEndTime",  peopleDateTimeWhere.toString().split("至")[1]);
-		}
-		List<PeopleEntity> listPeople = this.peopleBiz.query(appId,where);
-		BasicUtil.endPage(listPeople);
-		request.setAttribute("listPeople", listPeople);
-		return view("/people/user/people_user_list");
-	}
-	
-	/**
-	 * 新增用户信息
-	 * @return 新增用户页面
-	 */
-	@RequestMapping("/add")
-	public String add(ModelMap model,HttpServletRequest request){
-		int appId = this.getAppId(request);
-		model.addAttribute("appId", appId);
-		model.addAttribute("peopleUser",new PeopleUserEntity());
-		return view("/people/user/people_user");
-	}
-	
-	
-	
-	/**
-	 * 获取用户详细信息
-	 * @param peopleId 用户ID
-	 * @param request
-	 * @param response
-	 */
-	@RequestMapping("/getEntity")
-	public void getEntity(String peopleId,HttpServletRequest request,HttpServletResponse response){
-		if(StringUtil.isBlank(peopleId) || !StringUtil.isInteger(peopleId)){
-			this.outJson(response, ModelCode.PEOPLE_USER,false);
-			return ;
-		}
-		PeopleUserEntity peopleUser = (PeopleUserEntity) this.peopleUserBiz.getEntity(Integer.parseInt(peopleId));
-		if(peopleUser == null){
-			this.outJson(response, ModelCode.PEOPLE_USER,false);
-			return ;
-		}
-		this.outJson(response, ModelCode.PEOPLE_USER,true,null,JSONObject.toJSONString(peopleUser));
-	}
-	
-
-	/**
-	 * 用户更新详细信息
-	 * @param peopleUser 用户信息
-	 * @param request
-	 * @param response
-	 */
-	@RequestMapping("/update")
 	@ResponseBody
-	public void update(@ModelAttribute PeopleUserEntity peopleUser,HttpServletRequest request,HttpServletResponse response){
-		//判断用户信息是否存在
+	public void list(@ModelAttribute PeopleBean peopleUser,HttpServletResponse response, HttpServletRequest request,ModelMap model) {
 		if(peopleUser == null){
-			//未填写信息返回错误信息
-			this.outJson(response, ModelCode.PEOPLE_USER,false,this.getResString("people.user.msg.null.error",com.mingsoft.people.constant.Const.RESOURCES));
-			return ;
+			peopleUser = new PeopleBean();
 		}
-		//获取用户实体
-		PeopleEntity people =(PeopleEntity) peopleBiz.getEntity(peopleUser.getPeopleId());
-		peopleUser.setPeopleId(peopleUser.getPeopleId());
-		//验证用户信息,如果验证不通过则不进行更新或保存操作
-		if(!this.checkUpdatePeople(peopleUser, request, response)){
+		peopleUser.setPeopleAppId(BasicUtil.getAppId());
+		BasicUtil.startPage();
+		List peopleUserList = peopleUserBiz.query(peopleUser);
+		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(new EUListBean(peopleUserList,(int)BasicUtil.endPage(peopleUserList).getTotal()),new DoubleValueFilter(),new DateValueFilter()));
+	}
+	
+	/**
+	 * 返回编辑界面peopleUser_form
+	 */
+	@RequestMapping("/form")
+	public String form(@ModelAttribute PeopleUserEntity peopleUser,HttpServletResponse response,HttpServletRequest request,ModelMap model){
+		if(peopleUser.getPuPeopleId() != null){
+			BaseEntity peopleUserEntity = peopleUserBiz.getEntity(peopleUser.getPuPeopleId());			
+			model.addAttribute("peopleUserEntity",peopleUserEntity);
+		}
+		return view ("/people/user/form");
+	}
+	
+	/**
+	 * 获取用户基础信息表
+	 * @param peopleUser 用户基础信息表实体
+	 * <i>peopleUser参数包含字段信息参考：</i><br/>
+	 * puPeopleId 用户ID关联people表的（people_id）<br/>
+	 * puRealName 用户真实名称<br/>
+	 * puAddress 用户地址<br/>
+	 * puIcon 用户头像图标地址<br/>
+	 * puNickname 用户昵称<br/>
+	 * puSex 用户性别(0.未知、1.男、2.女)<br/>
+	 * puBirthday 用户出生年月日<br/>
+	 * puCard 身份证<br/>
+	 * puAppId 用户所属应用ID<br/>
+	 * puProvince 省<br/>
+	 * puCity 城市<br/>
+	 * puDistrict 区<br/>
+	 * puStreet 街道<br/>
+	 * <dt><span class="strong">返回</span></dt><br/>
+	 * <dd>{ <br/>
+	 * puPeopleId: 用户ID关联people表的（people_id）<br/>
+	 * puRealName: 用户真实名称<br/>
+	 * puAddress: 用户地址<br/>
+	 * puIcon: 用户头像图标地址<br/>
+	 * puNickname: 用户昵称<br/>
+	 * puSex: 用户性别(0.未知、1.男、2.女)<br/>
+	 * puBirthday: 用户出生年月日<br/>
+	 * puCard: 身份证<br/>
+	 * puAppId: 用户所属应用ID<br/>
+	 * puProvince: 省<br/>
+	 * puCity: 城市<br/>
+	 * puDistrict: 区<br/>
+	 * puStreet: 街道<br/>
+	 * }</dd><br/>
+	 */
+	@RequestMapping("/get")
+	@ResponseBody
+	public void get(@ModelAttribute PeopleUserEntity peopleUser,HttpServletResponse response, HttpServletRequest request,ModelMap model){
+		if(peopleUser.getPuPeopleId()<=0) {
+			this.outJson(response, null, false, getResString("err.error", this.getResString("pu.people.id")));
 			return;
 		}
-		//判断peopleUser是否存在是否存在
-		PeopleUserEntity oldPeopleUser = (PeopleUserEntity) peopleUserBiz.getEntity(people.getPeopleId());
-		// 获取cookie
-		String cookieUrl =this.getCookie(request, CookieConstEnum.BACK_COOKIE);
-		//如果不存在则进行保存操作
-		if(oldPeopleUser!=null && oldPeopleUser.getPeopleUserPeopleId()==0){
-			this.peopleUserBiz.saveEntity(peopleUser);
+		PeopleUserEntity _peopleUser = (PeopleUserEntity)peopleUserBiz.getEntity(peopleUser.getPuPeopleId());
+		this.outJson(response, _peopleUser);
+	}
+	
+	/**
+	 * 保存用户基础信息表实体
+	 * @param peopleUser 用户基础信息表实体
+	 * <i>peopleUser参数包含字段信息参考：</i><br/>
+	 * puPeopleId 用户ID关联people表的（people_id）<br/>
+	 * puRealName 用户真实名称<br/>
+	 * puAddress 用户地址<br/>
+	 * puIcon 用户头像图标地址<br/>
+	 * puNickname 用户昵称<br/>
+	 * puSex 用户性别(0.未知、1.男、2.女)<br/>
+	 * puBirthday 用户出生年月日<br/>
+	 * puCard 身份证<br/>
+	 * puAppId 用户所属应用ID<br/>
+	 * puProvince 省<br/>
+	 * puCity 城市<br/>
+	 * puDistrict 区<br/>
+	 * puStreet 街道<br/>
+	 * <dt><span class="strong">返回</span></dt><br/>
+	 * <dd>{ <br/>
+	 * puPeopleId: 用户ID关联people表的（people_id）<br/>
+	 * puRealName: 用户真实名称<br/>
+	 * puAddress: 用户地址<br/>
+	 * puIcon: 用户头像图标地址<br/>
+	 * puNickname: 用户昵称<br/>
+	 * puSex: 用户性别(0.未知、1.男、2.女)<br/>
+	 * puBirthday: 用户出生年月日<br/>
+	 * puCard: 身份证<br/>
+	 * puAppId: 用户所属应用ID<br/>
+	 * puProvince: 省<br/>
+	 * puCity: 城市<br/>
+	 * puDistrict: 区<br/>
+	 * puStreet: 街道<br/>
+	 * }</dd><br/>
+	 */
+	@PostMapping("/save")
+	@ResponseBody
+	public void save(@ModelAttribute PeopleUserEntity peopleUser, HttpServletResponse response, HttpServletRequest request) {
+		//验证用户真实名称的值是否合法			
+		if(!StringUtil.checkLength(peopleUser.getPuRealName()+"", 0, 50)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("pu.real.name"), "0", "50"));
+			return;			
+		}
+		if(!StringUtil.checkLength(peopleUser.getPuAddress()+"", 0, 200)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("pu.address"), "0", "200"));
+			return;			
+		}
+		if(!StringUtil.checkLength(peopleUser.getPuIcon()+"", 0, 200)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("pu.icon"), "0", "200"));
+			return;			
+		}
+		if(!StringUtil.checkLength(peopleUser.getPuNickname()+"", 0, 50)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("pu.nickname"), "0", "50"));
+			return;			
+		}
+		//验证用户性别(0.未知、1.男、2.女)的值是否合法			
+		if(!StringUtil.checkLength(peopleUser.getPuSex()+"", 0, 10)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("pu.sex"), "0", "10"));
+			return;			
+		}
+		//验证身份证的值是否合法			
+		if(!StringUtil.checkLength(peopleUser.getPuCard()+"", 0, 255)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("pu.card"), "0", "255"));
+			return;			
+		}
+		if(!StringUtil.isBlank(StringUtil.Md5(peopleUser.getPeoplePassword()))){
+			//设置用户密码
+			peopleUser.setPeoplePassword(StringUtil.Md5(peopleUser.getPeoplePassword()));
+		}
+		//验证用户输入的信息是否合法
+		if(!this.checkPeople(peopleUser, request, response)){
+			return;
+		}
+		peopleUser.setPeopleDateTime(new Date());
+		peopleUser.setPeopleAppId(BasicUtil.getAppId());
+		peopleUserBiz.savePeople(peopleUser);
+		this.outJson(response, JSONObject.toJSONString(peopleUser));
+	}
+	
+	/**
+	 * @param peopleUser 用户基础信息表实体
+	 * <i>peopleUser参数包含字段信息参考：</i><br/>
+	 * puPeopleId:多个puPeopleId直接用逗号隔开,例如puPeopleId=1,2,3,4
+	 * 批量删除用户基础信息表
+	 *            <dt><span class="strong">返回</span></dt><br/>
+	 *            <dd>{code:"错误编码",<br/>
+	 *            result:"true｜false",<br/>
+	 *            resultMsg:"错误信息"<br/>
+	 *            }</dd>
+	 */
+	@RequestMapping("/delete")
+	@ResponseBody
+	public void delete(@RequestBody List<PeopleUserEntity> peopleUsers,HttpServletResponse response, HttpServletRequest request) {
+		int[] ids = new int[peopleUsers.size()];
+		for(int i = 0;i<peopleUsers.size();i++){
+			ids[i] = peopleUsers.get(i).getPuPeopleId();
+		}
+		peopleUserBiz.deletePeople(ids);		
+		this.outJson(response, true);
+	}
+	
+	/** 
+	 * 更新用户基础信息表信息用户基础信息表
+	 * @param peopleUser 用户基础信息表实体
+	 * <i>peopleUser参数包含字段信息参考：</i><br/>
+	 * puPeopleId 用户ID关联people表的（people_id）<br/>
+	 * puRealName 用户真实名称<br/>
+	 * puAddress 用户地址<br/>
+	 * puIcon 用户头像图标地址<br/>
+	 * puNickname 用户昵称<br/>
+	 * puSex 用户性别(0.未知、1.男、2.女)<br/>
+	 * puBirthday 用户出生年月日<br/>
+	 * puCard 身份证<br/>
+	 * puAppId 用户所属应用ID<br/>
+	 * puProvince 省<br/>
+	 * puCity 城市<br/>
+	 * puDistrict 区<br/>
+	 * puStreet 街道<br/>
+	 * <dt><span class="strong">返回</span></dt><br/>
+	 * <dd>{ <br/>
+	 * puPeopleId: 用户ID关联people表的（people_id）<br/>
+	 * puRealName: 用户真实名称<br/>
+	 * puAddress: 用户地址<br/>
+	 * puIcon: 用户头像图标地址<br/>
+	 * puNickname: 用户昵称<br/>
+	 * puSex: 用户性别(0.未知、1.男、2.女)<br/>
+	 * puBirthday: 用户出生年月日<br/>
+	 * puCard: 身份证<br/>
+	 * puAppId: 用户所属应用ID<br/>
+	 * puProvince: 省<br/>
+	 * puCity: 城市<br/>
+	 * puDistrict: 区<br/>
+	 * puStreet: 街道<br/>
+	 * }</dd><br/>
+	 */
+	@PostMapping("/update")
+	@ResponseBody	 
+	public void update(@ModelAttribute PeopleUserEntity peopleUser, HttpServletResponse response,
+			HttpServletRequest request) {
+		if(!StringUtil.checkLength(peopleUser.getPuRealName()+"", 0, 50)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("pu.real.name"), "0", "50"));
+			return;			
+		}
+		if(!StringUtil.checkLength(peopleUser.getPuAddress()+"", 0, 200)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("pu.address"), "0", "200"));
+			return;			
+		}
+		if(!StringUtil.checkLength(peopleUser.getPuIcon()+"", 0, 200)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("pu.icon"), "0", "200"));
+			return;			
+		}
+		if(!StringUtil.checkLength(peopleUser.getPuNickname()+"", 0, 50)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("pu.nickname"), "0", "50"));
+			return;			
+		}
+		//验证用户性别(0.未知、1.男、2.女)的值是否合法			
+		if(!StringUtil.checkLength(peopleUser.getPuSex()+"", 0, 10)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("pu.sex"), "0", "10"));
+			return;			
+		}
+		//验证身份证的值是否合法			
+		if(!StringUtil.checkLength(peopleUser.getPuCard()+"", 0, 255)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("pu.card"), "0", "255"));
+			return;			
+		}
+		if(!this.checkUpdatePeople(peopleUser, request, response)){
+			return;
 		}
 		//判断用户密码是否为空，如果不为空则进行密码的更新
 		if(!StringUtil.isBlank(StringUtil.Md5(peopleUser.getPeoplePassword()))){
 			//设置用户密码
 			peopleUser.setPeoplePassword(StringUtil.Md5(peopleUser.getPeoplePassword()));
 		}
-		//存在则进行更新操作
-		this.peopleUserBiz.updatePeople(peopleUser);;
-		//返回更新成功
-		this.outJson(response, ModelCode.PEOPLE_USER,true,cookieUrl);
-	}
-	
-	
-	
-	
-	
-	
-	/**
-	 * 批量删除用户信息
-	 * @param request 
-	 * @param response
-	 */
-	@RequestMapping("/delete")
-	@ResponseBody
-	public void delete(HttpServletRequest request, HttpServletResponse response){
-		//获取要删除的用户id集合
-		String [] ids = request.getParameterValues("ids");
-		// 获取cookie
-		String cookieUrl =this.getCookie(request, CookieConstEnum.BACK_COOKIE);
-		//如果用户id不为空且传入的用户集合是数字集合
-		if(!StringUtil.isBlank(ids) && StringUtil.isIntegers(ids)){
-			int[] _ids = StringUtil.stringsToInts(ids);
-			//批量删除用户信息
-			this.peopleUserBiz.deletePeopleUsers(_ids);
-		}
-		this.outJson(response, ModelCode.PEOPLE_USER, true,cookieUrl);
-	}
-	
-	/**
-	 * 新增用户信息
-	 * @return 新增用户页面
-	 */
-	@RequestMapping("/{peopleId}/edit")
-	public String edit(@PathVariable int peopleId,ModelMap mode,HttpServletRequest request,HttpServletResponse response){
-		PeopleUserEntity peopleUser = (PeopleUserEntity) this.peopleUserBiz.getEntity(peopleId);
-		int appId = this.getAppId(request);
-		mode.addAttribute("appId", appId);
-		mode.addAttribute("peopleUser", peopleUser);
-		return view("/people/user/people_user");
-	}
-	
-	/**
-	 * 保存用户信息
-	 * @param peopleUser 用户信息
-	 * @param request
-	 * @param response
-	 */
-	@RequestMapping("/save")
-	@ResponseBody
-	public void save(@ModelAttribute PeopleUserEntity peopleUser,HttpServletRequest request,HttpServletResponse response){
-		//判断用户信息是否存在
-		if(peopleUser == null){
-			//未填写信息返回错误信息
-			this.outJson(response, ModelCode.PEOPLE_USER,false,this.getResString("people.user.msg.null.error",com.mingsoft.people.constant.Const.RESOURCES));
-			return ;
-		}
-		//验证用户输入的信息是否合法
-		if(!this.checkPeople(peopleUser, request, response)){
-			return;
-		}
-		//判断用户密码是否为空，如果不为空则进行密码的保存
-		if(!StringUtil.isBlank(StringUtil.Md5(peopleUser.getPeoplePassword()))){
-			//设置用户密码
-			peopleUser.setPeoplePassword(StringUtil.Md5(peopleUser.getPeoplePassword()));
-		}
-		
-		peopleUser.setPeopleAppId(this.getAppId(request));
-		peopleUser.setPeopleDateTime(new Date());
-		//保存用户信息
-		this.peopleUserBiz.savePeople(peopleUser);
-		// 获取cookie
-		String cookieUrl =this.getCookie(request, CookieConstEnum.BACK_COOKIE);
-		//返回更新成功
-		this.outJson(response, ModelCode.PEOPLE_USER,true,cookieUrl);
+		peopleUser.setPeopleId(peopleUser.getPuPeopleId());
+		peopleUserBiz.updatePeople(peopleUser);
+		this.outJson(response, JSONObject.toJSONString(peopleUser));
 	}
 	
 	/**
@@ -271,7 +358,7 @@ public class PeopleUserAction extends BaseAction{
 	public boolean checkUpdatePeople(PeopleUserEntity peopleUser,HttpServletRequest request,HttpServletResponse response){
 		
 		//获取更改前的用户
-		PeopleUserEntity oldPeopleUser = (PeopleUserEntity) peopleUserBiz.getEntity(peopleUser.getPeopleId());
+		PeopleUserEntity oldPeopleUser = (PeopleUserEntity) peopleUserBiz.getEntity(peopleUser.getPuPeopleId());
 		//获取应用id
 		int appId = this.getAppId(request);
 		//如果填写了邮箱，则验证邮箱格式是否正确
@@ -407,5 +494,26 @@ public class PeopleUserAction extends BaseAction{
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * 获取用户详细信息
+	 * @param peopleId 用户ID
+	 * @param request
+	 * @param response
+	 */
+	@Deprecated
+	@RequestMapping("/getEntity")
+	public void getEntity(String peopleId,HttpServletRequest request,HttpServletResponse response){
+		if(StringUtil.isBlank(peopleId) || !StringUtil.isInteger(peopleId)){
+			this.outJson(response, ModelCode.PEOPLE_USER,false);
+			return ;
+		}
+		PeopleUserEntity peopleUser = (PeopleUserEntity) this.peopleUserBiz.getEntity(Integer.parseInt(peopleId));
+		if(peopleUser == null){
+			this.outJson(response, ModelCode.PEOPLE_USER,false);
+			return ;
+		}
+		this.outJson(response, ModelCode.PEOPLE_USER,true,null,JSONObject.toJSONString(peopleUser));
 	}
 }

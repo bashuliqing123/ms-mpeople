@@ -179,7 +179,7 @@ public class PeopleStudentAction extends BaseAction{
 			PeopleStudentEntity peopleStudent = (PeopleStudentEntity) listPeopleStudent.get(i);
 			Object[] objs = new Object[titles.length];
 			objs[0] = i + 1;
-			objs[1] =peopleStudent.getPeopleUserRealName();
+			objs[1] =peopleStudent.getPuRealName();
 			objs[2] =peopleStudent.getPeopleStudentSchool();
 			objs[3] = peopleStudent.getPeoplePhone();//姓名
 			objs[4] = peopleStudent.getPeopleStudentDepartment();

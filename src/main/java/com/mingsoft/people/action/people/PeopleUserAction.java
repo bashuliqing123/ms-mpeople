@@ -122,7 +122,7 @@ public class PeopleUserAction extends BaseAction {
 
 		peopleUser.setPeopleId(this.getPeopleBySession(request).getPeopleId());
 		PeopleUserEntity pue = (PeopleUserEntity) this.peopleUserBiz.getEntity(peopleUser.getPeopleId());
-		if (pue.getPeopleUserPeopleId() == 0) {
+		if (pue.getPuPeopleId() == 0) {
 			this.peopleUserBiz.saveEntity(peopleUser);
 		} else {
 			peopleUserBiz.updatePeople(peopleUser);
@@ -159,9 +159,9 @@ public class PeopleUserAction extends BaseAction {
 			return;
 		}
 
-		String imgPath = getUserIcon(people.getPeopleId(), peopleUser.getPeopleUserIcon().trim(), request); // 新图片路径
+		String imgPath = getUserIcon(people.getPeopleId(), peopleUser.getPuIcon().trim(), request); // 新图片路径
 		if (!StringUtil.isBlank(imgPath)) {
-			peopleUser.setPeopleUserIcon(imgPath);
+			peopleUser.setPuIcon(imgPath);
 		}
 
 		peopleUser.setPeopleAppId(people.getPeopleAppId());
@@ -210,9 +210,9 @@ public class PeopleUserAction extends BaseAction {
 			return;
 		}
 
-		String imgPath = getUserIcon(people.getPeopleId(), peopleUser.getPeopleUserIcon().trim(), request); // 新图片路径
+		String imgPath = getUserIcon(people.getPeopleId(), peopleUser.getPuIcon().trim(), request); // 新图片路径
 		if (!StringUtil.isBlank(imgPath)) {
-			oldPeopleUser.setPeopleUserIcon(imgPath);
+			oldPeopleUser.setPuIcon(imgPath);
 		}
 
 		this.peopleUserBiz.updatePeople(oldPeopleUser);

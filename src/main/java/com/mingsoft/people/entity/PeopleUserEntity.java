@@ -1,324 +1,309 @@
-/**
-The MIT License (MIT) * Copyright (c) 2016 铭飞科技
+package com.mingsoft.people.entity;
 
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
-
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
-
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */package com.mingsoft.people.entity;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.mingsoft.base.entity.BaseEntity;
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-/**
- * 
- * 
- * <p>
- * <b>铭飞MS平台</b>
- * </p>
- * 
- * <p>
- * Copyright: Copyright (c) 2014 - 2015
- * </p>
- * 
- * <p>
- * Company:景德镇铭飞科技有限公司
- * </p>
- * 
- * @author 刘继平
- * 
- * @version 300-001-001
- * 
- *          <p>
- *          版权所有 铭飞科技
- *          </p>
- * 
- *          <p>
- *          Comments:用户基础信息
- *          </p>
- * 
- *          <p>
- *          Create Date:2014-9-4
- *          </p>
- *
- *          <p>
- *          Modification history:
- *          </p>
+ /**
+ * 用户基础信息表实体
+ * @author 伍晶晶
+ * @version 
+ * 版本号：0.0<br/>
+ * 创建日期：2017-8-23 10:10:22<br/>
+ * 历史修订：<br/>
  */
 public class PeopleUserEntity extends PeopleEntity {
 
+	private static final long serialVersionUID = 1503454222227L;
+	
+	/**
+	 * 用户ID关联people表的（people_id）
+	 */
+	private Integer puPeopleId; 
+	/**
+	 * 用户真实名称
+	 */
+	private String puRealName; 
 	/**
 	 * 用户地址
 	 */
-	private String peopleUserAddress;
-
+	private String puAddress; 
 	/**
-	 * 用户所属应用ID
+	 * 用户头像图标地址
 	 */
-	private int peopleUserAppId;
-
-	/**
-	 * 用户生日
-	 */
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date peopleUserBirthday;
-
-	/**
-	 * 用户身份证号码
-	 */
-	private String peopleUserCard;
-
-	/**
-	 * 用户头像
-	 */
-	private String peopleUserIcon;
-
+	private String puIcon; 
 	/**
 	 * 用户昵称
 	 */
-	private String peopleUserNickName;
-
+	private String puNickname; 
 	/**
-	 * 关联用户编号
+	 * 用户性别(0.未知、1.男、2.女)
 	 */
-	private int peopleUserPeopleId;
-
+	private Integer puSex;
 	/**
-	 * 用户的真实名称
+	 * 用户出生年月日
 	 */
-	private String peopleUserRealName;
-
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date puBirthday; 
+	/**
+	 * 身份证
+	 */
+	private String puCard; 
+	/**
+	 * 用户所属应用ID
+	 */
+	private Integer puAppId; 
 	/**
 	 * 省
 	 */
-	private int peopleUserProvince;
+	private Integer puProvince; 
 	/**
 	 * 城市
 	 */
-	private int peopleUserCity;
+	private Integer puCity; 
 	/**
 	 * 区
 	 */
-	private int peopleUserDistrict;
+	private Integer puDistrict; 
 	/**
 	 * 街道
 	 */
-	private int peopleUserStreet;
-
-	/**
-	 * 用户性别</br>
-	 * 0.未知</br>
-	 * 1.男</br>
-	 * 2.女</br>
-	 */
-	private int peopleUserSex = 1;
-
-	/**
-	 * 获取peopleUserAddress
-	 * 
-	 * @return peopleUserAddress
-	 */
-	public String getPeopleUserAddress() {
-		return peopleUserAddress;
+	private Integer puStreet; 
+	
+	public PeopleUserEntity(){}
+	public PeopleUserEntity(Integer puPeopleId) {
+	this.puPeopleId = puPeopleId;	
 	}
-
-	/**
-	 * 获取peopleUserAppId
-	 * 
-	 * @return peopleUserAppId
-	 */
-	public int getPeopleUserAppId() {
-		return peopleUserAppId;
+	
+	public PeopleUserEntity(String puRealName) {
+		this.puRealName = puRealName;	
 	}
-
-	/**
-	 * 获取peopleUserBirthday
-	 * 
-	 * @return peopleUserBirthday
-	 */
-	public Date getPeopleUserBirthday() {
-		return peopleUserBirthday;
+	
+	public PeopleUserEntity(String puRealName,String puAddress) {
+		this.puRealName = puRealName;		this.puAddress = puAddress;	
 	}
-
-	/**
-	 * 获取用户身份证号码
-	 * 
-	 * @return
-	 */
-	public String getPeopleUserCard() {
-		return peopleUserCard;
+	
+	public PeopleUserEntity(String puRealName,String puAddress,String puIcon) {
+		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;	
 	}
-
-	/**
-	 * 获取peopleUserIcon
-	 * 
-	 * @return peopleUserIcon
-	 */
-	public String getPeopleUserIcon() {
-		return peopleUserIcon;
+	
+	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname) {
+		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;	
 	}
-
-	/**
-	 * 获取peopleUserNickName
-	 * 
-	 * @return peopleUserNickName
-	 */
-	public String getPeopleUserNickName() {
-		return peopleUserNickName;
+	
+	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex) {
+		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;	
 	}
-
+	
+	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex,Date puBirthday) {
+		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;		this.puBirthday = puBirthday;	
+	}
+	
+	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex,Date puBirthday,String puCard) {
+		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;		this.puBirthday = puBirthday;		this.puCard = puCard;	
+	}
+	
+	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex,Date puBirthday,String puCard,Integer puAppId) {
+		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;		this.puBirthday = puBirthday;		this.puCard = puCard;		this.puAppId = puAppId;	
+	}
+	
+	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex,Date puBirthday,String puCard,Integer puAppId,Integer puProvince) {
+		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;		this.puBirthday = puBirthday;		this.puCard = puCard;		this.puAppId = puAppId;		this.puProvince = puProvince;	
+	}
+	
+	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex,Date puBirthday,String puCard,Integer puAppId,Integer puProvince,Integer puCity) {
+		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;		this.puBirthday = puBirthday;		this.puCard = puCard;		this.puAppId = puAppId;		this.puProvince = puProvince;		this.puCity = puCity;	
+	}
+	
+	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex,Date puBirthday,String puCard,Integer puAppId,Integer puProvince,Integer puCity,Integer puDistrict) {
+		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;		this.puBirthday = puBirthday;		this.puCard = puCard;		this.puAppId = puAppId;		this.puProvince = puProvince;		this.puCity = puCity;		this.puDistrict = puDistrict;	
+	}
+	
+	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex,Date puBirthday,String puCard,Integer puAppId,Integer puProvince,Integer puCity,Integer puDistrict,Integer puStreet) {
+		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;		this.puBirthday = puBirthday;		this.puCard = puCard;		this.puAppId = puAppId;		this.puProvince = puProvince;		this.puCity = puCity;		this.puDistrict = puDistrict;		this.puStreet = puStreet;	
+	}
+	
+		
 	/**
-	 * 设置xu
-	 * 
-	 * @return
+	 * 设置用户ID关联people表的（people_id）
 	 */
-	public int getPeopleUserPeopleId() {
-		return peopleUserPeopleId;
+	public void setPuPeopleId(Integer puPeopleId) {
+		this.puPeopleId = puPeopleId;
 	}
 
 	/**
-	 * 获取peopleUserRealName
-	 * 
-	 * @return peopleUserRealName
+	 * 获取用户ID关联people表的（people_id）
 	 */
-	public String getPeopleUserRealName() {
-		return peopleUserRealName;
+	public Integer getPuPeopleId() {
+		return this.puPeopleId;
+	}
+	
+	/**
+	 * 设置用户真实名称
+	 */
+	public void setPuRealName(String puRealName) {
+		this.puRealName = puRealName;
 	}
 
 	/**
-	 * 获取peopleUserSex
-	 * 
-	 * @return peopleUserSex
+	 * 获取用户真实名称
 	 */
-	public int getPeopleUserSex() {
-		return peopleUserSex;
+	public String getPuRealName() {
+		return this.puRealName;
+	}
+	
+	/**
+	 * 设置用户地址
+	 */
+	public void setPuAddress(String puAddress) {
+		this.puAddress = puAddress;
 	}
 
 	/**
-	 * 设置peopleUserAddress
-	 * 
-	 * @param peopleUserAddress
+	 * 获取用户地址
 	 */
-	public void setPeopleUserAddress(String peopleUserAddress) {
-		this.peopleUserAddress = peopleUserAddress;
+	public String getPuAddress() {
+		return this.puAddress;
+	}
+	
+	/**
+	 * 设置用户头像图标地址
+	 */
+	public void setPuIcon(String puIcon) {
+		this.puIcon = puIcon;
 	}
 
 	/**
-	 * 设置peopleUserAppId
-	 * 
-	 * @param peopleUserAppId
+	 * 获取用户头像图标地址
 	 */
-	public void setPeopleUserAppId(int peopleUserAppId) {
-		this.peopleUserAppId = peopleUserAppId;
+	public String getPuIcon() {
+		return this.puIcon;
+	}
+	
+	/**
+	 * 设置用户昵称
+	 */
+	public void setPuNickname(String puNickname) {
+		this.puNickname = puNickname;
 	}
 
 	/**
-	 * 设置peopleUserBirthday
-	 * 
-	 * @param peopleUserBirthday
+	 * 获取用户昵称
 	 */
-	public void setPeopleUserBirthday(Date peopleUserBirthday) {
-		this.peopleUserBirthday = peopleUserBirthday;
+	public String getPuNickname() {
+		return this.puNickname;
+	}
+	
+	/**
+	 * 设置用户性别(0.未知、1.男、2.女)
+	 */
+	public void setPuSex(Integer puSex) {
+		this.puSex = puSex;
 	}
 
 	/**
-	 * 设置用户身份证号码
-	 * 
-	 * @param peopleUserCard
+	 * 获取用户性别(0.未知、1.男、2.女)
 	 */
-	public void setPeopleUserCard(String peopleUserCard) {
-		this.peopleUserCard = peopleUserCard;
+	public Integer getPuSex() {
+		return this.puSex;
+	}
+	
+	/**
+	 * 设置用户出生年月日
+	 */
+	public void setPuBirthday(Date puBirthday) {
+		this.puBirthday = puBirthday;
 	}
 
 	/**
-	 * 设置peopleUserIcon
-	 * 
-	 * @param peopleUserIcon
+	 * 获取用户出生年月日
 	 */
-	public void setPeopleUserIcon(String peopleUserIcon) {
-		this.peopleUserIcon = peopleUserIcon;
+	public Date getPuBirthday() {
+		return this.puBirthday;
+	}
+	
+	/**
+	 * 设置身份证
+	 */
+	public void setPuCard(String puCard) {
+		this.puCard = puCard;
 	}
 
 	/**
-	 * 设置peopleUserNickName
-	 * 
-	 * @param peopleUserNickName
+	 * 获取身份证
 	 */
-	public void setPeopleUserNickName(String peopleUserNickName) {
-		this.peopleUserNickName = peopleUserNickName;
+	public String getPuCard() {
+		return this.puCard;
 	}
-
-	public void setPeopleUserPeopleId(int peopleUserPeopleId) {
-		this.peopleUserPeopleId = peopleUserPeopleId;
+	
+	/**
+	 * 设置用户所属应用ID
+	 */
+	public void setPuAppId(Integer puAppId) {
+		this.puAppId = puAppId;
 	}
 
 	/**
-	 * 设置peopleUserRealName
-	 * 
-	 * @param peopleUserRealName
+	 * 获取用户所属应用ID
 	 */
-	public void setPeopleUserRealName(String peopleUserRealName) {
-		this.peopleUserRealName = peopleUserRealName;
+	public Integer getPuAppId() {
+		return this.puAppId;
+	}
+	
+	/**
+	 * 设置省
+	 */
+	public void setPuProvince(Integer puProvince) {
+		this.puProvince = puProvince;
 	}
 
 	/**
-	 * 设置peopleUserSex
-	 * 
-	 * @param peopleUserSex
+	 * 获取省
 	 */
-	public void setPeopleUserSex(int peopleUserSex) {
-		if (peopleUserSex % 2 == 0) {
-			this.peopleUserSex = 2;
-		} else {
-			this.peopleUserSex = 1;
-		}
-
+	public Integer getPuProvince() {
+		return this.puProvince;
+	}
+	
+	/**
+	 * 设置城市
+	 */
+	public void setPuCity(Integer puCity) {
+		this.puCity = puCity;
 	}
 
-	public int getPeopleUserProvince() {
-		return peopleUserProvince;
+	/**
+	 * 获取城市
+	 */
+	public Integer getPuCity() {
+		return this.puCity;
+	}
+	
+	/**
+	 * 设置区
+	 */
+	public void setPuDistrict(Integer puDistrict) {
+		this.puDistrict = puDistrict;
 	}
 
-	public void setPeopleUserProvince(int peopleUserProvince) {
-		this.peopleUserProvince = peopleUserProvince;
+	/**
+	 * 获取区
+	 */
+	public Integer getPuDistrict() {
+		return this.puDistrict;
+	}
+	
+	/**
+	 * 设置街道
+	 */
+	public void setPuStreet(Integer puStreet) {
+		this.puStreet = puStreet;
 	}
 
-	public int getPeopleUserCity() {
-		return peopleUserCity;
+	/**
+	 * 获取街道
+	 */
+	public Integer getPuStreet() {
+		return this.puStreet;
 	}
-
-	public void setPeopleUserCity(int peopleUserCity) {
-		this.peopleUserCity = peopleUserCity;
-	}
-
-	public int getPeopleUserDistrict() {
-		return peopleUserDistrict;
-	}
-
-	public void setPeopleUserDistrict(int peopleUserDistrict) {
-		this.peopleUserDistrict = peopleUserDistrict;
-	}
-
-	public int getPeopleUserStreet() {
-		return peopleUserStreet;
-	}
-
-	public void setPeopleUserStreet(int peopleUserStreet) {
-		this.peopleUserStreet = peopleUserStreet;
-	}
-
 	
 }

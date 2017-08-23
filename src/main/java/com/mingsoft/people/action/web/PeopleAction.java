@@ -673,7 +673,7 @@ public class PeopleAction extends BaseAction {
 		if (peopleEntity.getPeopleUser() != null) {
 			CodeBean code = new CodeBean();
 			code.setCode(peopleCode);
-			code.setUserName(peopleEntity.getPeopleUser().getPeopleUserNickName());
+			code.setUserName(peopleEntity.getPeopleUser().getPuNickname());
 			params.put("content",JSONObject.toJSONString(code));
 		}
 

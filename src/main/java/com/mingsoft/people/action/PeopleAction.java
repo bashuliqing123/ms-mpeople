@@ -22,18 +22,22 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技
  */
 package com.mingsoft.people.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mingsoft.people.biz.IPeopleBiz;
 import com.mingsoft.people.constant.ModelCode;
 import com.mingsoft.people.constant.e.PeopleEnum;
 import com.mingsoft.people.entity.PeopleEntity;
+import com.mingsoft.people.entity.PeopleUserEntity;
 
 /**
  * 
@@ -72,23 +76,24 @@ public class PeopleAction extends BaseAction{
 	
 	/**
 	 * 更新用户状态
-	 * @param people 用户信息
+	 * @param peoples 用户信息
 	 * @param request
 	 * @param response
 	 */
 	@RequestMapping("/updateState")
-	public void updateState(@ModelAttribute PeopleEntity people,HttpServletRequest request,HttpServletResponse response){
-		if(people == null){
+	public void updateState(@RequestBody List<PeopleUserEntity> peoples, HttpServletRequest request,HttpServletResponse response){
+		if(peoples.size() <= 0){
 			this.outJson(response, ModelCode.PEOPLE,false);
 			return ;
 		}
-		
-		if(people.getPeopleState() == PeopleEnum.STATE_CHECK.toInt()){
-			people.setPeopleState(PeopleEnum.STATE_NOT_CHECK);
-		}else{
-			people.setPeopleState(PeopleEnum.STATE_CHECK);
+		for(int i = 0;i < peoples.size(); i++){
+			if(peoples.get(i).getPeopleState() == PeopleEnum.STATE_CHECK.toInt()){
+				peoples.get(i).setPeopleState(PeopleEnum.STATE_NOT_CHECK);
+			}else{
+				peoples.get(i).setPeopleState(PeopleEnum.STATE_CHECK);
+			}
+			this.peopleBiz.updateEntity(peoples.get(i));
 		}
-		this.peopleBiz.updateEntity(people);
-		this.outJson(response, ModelCode.PEOPLE,true,Integer.toString(people.getPeopleState()));
+		this.outJson(response, ModelCode.PEOPLE,true);
 	}
 }
