@@ -88,9 +88,9 @@ public class PeopleAction extends BaseAction{
 		}
 		for(int i = 0;i < peoples.size(); i++){
 			if(peoples.get(i).getPeopleState() == PeopleEnum.STATE_CHECK.toInt()){
-				peoples.get(i).setPeopleState(PeopleEnum.STATE_NOT_CHECK);
+				peoples.get(i).setPeopleStateEnum(PeopleEnum.STATE_NOT_CHECK);
 			}else{
-				peoples.get(i).setPeopleState(PeopleEnum.STATE_CHECK);
+				peoples.get(i).setPeopleStateEnum(PeopleEnum.STATE_CHECK);
 			}
 			this.peopleBiz.updateEntity(peoples.get(i));
 		}

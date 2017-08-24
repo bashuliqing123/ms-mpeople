@@ -22,10 +22,10 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技
 import java.sql.Timestamp;
 import java.util.Date;
 
-import com.mingsoft.base.entity.SessionEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mingsoft.base.constant.e.BaseEnum;
+import com.mingsoft.base.entity.SessionEntity;
 
 /**
  * 
@@ -369,7 +369,7 @@ public class PeopleEntity extends SessionEntity {
 	 * @param peopleState
 	 */
 	@JsonIgnore
-	public void setPeopleState(BaseEnum e) {
+	public void setPeopleStateEnum(BaseEnum e) {
 		this.peopleState = e.toInt();
 	}
 

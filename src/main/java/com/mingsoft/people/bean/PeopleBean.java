@@ -21,7 +21,7 @@ public class PeopleBean extends PeopleUserEntity{
 	}
 
 	public String getStartTime() {
-		if(peopleDateTimes != null && peopleDateTimes != null ){
+		if(peopleDateTimes != null && peopleDateTimes != "" ){
 			return peopleDateTimes.split("至")[0];
 		}
 		return startTime;
@@ -32,7 +32,7 @@ public class PeopleBean extends PeopleUserEntity{
 	}
 
 	public String getEndTime() {
-		if(peopleDateTimes != null && peopleDateTimes != null ){
+		if(peopleDateTimes != null && peopleDateTimes != "" ){
 			return peopleDateTimes.split("至")[1];
 		}
 		return startTime;

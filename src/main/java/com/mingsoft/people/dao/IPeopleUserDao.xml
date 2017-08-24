@@ -129,7 +129,7 @@
 		people_id=pu_people_id  
 		<where>
 			and PEOPLE_APP_ID=#{peopleAppId}
-				<if test="peopleState &gt; 0"> and PEOPLE_STATE=#{peopleState} </if>
+				<if test="peopleState &gt; -1 and peopleState != null"> and PEOPLE_STATE=#{peopleState} </if>
 				<if test="peopleName != null and peopleName != ''"> and PEOPLE_NAME=#{peopleName} </if>
 				<if test="puRealName != null and puRealName != ''"> and PU_REAL_NAME=#{puRealName} </if>				
 				<if test="puAddress != null and puAddress != ''"> and PU_ADDRESS=#{puAddress} </if>				
