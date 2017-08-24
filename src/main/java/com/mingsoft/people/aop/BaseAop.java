@@ -30,9 +30,10 @@ import net.mingsoft.basic.util.BasicUtil;
  * bbs切面基础方法
  * 
  * @author 史爱华
- * @version 版本号：100-000-000<br/>
- *          创建日期：2015-12-14<br/>
- *          历史修订：<br/>
+ * @version 
+ * 版本号：0.0<br/>
+ * 创建日期：2017-8-23 10:10:22<br/>
+ * 历史修订：<br/>
  */
 public abstract class BaseAop extends com.mingsoft.basic.aop.BaseAop {
 

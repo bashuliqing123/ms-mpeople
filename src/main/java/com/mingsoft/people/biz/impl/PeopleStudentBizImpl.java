@@ -39,38 +39,12 @@ import com.mingsoft.util.PageUtil;
 
 /**
  * 
- * 
- * <p>
- * <b>铭飞MS平台</b>
- * </p>
- * 
- * <p>
- * Copyright: Copyright (c) 2014 - 2015
- * </p>
- * 
- * <p>
- * Company:景德镇铭飞科技有限公司
- * </p>
- * 
- * @author 刘继平
- * 
- * @version 300-001-001
- * 
- * <p>
- * 版权所有 铭飞科技
- * </p>
- *  
- * <p>
- * Comments: 用户信息业务层层实现类，继承PeopleBizImpl，实现IPeoplePrivateBiz接口
- * </p>
- *  
- * <p>
- * Create Date:2014-9-4
- * </p>
- *
- * <p>
- * Modification history:
- * </p>
+ * 用户信息业务层层实现类
+ * @author 铭飞开发团队
+ * @version 
+ * 版本号：0.0<br/>
+ * 创建日期：2017-8-23 10:10:22<br/>
+ * 历史修订：<br/>
  */
 @Service("peopleStudentBiz")
 public class PeopleStudentBizImpl extends PeopleBizImpl implements IPeopleStudentBiz {

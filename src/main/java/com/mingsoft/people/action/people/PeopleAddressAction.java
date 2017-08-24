@@ -47,9 +47,11 @@ import net.mingsoft.basic.util.BasicUtil;
 /**
  * 
  * 普通用户收货地址信息控制层(外部请求接口)
- * 
- * @author yangxy
- * @version 版本号：【100-000-000】 创建日期：2015年8月23日 历史修订：
+ * @author 铭飞开发团队
+ * @version 
+ * 版本号：0.0<br/>
+ * 创建日期：2017-8-23 10:10:22<br/>
+ * 历史修订：<br/>
  */
 @Controller("peopleAddress")
 @RequestMapping("/people/address")

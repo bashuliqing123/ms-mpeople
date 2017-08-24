@@ -30,14 +30,15 @@ import com.mingsoft.people.biz.IPeopleAddressBiz;
 import com.mingsoft.people.constant.e.PeopleAddressEnum;
 import com.mingsoft.people.dao.IPeopleAddressDao;
 import com.mingsoft.people.entity.PeopleAddressEntity;
+
 /**
  * 
  * 用户收货地址业务处理层
- * @author yangxy
+ * @author 铭飞开发团队
  * @version 
- * 版本号：【100-000-000】
- * 创建日期：2015年8月23日 
- * 历史修订：
+ * 版本号：0.0<br/>
+ * 创建日期：2017-8-23 10:10:22<br/>
+ * 历史修订：<br/>
  */
 @Service("peopleAddressBizImpl")
 public class PeopleAddressBizImpl extends BaseBizImpl implements IPeopleAddressBiz{

@@ -61,8 +61,8 @@ import net.mingsoft.basic.util.BasicUtil;
  * 铭飞MS平台－会员拦截
  * @author 铭飞开发团队
  * @version 
- * 版本号：100-000-000<br/>
- * 创建日期：2016年4月1日<br/>
+ * 版本号：0.0<br/>
+ * 创建日期：2017-8-23 10:10:22<br/>
  * 历史修订：<br/>
  */
 public class ActionInterceptor extends BaseInterceptor {

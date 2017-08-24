@@ -20,34 +20,15 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技
  */package com.mingsoft.people.entity;
 
 
-
-/**
- * 
- * 
- * 
- * <p>
- * <b>铭飞科技</b>
- * </p>
- * 
- * <p>
- * Copyright: Copyright (c) 2014 - 2015
- * </p>
- *
- * @author 王天培
- *                QQ:78750478
- *
- * <p>
- * Comments:学生
- * </p>
- *
- * <p>
- * Create Date:2014-12-18
- * </p>
- *
- * <p>
- * Modification history:
- * </p>
- */
+ /**
+  * 
+  * 学生信息实体
+  * @author 铭飞开发团队
+  * @version 
+  * 版本号：0.0<br/>
+  * 创建日期：2017-8-23 10:10:22<br/>
+  * 历史修订：<br/>
+  */
 public class PeopleStudentEntity extends PeopleUserEntity{
 	
 	private int peopleStudentPeopleId;

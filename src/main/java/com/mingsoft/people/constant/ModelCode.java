@@ -26,8 +26,8 @@ import com.mingsoft.base.constant.e.BaseEnum;
  * 铭飞会员系统 会员模块编码
  * @author 铭飞开发团队
  * @version 
- * 版本号：100-000-000<br/>
- * 创建日期：2016年3月30日<br/>
+ * 版本号：0.0<br/>
+ * 创建日期：2017-8-23 10:10:22<br/>
  * 历史修订：<br/>
  */
 public enum ModelCode implements BaseEnum{

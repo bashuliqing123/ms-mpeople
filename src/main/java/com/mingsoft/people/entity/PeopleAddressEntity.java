@@ -25,11 +25,11 @@ import com.mingsoft.base.entity.BaseEntity;
 /**
  * 
  * 用户收货地址实体类
- * @author yangxy
+ * @author 铭飞开发团队
  * @version 
- * 版本号：【100-000-000】
- * 创建日期：2015年8月24日 
- * 历史修订：
+ * 版本号：0.0<br/>
+ * 创建日期：2017-8-23 10:10:22<br/>
+ * 历史修订：<br/>
  */
 public class PeopleAddressEntity extends BaseEntity{
 

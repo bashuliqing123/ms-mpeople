@@ -48,29 +48,12 @@ import com.mingsoft.util.ExcelUtil;
 import com.mingsoft.util.PageUtil;
 import com.mingsoft.util.StringUtil;
 /**
- * 
- * <p>
- * <b>铭飞科技-会员系统</b>
- * </p>
- * 
- * <p>
- * Copyright: Copyright (c) 2014 - 2015
- * </p>
- *
- * @author 史爱华
- *             
- *
- * <p>
- * Comments: 学生信息管理
- * </p>
- *
- * <p>
- * Create Date:2014-10-31
- * </p>
- *
- * <p>
- * Modification history:
- * </p>
+ * 学生信息管理控制层
+ * @author 铭飞开发团队
+ * @version 
+ * 版本号：0.0<br/>
+ * 创建日期：2017-8-23 10:10:22<br/>
+ * 历史修订：<br/>
  */
 @Controller
 @RequestMapping("/${managerPath}/people/student")

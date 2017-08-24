@@ -29,38 +29,12 @@ import com.mingsoft.base.entity.SessionEntity;
 
 /**
  * 
- * 
- * <p>
- * <b>铭飞MS平台</b>
- * </p>
- * 
- * <p>
- * Copyright: Copyright (c) 2014 - 2015
- * </p>
- * 
- * <p>
- * Company:景德镇铭飞科技有限公司
- * </p>
- * 
- * @author 姓名：张敏
- * 
- * @version 300-001-001
- * 
- *          <p>
- *          版权所有 铭飞科技
- *          </p>
- * 
- *          <p>
- *          Comments:用户基础表
- *          </p>
- * 
- *          <p>
- *          Create Date:2014-7-29
- *          </p>
- *
- *          <p>
- *          Modification history:
- *          </p>
+ * 用户基础表
+ * @author 铭飞开发团队
+ * @version 
+ * 版本号：0.0<br/>
+ * 创建日期：2017-8-23 10:10:22<br/>
+ * 历史修订：<br/>
  */
 public class PeopleEntity extends SessionEntity {
 

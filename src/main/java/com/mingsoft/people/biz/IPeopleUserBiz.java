@@ -46,7 +46,7 @@ import com.mingsoft.people.entity.PeopleUserEntity;
  * </p>
  *  
  * <p>
- * Comments: 用户信息业务层接口，继承IPeopleBiz接口
+ * Comments: 
  * </p>
  *  
  * <p>
@@ -56,6 +56,16 @@ import com.mingsoft.people.entity.PeopleUserEntity;
  * <p>
  * Modification history:
  * </p>
+ */
+
+/**
+ * 
+ * 用户信息业务层接口，继承IPeopleBiz接口
+ * @author 铭飞开发团队
+ * @version 
+ * 版本号：0.0<br/>
+ * 创建日期：2017-8-23 10:10:22<br/>
+ * 历史修订：<br/>
  */
 public interface IPeopleUserBiz extends IPeopleBiz {
 

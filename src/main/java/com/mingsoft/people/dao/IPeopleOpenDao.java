@@ -23,11 +23,12 @@ import com.mingsoft.base.dao.IBaseDao;
 import com.mingsoft.people.entity.PeopleOpenEntity;
 
 /**
+ * 
  * 开发平台用户 
- * @author 肥猪
+ * @author 铭飞开发团队
  * @version 
- * 版本号：100-000-000<br/>
- * 创建日期：2016年1月25日<br/>
+ * 版本号：0.0<br/>
+ * 创建日期：2017-8-23 10:10:22<br/>
  * 历史修订：<br/>
  */
 public interface IPeopleOpenDao extends IBaseDao{
