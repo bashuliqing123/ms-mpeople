@@ -37,11 +37,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.mingsoft.base.constant.Const;
 import com.mingsoft.people.action.BaseAction;
 import com.mingsoft.people.biz.IPeopleBiz;
+import com.mingsoft.people.biz.IPeopleUserBiz;
 import com.mingsoft.people.constant.ModelCode;
 import com.mingsoft.people.constant.e.CookieConstEnum;
 import com.mingsoft.people.constant.e.PeopleEnum;
 import com.mingsoft.people.constant.e.SessionConstEnum;
 import com.mingsoft.people.entity.PeopleEntity;
+import com.mingsoft.people.entity.PeopleUserEntity;
 import com.mingsoft.util.DateUtil;
 import com.mingsoft.util.MD5Util;
 import com.mingsoft.util.StringUtil;
@@ -68,6 +70,12 @@ public class PeopleAction extends BaseAction {
 	 */
 	@Autowired
 	private IPeopleBiz peopleBiz;
+	
+	/**
+	 * 注入用户基础业务层
+	 */
+	@Autowired
+	private IPeopleUserBiz peopleUserBiz;
 
 	/**
 	 * 验证码验证<br/>
@@ -340,7 +348,7 @@ public class PeopleAction extends BaseAction {
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	@ResponseBody
-	public void register(@ModelAttribute PeopleEntity people, HttpServletRequest request,
+	public void register(@ModelAttribute PeopleUserEntity people, HttpServletRequest request,
 			HttpServletResponse response) {
 		LOG.debug("people register");
 		// 验证码验证 验证码不为null 或 验证码不相等
@@ -462,7 +470,7 @@ public class PeopleAction extends BaseAction {
 		people.setPeoplePassword(MD5Util.MD5Encode(people.getPeoplePassword(), Const.UTF8));
 		people.setPeopleAppId(appId);
 		people.setPeopleDateTime(new Date());
-		this.peopleBiz.saveEntity(people);
+		peopleUserBiz.savePeople(people);
 		this.outJson(response, ModelCode.PEOPLE_REGISTER, true,
 				this.getResString("success", this.getResString("people.register")));
 		LOG.debug("people register ok");
