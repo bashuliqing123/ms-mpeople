@@ -34,11 +34,11 @@
 		</table>
 	</@ms.panel>
 	
-	<@ms.modal  modalName="delPeopleUser" title="授权数据删除" >
-		<@ms.modalBody>删除此授权
+	<@ms.modal  modalName="delPeopleUser" title="用户数据删除" >
+		<@ms.modalBody>删除此用户
 			<@ms.modalButton>
 				<!--模态框按钮组-->
-				<@ms.button  value="确认删除？"  id="deletePeopleUserBtn"  />
+				<@ms.button class="btn btn-danger rightDelete" value="删除"  id="deletePeopleUserBtn"  />
 			</@ms.modalButton>
 		</@ms.modalBody>
 	</@ms.modal>
