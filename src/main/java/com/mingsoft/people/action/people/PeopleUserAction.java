@@ -121,6 +121,7 @@ public class PeopleUserAction extends BaseAction {
 		}
 
 		peopleUser.setPeopleId(this.getPeopleBySession(request).getPeopleId());
+		peopleUser.setPuPeopleId(this.getPeopleBySession(request).getPeopleId());
 		PeopleUserEntity pue = (PeopleUserEntity) this.peopleUserBiz.getEntity(peopleUser.getPeopleId());
 		if (pue.getPuPeopleId() == 0) {
 			this.peopleUserBiz.saveEntity(peopleUser);
