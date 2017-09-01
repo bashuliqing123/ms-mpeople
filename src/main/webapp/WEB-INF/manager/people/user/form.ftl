@@ -14,7 +14,7 @@
 			<@ms.radio name="puSex" label="性别"  list=peopleSexs listKey="id" listValue="name" value="${(peopleUserEntity.puSex)?default('1')}"/>
 			<@ms.text label="姓名" name="puRealName" value="${(peopleUserEntity.puRealName)?default('')}"  width="240px;" placeholder="请输入用户真实名称" validation={"data-bv-stringlength":"true","maxlength":"50","data-bv-stringlength-message":"用户真实名称长度不能超过五十个字符长度!"}/>
 			<@ms.formRow label="头像" width="400">
-					<@ms.uploadImg path="people" inputName="puIcon" size="1" filetype="" msg="提示:头像缩略图,支持jpg格式"  maxSize="2" imgs="${(peopleUser.puIcon)?default('')}"  />
+					<@ms.uploadImg path="people" inputName="puIcon" size="1" filetype="" msg="提示:头像缩略图,支持jpg格式"  maxSize="2" imgs="${(peopleUserEntity.puIcon)?default('')}"  />
 			</@ms.formRow>
 			<@ms.text label="用户身份证" name="puCard" value="${(peopleUserEntity.puCard)?default('')}"  width="240px;" placeholder="请输入身份证" validation={"data-bv-stringlength":"true","data-bv-stringLength-min":"18" ,"data-bv-stringlength-max":"18","data-bv-regexp":"true","data-bv-regexp-regexp":'^[X0-9]+$',"data-bv-stringLength-message":"身份证输入不合法","data-bv-regexp-message":"身份证输入不合法"}/>
 			<@ms.textarea name="puAddress"  label="用户地址"   rows="4"  placeholder="请输入用户地址" width="500" value="${(peopleUserEntity.puAddress)?default('')}" validation={"data-bv-stringlength":"true","data-bv-stringlength-max":"60","data-bv-stringlength-message":"地址不能超过60个字符"}/>
