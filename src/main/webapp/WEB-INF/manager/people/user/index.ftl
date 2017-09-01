@@ -58,8 +58,12 @@
 				        	width:'10',
 				        	align: 'center',
 				        	formatter:function(value,row,index) {
-				        		var url = "${base}"+value;
+				        		if(value == null){
+				        			return "<img src='http://cdn.mingsoft.net/global/images/msheader.png' style='width: 25px;   height: 25px;'/>";
+				        		}else{
+				        			var url = "${base}"+value;
 				        		return "<img src=" +url+ " style='width: 25px;   height: 25px;'/>";
+				        		}
 				        	}
 				    	},	{
 				        	field: 'peopleName',

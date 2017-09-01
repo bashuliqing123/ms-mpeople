@@ -11,13 +11,13 @@
 			<@ms.text name="peoplePhone" label="手机号" placeholder="请输入手机号" title="" size="5" width="240" value="${(peopleUserEntity.peoplePhone)?default('')}" validation={"maxlength":"18","data-bv-stringlength":"true","data-bv-stringlength-max":"18","data-bv-stringlength-message":"手机号码长度不能超过18个字符","data-bv-regexp":"true", "data-bv-regexp-regexp":'^[1][1-8][0-9]{9}',"data-bv-regexp-message":"手机号码格式错误"}/>
 			<@ms.text name="peopleMail" label="邮箱" placeholder="请输入邮箱" title="" size="5" width="240" value="${(peopleUserEntity.peopleMail)?default('')}" validation={"data-bv-stringlength":"true","data-bv-stringlength-max":"50","data-bv-stringlength-message":"邮箱长度不能超过50个字符","data-bv-regexp":"true", "data-bv-regexp-regexp":'^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$',"data-bv-regexp-message":"邮箱格式错误"}/>
 			<#assign peopleSexs=[{"id":"1","name":"男"},{"id":"2","name":"女"}]>
-			<@ms.radio name="puSex" label="性别"  list=peopleSexs listKey="id" listValue="name" value="${(peopleUserEntity.peopleUserSex)?default('1')}"/>
+			<@ms.radio name="puSex" label="性别"  list=peopleSexs listKey="id" listValue="name" value="${(peopleUserEntity.puSex)?default('1')}"/>
 			<@ms.text label="姓名" name="puRealName" value="${(peopleUserEntity.puRealName)?default('')}"  width="240px;" placeholder="请输入用户真实名称" validation={"data-bv-stringlength":"true","maxlength":"50","data-bv-stringlength-message":"用户真实名称长度不能超过五十个字符长度!"}/>
 			<@ms.formRow label="头像" width="400">
-					<@ms.uploadImg path="people" inputName="puIcon" size="1" filetype="" msg="提示:头像缩略图,支持jpg格式"  maxSize="2" imgs="${(peopleUser.peopleUserIcon)?default('')}"  />
+					<@ms.uploadImg path="people" inputName="puIcon" size="1" filetype="" msg="提示:头像缩略图,支持jpg格式"  maxSize="2" imgs="${(peopleUser.puIcon)?default('')}"  />
 			</@ms.formRow>
 			<@ms.text label="用户身份证" name="puCard" value="${(peopleUserEntity.puCard)?default('')}"  width="240px;" placeholder="请输入身份证" validation={"data-bv-stringlength":"true","data-bv-stringLength-min":"18" ,"data-bv-stringlength-max":"18","data-bv-regexp":"true","data-bv-regexp-regexp":'^[X0-9]+$',"data-bv-stringLength-message":"身份证输入不合法","data-bv-regexp-message":"身份证输入不合法"}/>
-			<@ms.textarea name="puAddress"  label="用户地址"   rows="4"  placeholder="请输入用户地址" width="500" value="${(peopleUserEntity.peopleUserAddress)?default('')}" validation={"data-bv-stringlength":"true","data-bv-stringlength-max":"60","data-bv-stringlength-message":"地址不能超过60个字符"}/>
+			<@ms.textarea name="puAddress"  label="用户地址"   rows="4"  placeholder="请输入用户地址" width="500" value="${(peopleUserEntity.puAddress)?default('')}" validation={"data-bv-stringlength":"true","data-bv-stringlength-max":"60","data-bv-stringlength-message":"地址不能超过60个字符"}/>
     	</@ms.form>
     </@ms.panel>
 </@ms.html5>
