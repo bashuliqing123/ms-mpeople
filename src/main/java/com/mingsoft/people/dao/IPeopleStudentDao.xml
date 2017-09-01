@@ -37,14 +37,13 @@
 		
 		<result column="PEOPLE_STATE" property="peopleState"/><!-- 用户状态-->
 		
-		<result column="PU_REAL_NAME" property="peopleUserRealName"/><!--用户的真实名称 -->
-		<result column="PU_ADDRESS" property="peopleUserAddress"/><!-- 用户地址 -->
-		<result column="PU_ICON" property="peopleUserIcon"/><!-- 用户头像 -->
-		<result column="PU_NICKNAME" property="peopleUserNickName"/><!-- 用户昵称 -->
-		<result column="PU_SEX" property="peopleUserSex"/><!-- 用户性别0.未知;1.男;2.女 -->
-		<result column="PU_BIRTHDAY" property="peopleUserBirthday"/><!-- 用户生日 -->
-		<result column="PU_APP_ID" property="peopleUserAppId"/><!-- 用户应用ID -->	
-		<result column="PU_CARD" property="peopleUserCard"/><!-- 用户身份证号码 -->
+		<result column="PU_REAL_NAME" property="puRealName"/><!--用户的真实名称 -->
+		<result column="PU_ADDRESS" property="puAddress"/><!-- 用户地址 -->
+		<result column="PU_ICON" property="peuIcon"/><!-- 用户头像 -->
+		<result column="PU_NICKNAME" property="puNickname"/><!-- 用户昵称 -->
+		<result column="PU_SEX" property="puSex"/><!-- 用户性别0.未知;1.男;2.女 -->
+		<result column="PU_BIRTHDAY" property="puBirthday"/><!-- 用户生日 -->
+		<result column="PU_CARD" property="puCard"/><!-- 用户身份证号码 -->
 		
 	</resultMap>
 	<!-- 将实体属性与表字段对接结束-->
