@@ -111,6 +111,10 @@
 	//通过按钮
 	$("#audit").click(function(){
 		var rows = $("#peopleUserList").bootstrapTable("getSelections");
+		if(rows.length < 1){
+			<@ms.notify msg= "至少选择一条数据" type= "fail" />
+			return;
+		}
 		$(this).text("正在审核...");
 		$(this).attr("disabled","true");
 		$.ajax({
@@ -125,7 +129,9 @@
 				}else {
 					<@ms.notify msg= "审核失败" type= "fail" />
 				}
-				location.reload();
+				$("#peopleUserList").bootstrapTable("refresh");
+				$("#audit").text("审核");
+				$("#audit").removeAttr("disabled");
 			}
 		})
 	});
