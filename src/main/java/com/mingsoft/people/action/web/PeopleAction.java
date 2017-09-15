@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.mingsoft.base.constant.Const;
 import com.mingsoft.people.action.BaseAction;
+import com.mingsoft.people.bean.PeopleLoginBean;
 import com.mingsoft.people.biz.IPeopleBiz;
 import com.mingsoft.people.biz.IPeopleUserBiz;
 import com.mingsoft.people.constant.ModelCode;
@@ -180,11 +181,12 @@ public class PeopleAction extends BaseAction {
 		if (peoplePassWord.equals(peopleEntity.getPeoplePassword())) {
 			// 登录成功,压入用户session
 			this.setPeopleBySession(request, peopleEntity);
-			PeopleEntity tempPeople = new PeopleEntity();
+			PeopleLoginBean tempPeople = new PeopleLoginBean();
 			tempPeople.setPeopleId(peopleEntity.getPeopleId());
 			tempPeople.setPeopleName(peopleEntity.getPeopleName());
 			tempPeople.setPeopleMail(peopleEntity.getPeopleMail());
 			tempPeople.setPeopleState(peopleEntity.getPeopleState());
+			tempPeople.setCookie(request.getHeader("cookie"));
 			// 判断用户是否点击了自动登录
 			if (people.getPeopleAutoLogin() > 0) {
 				tempPeople.setPeoplePassword(people.getPeoplePassword());
