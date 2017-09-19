@@ -50,10 +50,6 @@ public class PeopleUserEntity extends PeopleEntity {
 	 */
 	private String puCard; 
 	/**
-	 * 用户所属应用ID
-	 */
-	private Integer puAppId; 
-	/**
 	 * 省
 	 */
 	private Integer puProvince; 
@@ -70,58 +66,6 @@ public class PeopleUserEntity extends PeopleEntity {
 	 */
 	private Integer puStreet; 
 	
-	public PeopleUserEntity(){}
-	public PeopleUserEntity(Integer puPeopleId) {
-	this.puPeopleId = puPeopleId;	
-	}
-	
-	public PeopleUserEntity(String puRealName) {
-		this.puRealName = puRealName;	
-	}
-	
-	public PeopleUserEntity(String puRealName,String puAddress) {
-		this.puRealName = puRealName;		this.puAddress = puAddress;	
-	}
-	
-	public PeopleUserEntity(String puRealName,String puAddress,String puIcon) {
-		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;	
-	}
-	
-	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname) {
-		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;	
-	}
-	
-	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex) {
-		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;	
-	}
-	
-	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex,Date puBirthday) {
-		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;		this.puBirthday = puBirthday;	
-	}
-	
-	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex,Date puBirthday,String puCard) {
-		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;		this.puBirthday = puBirthday;		this.puCard = puCard;	
-	}
-	
-	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex,Date puBirthday,String puCard,Integer puAppId) {
-		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;		this.puBirthday = puBirthday;		this.puCard = puCard;		this.puAppId = puAppId;	
-	}
-	
-	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex,Date puBirthday,String puCard,Integer puAppId,Integer puProvince) {
-		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;		this.puBirthday = puBirthday;		this.puCard = puCard;		this.puAppId = puAppId;		this.puProvince = puProvince;	
-	}
-	
-	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex,Date puBirthday,String puCard,Integer puAppId,Integer puProvince,Integer puCity) {
-		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;		this.puBirthday = puBirthday;		this.puCard = puCard;		this.puAppId = puAppId;		this.puProvince = puProvince;		this.puCity = puCity;	
-	}
-	
-	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex,Date puBirthday,String puCard,Integer puAppId,Integer puProvince,Integer puCity,Integer puDistrict) {
-		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;		this.puBirthday = puBirthday;		this.puCard = puCard;		this.puAppId = puAppId;		this.puProvince = puProvince;		this.puCity = puCity;		this.puDistrict = puDistrict;	
-	}
-	
-	public PeopleUserEntity(String puRealName,String puAddress,String puIcon,String puNickname,Integer puSex,Date puBirthday,String puCard,Integer puAppId,Integer puProvince,Integer puCity,Integer puDistrict,Integer puStreet) {
-		this.puRealName = puRealName;		this.puAddress = puAddress;		this.puIcon = puIcon;		this.puNickname = puNickname;		this.puSex = puSex;		this.puBirthday = puBirthday;		this.puCard = puCard;		this.puAppId = puAppId;		this.puProvince = puProvince;		this.puCity = puCity;		this.puDistrict = puDistrict;		this.puStreet = puStreet;	
-	}
 	
 		
 	/**
@@ -234,20 +178,6 @@ public class PeopleUserEntity extends PeopleEntity {
 	 */
 	public String getPuCard() {
 		return this.puCard;
-	}
-	
-	/**
-	 * 设置用户所属应用ID
-	 */
-	public void setPuAppId(Integer puAppId) {
-		this.puAppId = puAppId;
-	}
-
-	/**
-	 * 获取用户所属应用ID
-	 */
-	public Integer getPuAppId() {
-		return this.puAppId;
 	}
 	
 	/**

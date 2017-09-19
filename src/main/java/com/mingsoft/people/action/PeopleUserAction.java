@@ -9,16 +9,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.mingsoft.people.bean.PeopleBean;
 import com.mingsoft.people.biz.IPeopleBiz;
 import com.mingsoft.people.biz.IPeopleUserBiz;
@@ -26,11 +22,9 @@ import com.mingsoft.people.constant.ModelCode;
 import com.mingsoft.people.entity.PeopleEntity;
 import com.mingsoft.people.entity.PeopleUserEntity;
 import net.mingsoft.base.util.JSONObject;
-import com.mingsoft.util.PageUtil;
 import com.mingsoft.util.StringUtil;
 import com.mingsoft.base.entity.BaseEntity;
 import net.mingsoft.basic.util.BasicUtil;
-import net.mingsoft.basic.bean.ListBean;
 import com.mingsoft.base.filter.DateValueFilter;
 import com.mingsoft.base.filter.DoubleValueFilter;
 import net.mingsoft.basic.bean.EUListBean;
@@ -112,7 +106,7 @@ public class PeopleUserAction extends com.mingsoft.people.action.BaseAction{
 		peopleUser.setPeopleAppId(BasicUtil.getAppId());
 		BasicUtil.startPage();
 		List peopleUserList = peopleUserBiz.query(peopleUser);
-		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(new EUListBean(peopleUserList,(int)BasicUtil.endPage(peopleUserList).getTotal()),new DoubleValueFilter(),new DateValueFilter()));
+		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(new EUListBean(peopleUserList,(int)BasicUtil.endPage(peopleUserList).getTotal()),new DoubleValueFilter(),new DateValueFilter()),"peopleOldPassword","peoplePassword");
 	}
 	
 	/**
@@ -169,7 +163,7 @@ public class PeopleUserAction extends com.mingsoft.people.action.BaseAction{
 			return;
 		}
 		PeopleUserEntity _peopleUser = (PeopleUserEntity)peopleUserBiz.getEntity(peopleUser.getPuPeopleId());
-		this.outJson(response, _peopleUser);
+		this.outJson(response, _peopleUser,"peopleOldPassword","peoplePassword");
 	}
 	
 	/**
@@ -247,7 +241,7 @@ public class PeopleUserAction extends com.mingsoft.people.action.BaseAction{
 		peopleUser.setPeopleDateTime(new Date());
 		peopleUser.setPeopleAppId(BasicUtil.getAppId());
 		peopleUserBiz.savePeople(peopleUser);
-		this.outJson(response, JSONObject.toJSONString(peopleUser));
+		this.outJson(response, JSONObject.toJSONString(peopleUser),"peopleOldPassword","peoplePassword");
 	}
 	
 	/**
@@ -346,7 +340,7 @@ public class PeopleUserAction extends com.mingsoft.people.action.BaseAction{
 		}
 		peopleUser.setPeopleId(peopleUser.getPuPeopleId());
 		peopleUserBiz.updatePeople(peopleUser);
-		this.outJson(response, JSONObject.toJSONString(peopleUser));
+		this.outJson(response, JSONObject.toJSONString(peopleUser),"peopleOldPassword","peoplePassword");
 	}
 	
 	/**
