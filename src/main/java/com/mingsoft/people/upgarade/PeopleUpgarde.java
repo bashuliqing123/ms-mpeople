@@ -11,7 +11,7 @@ import com.mingsoft.util.StringUtil;
 import net.mingsoft.base.util.PropertiesUtil;
 import net.mingsoft.base.util.SpringUtil;
 
-public class UpgardeAction {
+public class PeopleUpgarde {
 	
 	/**
 	 * 
