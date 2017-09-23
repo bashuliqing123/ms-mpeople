@@ -1,24 +1,31 @@
 package com.mingsoft.people.upgarade;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.mingsoft.base.entity.ResultJson;
 import com.mingsoft.basic.biz.IModelBiz;
+import com.mingsoft.basic.biz.IRoleModelBiz;
 import com.mingsoft.basic.entity.ModelEntity;
+import com.mingsoft.basic.entity.RoleModelEntity;
+import com.mingsoft.mdiy.action.BaseAction;
 import com.mingsoft.util.AESUtil;
 import com.mingsoft.util.StringUtil;
 
 import net.mingsoft.base.util.PropertiesUtil;
 import net.mingsoft.base.util.SpringUtil;
 
-public class PeopleUpgarde {
+public class PeopleUpgarde  extends BaseAction {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7575749647205573895L;
 	
-	public ResultJson setup() {
+	public ResultJson setup(){
 		ResultJson result = new ResultJson();
 		
 		//检查当前系统是拥有代码
@@ -46,7 +53,7 @@ public class PeopleUpgarde {
 			return result;
 		}
 	    //更新菜单的model_url model_parent_ids
-	    String updateSql = "update model set model_url = 'people/peopleUser/index.do' , model_parent_ids = "+modelParent.getModelId()+" where model_id = "+oldModel.getModelId();
+	    String updateSql = "update model set model_url = 'people/peopleUser/index.do' ,model_ismenu = '1', model_parent_ids = "+modelParent.getModelId()+" where model_id = "+oldModel.getModelId();
 	    modelBiz.excuteSql(updateSql);
 	    //处理菜单的功能,获取最新的菜单数据
 	    ModelEntity modelEntity = modelBiz.getEntityByModelCode("07020100");
@@ -58,6 +65,17 @@ public class PeopleUpgarde {
 		//组织子功能的sql
 		String functionSql = "INSERT INTO model (model_title,model_code,model_modelid,model_url,model_ismenu,model_parent_ids)VALUES('查看','07020101',"+modelId+",'people:view',0,'"+modelParentIds+"'),('新增','07020102',"+modelId+",'people:save',0,'"+modelParentIds+"'),('修改','07020104',"+modelId+",'people:update',0,'"+modelParentIds+"'),('删除','07020103',"+modelId+",'people:update',0,'"+modelParentIds+"')";
 		modelBiz.excuteSql(functionSql);
+		//权限
+		List list = new ArrayList();
+		IRoleModelBiz roleModelBiz = (IRoleModelBiz) SpringUtil.getBean(IRoleModelBiz.class);
+		HttpServletRequest request = SpringUtil.getRequest();
+		ModelEntity model = modelBiz.getEntityByModelCode("07020101");
+		int people = this.getManagerBySession(request).getManagerRoleID();
+		RoleModelEntity roleModePeople = new RoleModelEntity();
+		roleModePeople.setModelId(model.getModelId());
+		roleModePeople.setRoleId(people);
+		list.add(roleModePeople);
+		roleModelBiz.saveEntity(list);
 		result.setResult(true);
 		result.setResultMsg("安装成功");
 		return result;

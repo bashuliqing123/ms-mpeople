@@ -2,6 +2,7 @@ package com.mingsoft.people.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mingsoft.base.entity.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
  /**
@@ -43,7 +44,8 @@ public class PeopleUserEntity extends PeopleEntity {
 	/**
 	 * 用户出生年月日
 	 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd") 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date puBirthday; 
 	/**
 	 * 身份证
