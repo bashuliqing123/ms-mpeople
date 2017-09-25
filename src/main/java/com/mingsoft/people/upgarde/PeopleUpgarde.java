@@ -1,4 +1,4 @@
-package com.mingsoft.people.upgarade;
+package com.mingsoft.people.upgarde;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class PeopleUpgarde  extends BaseAction {
 			return result;
 		}
 	    //更新菜单的model_url model_parent_ids
-	    String updateSql = "update model set model_url = 'people/peopleUser/index.do' ,model_ismenu = '1', model_parent_ids = "+modelParent.getModelId()+" where model_id = "+oldModel.getModelId();
+	    String updateSql = "update model set model_url = 'people/peopleUser/index.do' ,model_ismenu = 1, model_parent_ids = '"+modelParent.getModelId()+"' where model_id = "+oldModel.getModelId();
 	    modelBiz.excuteSql(updateSql);
 	    //处理菜单的功能,获取最新的菜单数据
 	    ModelEntity modelEntity = modelBiz.getEntityByModelCode("07020100");
