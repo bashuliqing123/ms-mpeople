@@ -250,7 +250,7 @@ public class PeopleAction extends BaseAction {
 		// 得到登录后session中的用户实体值
 		PeopleEntity people = (PeopleEntity) this.getPeopleBySession(request);
 		// 返回用户信息
-		this.outJson(response, JSONObject.toJSONStringWithDateFormat(people, "yyyy-MM-dd HH:mm:ss"),"peopleOldPassword","peoplePassword");
+		this.outJson(response, people,"peopleOldPassword","peoplePassword");
 	}
 
 	/**

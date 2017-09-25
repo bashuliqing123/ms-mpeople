@@ -241,7 +241,7 @@ public class PeopleUserAction extends com.mingsoft.people.action.BaseAction{
 		peopleUser.setPeopleDateTime(new Date());
 		peopleUser.setPeopleAppId(BasicUtil.getAppId());
 		peopleUserBiz.savePeople(peopleUser);
-		this.outJson(response, JSONObject.toJSONString(peopleUser),"peopleOldPassword","peoplePassword");
+		this.outJson(response, peopleUser,"peopleOldPassword","peoplePassword");
 	}
 	
 	/**
@@ -340,7 +340,7 @@ public class PeopleUserAction extends com.mingsoft.people.action.BaseAction{
 		}
 		peopleUser.setPeopleId(peopleUser.getPuPeopleId());
 		peopleUserBiz.updatePeople(peopleUser);
-		this.outJson(response, JSONObject.toJSONString(peopleUser),"peopleOldPassword","peoplePassword");
+		this.outJson(response, peopleUser,"peopleOldPassword","peoplePassword");
 	}
 	
 	/**

@@ -91,7 +91,7 @@ public class PeopleUserAction extends BaseAction {
 			return;
 		}
 		// 返回用户详细信息
-		this.outJson(response, JSONObject.toJSONStringWithDateFormat(peopleUser, "yyyy-MM-dd HH:mm:ss"),"peopleOldPassword","peoplePassword");
+		this.outJson(response, peopleUser,"peopleOldPassword","peoplePassword");
 	}
 
 	/**
