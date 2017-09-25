@@ -42,9 +42,14 @@ public class PeopleUpgarde  extends BaseAction {
 			result.setResultMsg("当前系统模块版本号异常！");
 			return result;	
 	    }
-	    
-	    //业务处理代码
 	    IModelBiz modelBiz = (IModelBiz) SpringUtil.getBean(IModelBiz.class);
+	    ModelEntity modelFunction = modelBiz.getEntityByModelCode("07000000");
+	    if(modelFunction != null){
+	    	result.setResult(false);
+			result.setResultMsg("当前系统模块版本最新");
+			return result;	
+	    }
+	    //业务处理代码
 	    ModelEntity modelParent = modelBiz.getEntityByModelCode("07000000");
 	    ModelEntity oldModel = modelBiz.getEntityByModelCode("07020100");
 	    if(modelParent == null && oldModel == null){
