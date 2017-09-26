@@ -54,17 +54,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.mingsoft</groupId>
-			<artifactId>ms-basic</artifactId>
-			<version>${ms.basic.version}</version>
-			<classifier>classes</classifier>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.mingsoft</groupId>
-			<artifactId>ms-mdiy</artifactId>
-			<version>${ms.mdiy.version}</version>
-			<classifier>classes</classifier>
-			<scope>provided</scope>
+			<artifactId>ms-base</artifactId>
+			<version>1.0.2-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -92,7 +83,6 @@
 					<encoding>${project.build.sourceEncoding}</encoding>
 					<showDeprecation>true</showDeprecation>
 					<showWarnings>true</showWarnings>
-					<compilerId>eclipse</compilerId>
 				</configuration>
 				<dependencies>
 					<dependency>
