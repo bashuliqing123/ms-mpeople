@@ -106,7 +106,7 @@ public class PeopleUserAction extends com.mingsoft.people.action.BaseAction{
 		peopleUser.setPeopleAppId(BasicUtil.getAppId());
 		BasicUtil.startPage();
 		List peopleUserList = peopleUserBiz.query(peopleUser);
-		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(new EUListBean(peopleUserList,(int)BasicUtil.endPage(peopleUserList).getTotal()),new DoubleValueFilter(),new DateValueFilter()),"peopleOldPassword","peoplePassword");
+		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(new EUListBean(peopleUserList,(int)BasicUtil.endPage(peopleUserList).getTotal()),new DoubleValueFilter(),new DateValueFilter()));
 	}
 	
 	/**
