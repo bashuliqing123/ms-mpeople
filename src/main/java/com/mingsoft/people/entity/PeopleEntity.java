@@ -22,6 +22,8 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mingsoft.base.constant.e.BaseEnum;
@@ -57,12 +59,14 @@ public class PeopleEntity extends SessionEntity {
 	 * 发送验证码的时间
 	 */
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp peopleCodeSendDate;
 
 	/**
 	 * 注册时间
 	 */
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date peopleDateTime;
 	
 	

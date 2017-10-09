@@ -44,11 +44,10 @@ public class PeopleBean extends PeopleUserEntity{
 
 	public String getEndTime() throws ParseException {
 		if(peopleDateTimes != null && peopleDateTimes != "" ){
-			//将时间往后推迟一天，用于通过时间查询
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String day = peopleDateTimes.split("至")[1];
-			Date date = sdf.parse(day);
-			return sdf.format(date.getTime() + (long)1 * 24 * 60 * 60 * 1000);
+			Date date = sdf.parse(day+" 23:59:59");
+			return sdf.format(date.getTime());
 		}
 		return startTime;
 	}
