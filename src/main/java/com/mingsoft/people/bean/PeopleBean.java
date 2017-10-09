@@ -1,5 +1,7 @@
 package com.mingsoft.people.bean;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.mingsoft.people.entity.PeopleUserEntity;
@@ -40,9 +42,13 @@ public class PeopleBean extends PeopleUserEntity{
 		this.startTime = startTime;
 	}
 
-	public String getEndTime() {
+	public String getEndTime() throws ParseException {
 		if(peopleDateTimes != null && peopleDateTimes != "" ){
-			return peopleDateTimes.split("至")[1];
+			//将时间往后推迟一天，用于通过时间查询
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String day = peopleDateTimes.split("至")[1];
+			Date date = sdf.parse(day);
+			return sdf.format(date.getTime() + (long)1 * 24 * 60 * 60 * 1000);
 		}
 		return startTime;
 	}
