@@ -143,7 +143,7 @@
 				<if test="puDistrict != null"> and PU_DISTRICT=#{puDistrict} </if>				
 				<if test="puStreet != null"> and PU_STREET=#{puStreet} </if>
 				<if test="startTime != null and endTime != null">
-					and PEOPLE_DATETIME between #{startTime} and #{endTime}
+					and date_format(PEOPLE_DATETIME,'%Y-%m-%d') between #{startTime} and #{endTime}
 				</if>	
 				
 		</where>		

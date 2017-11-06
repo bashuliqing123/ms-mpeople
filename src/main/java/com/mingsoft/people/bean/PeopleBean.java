@@ -42,12 +42,9 @@ public class PeopleBean extends PeopleUserEntity{
 		this.startTime = startTime;
 	}
 
-	public String getEndTime() throws ParseException {
+	public String getEndTime() {
 		if(peopleDateTimes != null && peopleDateTimes != "" ){
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String day = peopleDateTimes.split("至")[1];
-			Date date = sdf.parse(day+" 23:59:59");
-			return sdf.format(date.getTime());
+			return peopleDateTimes.split("至")[1];
 		}
 		return startTime;
 	}
