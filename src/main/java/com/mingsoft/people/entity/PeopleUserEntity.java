@@ -54,19 +54,19 @@ public class PeopleUserEntity extends PeopleEntity {
 	/**
 	 * 省
 	 */
-	private Integer puProvince; 
+	private long puProvince; 
 	/**
 	 * 城市
 	 */
-	private Integer puCity; 
+	private long puCity; 
 	/**
 	 * 区
 	 */
-	private Integer puDistrict; 
+	private long puDistrict; 
 	/**
 	 * 街道
 	 */
-	private Integer puStreet; 
+	private long puStreet; 
 	
 	
 		
@@ -185,56 +185,56 @@ public class PeopleUserEntity extends PeopleEntity {
 	/**
 	 * 设置省
 	 */
-	public void setPuProvince(Integer puProvince) {
+	public void setPuProvince(long puProvince) {
 		this.puProvince = puProvince;
 	}
 
 	/**
 	 * 获取省
 	 */
-	public Integer getPuProvince() {
+	public long getPuProvince() {
 		return this.puProvince;
 	}
 	
 	/**
 	 * 设置城市
 	 */
-	public void setPuCity(Integer puCity) {
+	public void setPuCity(long puCity) {
 		this.puCity = puCity;
 	}
 
 	/**
 	 * 获取城市
 	 */
-	public Integer getPuCity() {
+	public long getPuCity() {
 		return this.puCity;
 	}
 	
 	/**
 	 * 设置区
 	 */
-	public void setPuDistrict(Integer puDistrict) {
+	public void setPuDistrict(long puDistrict) {
 		this.puDistrict = puDistrict;
 	}
 
 	/**
 	 * 获取区
 	 */
-	public Integer getPuDistrict() {
+	public long getPuDistrict() {
 		return this.puDistrict;
 	}
 	
 	/**
 	 * 设置街道
 	 */
-	public void setPuStreet(Integer puStreet) {
+	public void setPuStreet(long puStreet) {
 		this.puStreet = puStreet;
 	}
 
 	/**
 	 * 获取街道
 	 */
-	public Integer getPuStreet() {
+	public long getPuStreet() {
 		return this.puStreet;
 	}
 	
