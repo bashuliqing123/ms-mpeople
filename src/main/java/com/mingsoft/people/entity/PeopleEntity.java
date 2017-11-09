@@ -58,15 +58,11 @@ public class PeopleEntity extends SessionEntity {
 	/**
 	 * 发送验证码的时间
 	 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp peopleCodeSendDate;
 
 	/**
 	 * 注册时间
 	 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date peopleDateTime;
 	
 	

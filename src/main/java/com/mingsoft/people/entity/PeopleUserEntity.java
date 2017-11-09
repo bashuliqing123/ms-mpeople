@@ -44,8 +44,6 @@ public class PeopleUserEntity extends PeopleEntity {
 	/**
 	 * 用户出生年月日
 	 */
-	@JsonFormat(pattern = "yyyy-MM-dd") 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date puBirthday; 
 	/**
 	 * 身份证
