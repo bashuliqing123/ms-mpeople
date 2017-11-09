@@ -106,7 +106,7 @@ public class PeopleUserAction extends com.mingsoft.people.action.BaseAction{
 		peopleUser.setPeopleAppId(BasicUtil.getAppId());
 		BasicUtil.startPage();
 		List peopleUserList = peopleUserBiz.query(peopleUser);
-		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(new EUListBean(peopleUserList,(int)BasicUtil.endPage(peopleUserList).getTotal()),new DoubleValueFilter(),new DateValueFilter()));
+		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(new EUListBean(peopleUserList,(int)BasicUtil.endPage(peopleUserList).getTotal()),new DoubleValueFilter(),new DateValueFilter("yyyy-MM-dd")));
 	}
 	
 	/**
@@ -334,7 +334,7 @@ public class PeopleUserAction extends com.mingsoft.people.action.BaseAction{
 			return;
 		}
 		//判断用户密码是否为空，如果不为空则进行密码的更新
-		if(!StringUtil.isBlank(StringUtil.Md5(peopleUser.getPeoplePassword()))){
+		if(!StringUtil.isBlank(peopleUser.getPeoplePassword())){
 			//设置用户密码
 			peopleUser.setPeoplePassword(StringUtil.Md5(peopleUser.getPeoplePassword()));
 		}
