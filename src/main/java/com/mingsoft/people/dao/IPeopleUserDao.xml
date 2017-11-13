@@ -67,7 +67,7 @@
 		<set>
 			<if test="puRealName != null and puRealName != ''">PU_REAL_NAME=#{puRealName},</if>			
 			<if test="puAddress != null and puAddress != ''">PU_ADDRESS=#{puAddress},</if>			
-			<if test="puIcon != null and puIcon != ''">PU_ICON=#{puIcon},</if>			
+			<if test="puIcon != null ">PU_ICON=#{puIcon},</if>			
 			<if test="puNickname != null and puNickname != ''">PU_NICKNAME=#{puNickname},</if>			
 			<if test="puSex != null">PU_SEX=#{puSex},</if>			
 			<if test="puBirthday != null">PU_BIRTHDAY=#{puBirthday},</if>			

@@ -58,7 +58,7 @@
 				        	width:'10',
 				        	align: 'center',
 				        	formatter:function(value,row,index) {
-				        		if(value == null){
+				        		if(value == null || value == ""){
 				        			return "<img src='http://cdn.mingsoft.net/global/images/msheader.png' style='width: 25px;   height: 25px;'/>";
 				        		}else{
 				        			var url = "${base}"+value;
