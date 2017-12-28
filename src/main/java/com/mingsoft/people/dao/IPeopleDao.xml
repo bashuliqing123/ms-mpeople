@@ -161,8 +161,8 @@
 			(people.PEOPLE_ID = people_user.PU_PEOPLE_ID) 
 			<trim prefix="WHERE" prefixOverrides="AND|OR">
 				and people_app_id = #{appId} 
-				and 
-				<trim prefix="(" prefixOverrides="AND|OR" suffix=")" >
+				 
+				<trim prefix="and (" prefixOverrides="AND|OR" suffix=")" >
 					<if test="people.peopleName != null">
 						or people_name = #{people.peopleName}
 					</if>
