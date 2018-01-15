@@ -262,6 +262,7 @@ public class PeopleAction extends BaseAction {
 		// 移除当前用户session
 		this.removePeopleBySession(request);
 		this.setCookie(request, response, CookieConstEnum.PEOPLE_COOKIE, null);
+		this.outJson(response, true);
 	}
 
 	/**
