@@ -17,7 +17,8 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */package com.mingsoft.people.action.web;
+ */
+package com.mingsoft.people.action.web;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.activiti.engine.impl.json.JsonObjectConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,16 +53,17 @@ import com.mingsoft.util.StringUtil;
 import com.mingsoft.util.proxy.Proxy;
 import com.mingsoft.util.proxy.Result;
 
+import cn.hutool.http.HttpUtil;
 import net.mingsoft.basic.util.BasicUtil;
 
 /**
  * 
  * 铭飞会员模块,前端调用（不需要用户登录进行的操作）
+ * 
  * @author 铭飞开发团队
- * @version 
- * 版本号：0.0<br/>
- * 创建日期：2017-8-23 10:10:22<br/>
- * 历史修订：<br/>
+ * @version 版本号：0.0<br/>
+ *          创建日期：2017-8-23 10:10:22<br/>
+ *          历史修订：<br/>
  */
 @Controller("webPeople")
 @RequestMapping("/")
@@ -71,7 +74,7 @@ public class PeopleAction extends BaseAction {
 	 */
 	@Autowired
 	private IPeopleBiz peopleBiz;
-	
+
 	/**
 	 * 注入用户基础业务层
 	 */
@@ -305,11 +308,11 @@ public class PeopleAction extends BaseAction {
 		int appId = this.getAppId(request);
 		people.setPeopleAppId(appId);
 		// 如果接收到mail值，就给mail_check赋值1
-		if(!StringUtil.isBlank(people.getPeopleMail())){
+		if (!StringUtil.isBlank(people.getPeopleMail())) {
 			people.setPeopleMailCheck(PeopleEnum.MAIL_CHECK);
 		}
 		// 如果接收到phone值，就给phone_check赋值1
-		if(!StringUtil.isBlank(people.getPeoplePhone())){
+		if (!StringUtil.isBlank(people.getPeoplePhone())) {
 			people.setPeoplePhoneCheck(PeopleEnum.PHONE_CHECK);
 		}
 		PeopleEntity _people = (PeopleEntity) this.peopleBiz.getEntity(people);
@@ -365,7 +368,7 @@ public class PeopleAction extends BaseAction {
 					this.getResString("err.empty", this.getResString("people")));
 			return;
 		}
-		
+
 		int appId = this.getAppId(request);
 		// 如果用户名不为空表示使用的是账号注册方式
 		if (!StringUtil.isBlank(people.getPeopleName())) {
@@ -378,7 +381,7 @@ public class PeopleAction extends BaseAction {
 
 			if (people.getPeopleName().contains(" ")) {
 				this.outJson(response, ModelCode.PEOPLE_REGISTER, false,
-						 this.getResString("people.name") + this.getResString("people.space"));
+						this.getResString("people.name") + this.getResString("people.space"));
 				return;
 			}
 
@@ -455,7 +458,7 @@ public class PeopleAction extends BaseAction {
 					this.getResString("err.empty", this.getResString("people.password")));
 			return;
 		}
-		
+
 		if (people.getPeoplePassword().contains(" ")) {
 			this.outJson(response, ModelCode.PEOPLE_REGISTER, false,
 					this.getResString("people.password") + this.getResString("people.space"));
@@ -513,7 +516,7 @@ public class PeopleAction extends BaseAction {
 					this.getResString("err.error", this.getResString("people.password")));
 			return;
 		}
-		
+
 		PeopleEntity _people = (PeopleEntity) this.getSession(request, SessionConstEnum.PEOPLE_RESET_PASSWORD_SESSION);
 
 		if (_people == null) {
@@ -598,7 +601,8 @@ public class PeopleAction extends BaseAction {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/sendCode")
-	public void sendCode(@ModelAttribute PeopleEntity people, HttpServletRequest request, HttpServletResponse response) {
+	public void sendCode(@ModelAttribute PeopleEntity people, HttpServletRequest request,
+			HttpServletResponse response) {
 		String receive = request.getParameter("receive");
 		String modelCode = request.getParameter("modelCode");
 		String thrid = request.getParameter("thrid");
@@ -620,6 +624,7 @@ public class PeopleAction extends BaseAction {
 		params.put("receive", receive);
 		params.put("thrid", thrid); // 使用第三方平台发送，确保用户能收到
 		params.put("content", "{code:'" + peopleCode + "'}");
+		params.putAll(BasicUtil.assemblyRequestMap());
 		if (isSession) { // 启用session
 			if (!this.checkRandCode(request)) {
 				this.outJson(response, ModelCode.PEOPLE, false,
@@ -641,15 +646,10 @@ public class PeopleAction extends BaseAction {
 			_people.setPeopleCode(peopleCode);
 			_people.setPeopleCodeSendDate(DateUtil.dateToTimestamp(new Date()));
 			this.setSession(request, SessionConstEnum.SEND_CODE_SESSION, _people);
-			if (StringUtil.isMobile(receive)) {
-				Result rs = Proxy.post(this.getUrl(request) + "/sms/send.do", null, params, Const.UTF8);
-				this.outJson(response, rs.getContent());
-			} else if (StringUtil.isEmail(receive)) {
-				Result rs = Proxy.post(this.getUrl(request) + "/mail/send.do", null, params, Const.UTF8);
-				String re = rs.getContent();
-				LOG.debug("send mail" + receive + ":content " + peopleCode + " " + re);
-				this.outJson(response, re);
-			}
+			String contentt = HttpUtil.post(this.getUrl(request) + "/msend/send.do", params);
+			Result rs = JSONObject.parseObject(contentt, Result.class);
+			this.outJson(response, rs.getContent());
+			LOG.debug("send " + receive + ":content " + peopleCode);
 			return;
 		}
 		// 给people赋值（邮箱或电话）
@@ -659,17 +659,17 @@ public class PeopleAction extends BaseAction {
 			people.setPeopleMail(receive);
 		}
 		// 判断是否接到用户名，应用于找回密码发送验证码
-		if(StringUtil.isBlank(people.getPeopleName()) && this.getPeopleBySession() == null ){
+		if (StringUtil.isBlank(people.getPeopleName()) && this.getPeopleBySession() == null) {
 			// 如果接收到mail值，就给mail_check赋值1
-			if(!StringUtil.isBlank(people.getPeopleMail())){
+			if (!StringUtil.isBlank(people.getPeopleMail())) {
 				people.setPeopleMailCheck(PeopleEnum.MAIL_CHECK);
 			}
 			// 如果接收到phone值，就给phone_check赋值1
-			if(!StringUtil.isBlank(people.getPeoplePhone())){
+			if (!StringUtil.isBlank(people.getPeoplePhone())) {
 				people.setPeoplePhoneCheck(PeopleEnum.PHONE_CHECK);
 			}
 		}
-		
+
 		// 获取应用ID
 		int appId = this.getAppId(request);
 		people.setPeopleAppId(appId);
@@ -684,7 +684,7 @@ public class PeopleAction extends BaseAction {
 			CodeBean code = new CodeBean();
 			code.setCode(peopleCode);
 			code.setUserName(peopleEntity.getPeopleUser().getPuNickname());
-			params.put("content",JSONObject.toJSONString(code));
+			params.put("content", JSONObject.toJSONString(code));
 		}
 
 		// 将生成的验证码加入用户实体
@@ -699,17 +699,10 @@ public class PeopleAction extends BaseAction {
 		if (_people != null) {
 			this.setSession(request, SessionConstEnum.PEOPLE_EXISTS_SESSION, peopleEntity);
 		}
-		if (StringUtil.isMobile(receive)) {
-			Result rs = Proxy.post(this.getUrl(request) + "/sms/send.do", null, params, Const.UTF8);
-			this.outJson(response, rs.getContent());
-		} else if (StringUtil.isEmail(receive)) {
-			Result rs = Proxy.post(this.getUrl(request) + "/mail/send.do", null, params, Const.UTF8);
-			String re = rs.getContent();
-			LOG.debug("send mail" + receive + ":content " + peopleCode + " " + re);
-			this.outJson(response, re);
-		}
-
-
+		String contentt = HttpUtil.post(this.getUrl(request) + "/msend/send.do", params);
+		Result rs = JSONObject.parseObject(contentt, Result.class);
+		this.outJson(response, rs.getContent());
+		LOG.debug("send " + receive + ":content " + peopleCode);
 	}
 
 	/**
@@ -722,12 +715,13 @@ public class PeopleAction extends BaseAction {
 	 * @param people
 	 *            用户信息<br/>
 	 *            <i>people参数包含字段信息参考：</i><br/>
-	 *            peopleName 用户名<br/>           
+	 *            peopleName 用户名<br/>
 	 *            <dt><span class="strong">返回</span></dt><br/>
 	 *            {result:"true｜false"}<br/>
 	 */
 	@RequestMapping(value = "/checkSendCode", method = RequestMethod.POST)
-	public void checkSendCode(@ModelAttribute PeopleEntity people, HttpServletRequest request, HttpServletResponse response) {
+	public void checkSendCode(@ModelAttribute PeopleEntity people, HttpServletRequest request,
+			HttpServletResponse response) {
 		String code = request.getParameter("code");
 		String receive = request.getParameter("receive");
 		// 验证码
@@ -736,10 +730,10 @@ public class PeopleAction extends BaseAction {
 					this.getResString("err.error", this.getResString("people.code")));
 			return;
 		}
-		if (StringUtil.isMobile(receive)){
+		if (StringUtil.isMobile(receive)) {
 			people.setPeoplePhone(receive);
 		}
-		if (StringUtil.isEmail(receive)){
+		if (StringUtil.isEmail(receive)) {
 			people.setPeopleMail(receive);
 		}
 		// 获取应用ID
@@ -803,10 +797,9 @@ public class PeopleAction extends BaseAction {
 		}
 
 	}
-	
+
 	/**
-	 * 解绑邮箱->
-	 * 验证用户输入的接收验证码
+	 * 解绑邮箱-> 验证用户输入的接收验证码
 	 * 
 	 * @param code
 	 *            接收到的验证码
@@ -815,12 +808,13 @@ public class PeopleAction extends BaseAction {
 	 * @param people
 	 *            用户信息<br/>
 	 *            <i>people参数包含字段信息参考：</i><br/>
-	 *            peopleName 用户名<br/>           
+	 *            peopleName 用户名<br/>
 	 *            <dt><span class="strong">返回</span></dt><br/>
 	 *            {result:"true｜false"}<br/>
 	 */
 	@RequestMapping(value = "/cancelBind", method = RequestMethod.POST)
-	public void cancelBind(@ModelAttribute PeopleEntity people, HttpServletRequest request, HttpServletResponse response) {
+	public void cancelBind(@ModelAttribute PeopleEntity people, HttpServletRequest request,
+			HttpServletResponse response) {
 		String code = request.getParameter("code");
 		String receive = request.getParameter("receive");
 		// 验证码
@@ -829,10 +823,10 @@ public class PeopleAction extends BaseAction {
 					this.getResString("err.error", this.getResString("people.code")));
 			return;
 		}
-		if (StringUtil.isMobile(receive)){
+		if (StringUtil.isMobile(receive)) {
 			people.setPeoplePhone(receive);
 		}
-		if (StringUtil.isEmail(receive)){
+		if (StringUtil.isEmail(receive)) {
 			people.setPeopleMail(receive);
 		}
 		// 获取应用ID
@@ -897,25 +891,26 @@ public class PeopleAction extends BaseAction {
 
 	}
 
-
 }
 
-//创建一个bean方便邮件发送，避免userName特色字符导致json格式转换失败
+// 创建一个bean方便邮件发送，避免userName特色字符导致json格式转换失败
 class CodeBean {
 	String code;
 	String userName;
+
 	public String getCode() {
 		return code;
 	}
+
 	public void setCode(String code) {
 		this.code = code;
 	}
+
 	public String getUserName() {
 		return userName;
 	}
+
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 }
-
-

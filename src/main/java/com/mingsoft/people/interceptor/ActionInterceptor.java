@@ -43,7 +43,6 @@ package com.mingsoft.people.interceptor;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -51,7 +50,6 @@ import com.mingsoft.base.constant.Const;
 import com.mingsoft.basic.interceptor.BaseInterceptor;
 import com.mingsoft.people.constant.e.CookieConstEnum;
 import com.mingsoft.people.entity.PeopleEntity;
-import com.mingsoft.people.entity.PeopleUserEntity;
 import com.mingsoft.util.StringUtil;
 
 import net.mingsoft.basic.util.BasicUtil;
@@ -76,7 +74,17 @@ public class ActionInterceptor extends BaseInterceptor {
 				response.sendRedirect(BasicUtil.getUrl()+"/error/404.do");
 				return false;
 			} else {
-				response.sendRedirect(URLDecoder.decode(loginUrl,Const.UTF8));
+				String login = URLDecoder.decode(loginUrl,Const.UTF8);
+				String backUrl = BasicUtil.getUrl()+request.getServletPath();
+				if(request.getQueryString()!=null) {
+					backUrl +="?"+request.getQueryString();
+				}
+				if(login.indexOf("?") > 0) {
+					login = login+"&url="+URLEncoder.encode(backUrl,Const.UTF8);
+				} else {
+					login = login+"?url="+URLEncoder.encode(backUrl,Const.UTF8);
+				}
+				response.sendRedirect(login);
 				return false;
 			}
 			
