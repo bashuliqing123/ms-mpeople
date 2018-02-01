@@ -610,11 +610,15 @@ public class PeopleAction extends BaseAction {
 		boolean isSession = this.getBoolean(request, "isSession");
 
 		if (StringUtil.isBlank(receive)) {
-			this.outJson(response, ModelCode.PEOPLE, false, this.getResString("err.empty", "receive"));
+			this.outJson(response, ModelCode.PEOPLE, false, this.getResString("err.empty", this.getResString("receive")));
 			return;
 		}
 		if (StringUtil.isBlank(modelCode)) {
 			this.outJson(response, ModelCode.PEOPLE, false, this.getResString("err.empty", "modelCode"));
+			return;
+		}
+		if (StringUtil.isBlank(type)) {
+			this.outJson(response, ModelCode.PEOPLE, false, this.getResString("err.empty", this.getResString("type")));
 			return;
 		}
 		String peopleCode = StringUtil.randomNumber(6);
