@@ -606,6 +606,7 @@ public class PeopleAction extends BaseAction {
 		String receive = request.getParameter("receive");
 		String modelCode = request.getParameter("modelCode");
 		String thrid = request.getParameter("thrid");
+		String type = request.getParameter("type");
 		boolean isSession = this.getBoolean(request, "isSession");
 
 		if (StringUtil.isBlank(receive)) {
@@ -625,6 +626,7 @@ public class PeopleAction extends BaseAction {
 		params.put("thrid", thrid); // 使用第三方平台发送，确保用户能收到
 		params.put("content", "{code:'" + peopleCode + "'}");
 		params.putAll(BasicUtil.assemblyRequestMap());
+		params.put("type",type);
 		if (isSession) { // 启用session
 			if (!this.checkRandCode(request)) {
 				this.outJson(response, ModelCode.PEOPLE, false,
