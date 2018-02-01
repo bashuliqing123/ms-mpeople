@@ -707,9 +707,13 @@ public class PeopleAction extends BaseAction {
 		if (_people != null) {
 			this.setSession(request, SessionConstEnum.PEOPLE_EXISTS_SESSION, peopleEntity);
 		}
-		String contentt = HttpUtil.post(this.getUrl(request) + "/msend/send.do", params);
-		Result rs = JSONObject.parseObject(contentt, Result.class);
-		this.outJson(response, rs.getContent());
+		String content = HttpUtil.post(this.getUrl(request) + "/msend/send.do", params);
+		LOG.debug("content :" + content);
+		Result rs = JSONObject.parseObject(content, Result.class);
+		if(rs != null) {
+			this.outJson(response, true);
+		} 
+		
 		LOG.debug("send " + receive + ":content " + peopleCode);
 	}
 
