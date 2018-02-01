@@ -632,7 +632,6 @@ public class PeopleAction extends BaseAction {
 		params.put("receive", receive);
 		params.put("thrid", thrid); // 使用第三方平台发送，确保用户能收到
 		params.put("content", "{code:'" + peopleCode + "'}");
-		params.putAll(BasicUtil.assemblyRequestMap());
 		params.put("type",type);
 		if (isSession) { // 启用session
 			if (!this.checkRandCode(request)) {
