@@ -54,6 +54,7 @@ import com.mingsoft.util.proxy.Proxy;
 import com.mingsoft.util.proxy.Result;
 
 import cn.hutool.http.HttpUtil;
+import cn.hutool.log.Log;
 import net.mingsoft.basic.util.BasicUtil;
 
 /**
@@ -624,6 +625,8 @@ public class PeopleAction extends BaseAction {
 		String peopleCode = StringUtil.randomNumber(6);
 		// 解密得到的模块编码
 		String _modelCode = this.encryptByAES(request, modelCode);
+		this.LOG.debug("前端传的"+modelCode);
+		this.LOG.debug("解密"+_modelCode);
 		Map params = new HashMap();
 		params.put("modelCode", _modelCode);
 		params.put("receive", receive);
