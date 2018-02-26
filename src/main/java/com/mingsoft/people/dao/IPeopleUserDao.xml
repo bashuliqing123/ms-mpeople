@@ -40,10 +40,10 @@
 			<if test="puSex != null">PU_SEX,</if>
 			<if test="puBirthday != null">PU_BIRTHDAY,</if>
 			<if test="puCard != null and puCard != ''">PU_CARD,</if>
-			<if test="puProvince != null">PU_PROVINCE,</if>
-			<if test="puCity != null">PU_CITY,</if>
-			<if test="puDistrict != null">PU_DISTRICT,</if>
-			<if test="puStreet != null">PU_STREET,</if>
+			<if test="puProvince != null and puProvince &gt; 0">PU_PROVINCE,</if>
+			<if test="puCity != null and puCity &gt; 0">PU_CITY,</if>
+			<if test="puDistrict != null and puDistrict &gt; 0">PU_DISTRICT,</if>
+			<if test="puStreet != null and puStreet &gt; 0">PU_STREET,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="peopleId">#{peopleId},</if>
@@ -54,10 +54,10 @@
 			<if test="puSex != null">#{puSex},</if>
 			<if test="puBirthday != null">#{puBirthday},</if>
 			<if test="puCard != null and puCard != ''">#{puCard},</if>
-			<if test="puProvince != null">#{puProvince},</if>
-			<if test="puCity != null">#{puCity},</if>
-			<if test="puDistrict != null">#{puDistrict},</if>
-			<if test="puStreet != null">#{puStreet},</if>
+			<if test="puProvince != null and puProvince &gt; 0">#{puProvince},</if>
+			<if test="puCity != null and puCity &gt; 0">#{puCity},</if>
+			<if test="puDistrict != null and puDistrict &gt; 0">#{puDistrict},</if>
+			<if test="puStreet != null and puStreet &gt; 0">#{puStreet},</if>
 		</trim>
 	</insert>
 	
@@ -72,10 +72,10 @@
 			<if test="puSex != null">PU_SEX=#{puSex},</if>			
 			<if test="puBirthday != null">PU_BIRTHDAY=#{puBirthday},</if>			
 			<if test="puCard != null and puCard != ''">PU_CARD=#{puCard},</if>			
-			<if test="puProvince != null">PU_PROVINCE=#{puProvince},</if>			
-			<if test="puCity != null">PU_CITY=#{puCity},</if>			
-			<if test="puDistrict != null">PU_DISTRICT=#{puDistrict},</if>			
-			<if test="puStreet != null">PU_STREET=#{puStreet},</if>			
+			<if test="puProvince != null and puProvince &gt; 0">PU_PROVINCE=#{puProvince},</if>			
+			<if test="puCity != null and puCity &gt; 0">PU_CITY=#{puCity},</if>			
+			<if test="puDistrict != null and puDistrict &gt; 0">PU_DISTRICT=#{puDistrict},</if>			
+			<if test="puStreet != null and puStreet &gt; 0">PU_STREET=#{puStreet},</if>			
 		</set>
 		where PU_PEOPLE_ID = #{puPeopleId}
 	</update>
@@ -97,10 +97,10 @@
 			<if test="puSex != null"> and PU_SEX=#{puSex} </if>				
 			<if test="puBirthday != null"> and PU_BIRTHDAY=#{puBirthday} </if>				
 			<if test="puCard != null and puCard != ''"> and PU_CARD=#{puCard} </if>				
-			<if test="puProvince != null"> and PU_PROVINCE=#{puProvince} </if>				
-			<if test="puCity != null"> and PU_CITY=#{puCity} </if>				
-			<if test="puDistrict != null"> and PU_DISTRICT=#{puDistrict} </if>				
-			<if test="puStreet != null"> and PU_STREET=#{puStreet} </if>				
+			<if test="puProvince != null and puProvince &gt; 0"> and PU_PROVINCE=#{puProvince} </if>				
+			<if test="puCity != null and puCity &gt; 0"> and PU_CITY=#{puCity} </if>				
+			<if test="puDistrict != null and puDistrict &gt; 0"> and PU_DISTRICT=#{puDistrict} </if>				
+			<if test="puStreet != null and puStreet &gt; 0"> and PU_STREET=#{puStreet} </if>				
 		</where>
 		limit 0,1
 	</select>	
@@ -138,10 +138,10 @@
 				<if test="puSex &gt; 0"> and PU_SEX=#{puSex} </if>				
 				<if test="puBirthday != null"> and PU_BIRTHDAY=#{puBirthday} </if>				
 				<if test="puCard != null and puCard != ''"> and PU_CARD=#{puCard} </if>				
-				<if test="puProvince != null"> and PU_PROVINCE=#{puProvince} </if>				
-				<if test="puCity != null"> and PU_CITY=#{puCity} </if>				
-				<if test="puDistrict != null"> and PU_DISTRICT=#{puDistrict} </if>				
-				<if test="puStreet != null"> and PU_STREET=#{puStreet} </if>
+				<if test="puProvince != null and puProvince &gt; 0"> and PU_PROVINCE=#{puProvince} </if>				
+				<if test="puCity != null and puCity &gt; 0"> and PU_CITY=#{puCity} </if>				
+				<if test="puDistrict != null and puDistrict &gt; 0"> and PU_DISTRICT=#{puDistrict} </if>				
+				<if test="puStreet != null and puStreet &gt; 0"> and PU_STREET=#{puStreet} </if>
 				<if test="startTime != null and endTime != null">
 					and date_format(PEOPLE_DATETIME,'%Y-%m-%d') between #{startTime} and #{endTime}
 				</if>	
