@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.mingsoft.base.constant.Const;
+import com.mingsoft.base.entity.ResultJson;
 import com.mingsoft.people.action.BaseAction;
 import com.mingsoft.people.bean.PeopleLoginBean;
 import com.mingsoft.people.biz.IPeopleBiz;
@@ -50,8 +51,6 @@ import com.mingsoft.people.entity.PeopleUserEntity;
 import com.mingsoft.util.DateUtil;
 import com.mingsoft.util.MD5Util;
 import com.mingsoft.util.StringUtil;
-import com.mingsoft.util.proxy.Proxy;
-import com.mingsoft.util.proxy.Result;
 
 import cn.hutool.http.HttpUtil;
 import cn.hutool.log.Log;
@@ -655,8 +654,8 @@ public class PeopleAction extends BaseAction {
 			_people.setPeopleCodeSendDate(DateUtil.dateToTimestamp(new Date()));
 			this.setSession(request, SessionConstEnum.SEND_CODE_SESSION, _people);
 			String contentt = HttpUtil.post(this.getUrl(request) + "/msend/send.do", params);
-			Result rs = JSONObject.parseObject(contentt, Result.class);
-			this.outJson(response, rs.getContent());
+			ResultJson rs = JSONObject.parseObject(contentt, ResultJson.class);
+			this.outJson(response, rs.getResultMsg());
 			LOG.debug("send " + receive + ":content " + peopleCode);
 			return;
 		}
@@ -709,7 +708,7 @@ public class PeopleAction extends BaseAction {
 		}
 		String content = HttpUtil.post(this.getUrl(request) + "/msend/send.do", params);
 		LOG.debug("content :" + content);
-		Result rs = JSONObject.parseObject(content, Result.class);
+		ResultJson rs = JSONObject.parseObject(content, ResultJson.class);
 		if(rs != null) {
 			this.outJson(response, true);
 		} 
