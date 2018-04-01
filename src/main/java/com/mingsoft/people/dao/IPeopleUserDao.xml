@@ -65,6 +65,7 @@
 	<update id="updateEntity" parameterType="com.mingsoft.people.entity.PeopleUserEntity">
 		update people_user
 		<set>
+			PU_PEOPLE_ID=#{puPeopleId},		
 			<if test="puRealName != null and puRealName != ''">PU_REAL_NAME=#{puRealName},</if>			
 			<if test="puAddress != null and puAddress != ''">PU_ADDRESS=#{puAddress},</if>			
 			<if test="puIcon != null ">PU_ICON=#{puIcon},</if>			
