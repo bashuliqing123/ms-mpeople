@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.ui.ModelMap;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -99,14 +100,15 @@ public class PeopleUserAction extends com.mingsoft.people.action.BaseAction{
 	 */
 	@RequestMapping("/list")
 	@ResponseBody
-	public void list(@ModelAttribute PeopleBean peopleUser,HttpServletResponse response, HttpServletRequest request,ModelMap model) {
+	public EUListBean list(@ModelAttribute PeopleBean peopleUser,HttpServletResponse response, HttpServletRequest request,ModelMap model) {
 		if(peopleUser == null){
 			peopleUser = new PeopleBean();
 		}
 		peopleUser.setPeopleAppId(BasicUtil.getAppId());
 		BasicUtil.startPage();
-		List peopleUserList = peopleUserBiz.query(peopleUser);
-		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(new EUListBean(peopleUserList,(int)BasicUtil.endPage(peopleUserList).getTotal()),new DoubleValueFilter(),new DateValueFilter()));
+		List<PeopleBean> peopleUserList = peopleUserBiz.query(peopleUser);
+		EUListBean list = new EUListBean(peopleUserList,(int)BasicUtil.endPage(peopleUserList).getTotal());
+		return list;
 	}
 	
 	/**
@@ -202,6 +204,7 @@ public class PeopleUserAction extends com.mingsoft.people.action.BaseAction{
 	 */
 	@PostMapping("/save")
 	@ResponseBody
+	@RequiresPermissions("people:save")
 	public void save(@ModelAttribute PeopleUserEntity peopleUser, HttpServletResponse response, HttpServletRequest request) {
 		//验证用户真实名称的值是否合法			
 		if(!StringUtil.checkLength(peopleUser.getPuRealName()+"", 0, 50)){
@@ -257,6 +260,7 @@ public class PeopleUserAction extends com.mingsoft.people.action.BaseAction{
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
+	@RequiresPermissions("people:del")
 	public void delete(@RequestBody List<PeopleUserEntity> peopleUsers,HttpServletResponse response, HttpServletRequest request) {
 		int[] ids = new int[peopleUsers.size()];
 		for(int i = 0;i<peopleUsers.size();i++){
@@ -302,6 +306,7 @@ public class PeopleUserAction extends com.mingsoft.people.action.BaseAction{
 	 */
 	@PostMapping("/update")
 	@ResponseBody	 
+	@RequiresPermissions("people:update")
 	public void update(@ModelAttribute PeopleUserEntity peopleUser, HttpServletResponse response,
 			HttpServletRequest request) {
 		if(!StringUtil.checkLength(peopleUser.getPuRealName()+"", 0, 50)){

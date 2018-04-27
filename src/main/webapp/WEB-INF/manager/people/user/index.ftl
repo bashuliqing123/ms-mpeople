@@ -17,8 +17,8 @@
 		<div id="toolbar">
 			<@ms.panelNav>
 				<@ms.buttonGroup>
-					<@ms.addButton id="addPeopleUserBtn"/>
-					<@ms.delButton id="delPeopleUserBtn"/>
+					<@shiro.hasPermission name="people:save"><@ms.panelNavBtnAdd title="" id="addPeopleUserBtn"/></@shiro.hasPermission> 
+					<@shiro.hasPermission name="people:del"><@ms.panelNavBtnDel title="" id="delPeopleUserBtn"/></@shiro.hasPermission> 
 				</@ms.buttonGroup>
 				<@ms.button id="audit" value="审核"/>
 			</@ms.panelNav>
@@ -70,8 +70,13 @@
 				        	title: '账号',
 				        	width:'60',
 				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/people/peopleUser/form.do?puPeopleId="+row.puPeopleId;
+				        		<@shiro.hasPermission name="people:update">	        
+					        	var url = "${managerPath}/people/peopleUser/form.do?puPeopleId="+row.puPeopleId;
 				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
+					    		</@shiro.hasPermission> 
+					    		<@shiro.lacksPermission name="people:update">
+					    			return value;
+					    		</@shiro.lacksPermission>
 				        	}
 				    	},	{
 				        	field: 'puRealName',
