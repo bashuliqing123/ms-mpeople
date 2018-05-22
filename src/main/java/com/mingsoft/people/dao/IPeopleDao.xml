@@ -43,13 +43,8 @@
 		</association>
 	</resultMap>
 	<!-- 将实体属性与表字段对接结束 -->
-
-	<!-- 新增用户开始 -->
-	<insert id="saveEntity" useGeneratedKeys="true" keyProperty="peopleId"
-		parameterType="com.mingsoft.base.entity.BaseEntity">
-		insert into people
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="peoplePhone != null">PEOPLE_PHONE,</if>
+	<sql id="insertColumns">
+		<if test="peoplePhone != null">PEOPLE_PHONE,</if>
 			<if test="peopleName != null">PEOPLE_NAME,</if>
 			<if test="peoplePassword != null">PEOPLE_PASSWORD,</if>
 			<if test="peopleDateTime != null">PEOPLE_DATETIME,</if>
@@ -60,9 +55,9 @@
 			<if test="peopleCodeSendDate != null">PEOPLE_CODESENDDATE,</if>
 			<if test="peopleMailCheck != null and peopleMailCheck &gt; -1">PEOPLE_MAILLCHECK,</if>
 			<if test="peoplePhoneCheck != null and  peoplePhoneCheck &gt; -1">PEOPLE_PHONECHECK,</if>
-		</trim> 
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="peoplePhone != null">#{peoplePhone},</if>
+	</sql>
+	<sql id="insertValues">
+		<if test="peoplePhone != null">#{peoplePhone},</if>
 			<if test="peopleName != null">#{peopleName},</if>
 			<if test="peoplePassword != null">#{peoplePassword},</if>
 			<if test="peopleDateTime != null">#{peopleDateTime},</if>
@@ -73,10 +68,36 @@
 			<if test="peopleCodeSendDate != null">#{peopleCodeSendDate},</if>
 			<if test="peopleMailCheck != null and peopleMailCheck &gt; -1">#{peopleMailCheck},</if>
 			<if test="peoplePhoneCheck != null and  peoplePhoneCheck &gt; -1">#{peoplePhoneCheck},</if>
+	</sql>
+	<!-- mysql或SqlServer新增用户开始 -->
+	<insert id="saveEntity" useGeneratedKeys="true" keyProperty="peopleId"
+		parameterType="com.mingsoft.base.entity.BaseEntity">
+		insert into people
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<include refid="insertColumns"></include>
+		</trim> 
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<include refid="insertValues"></include>
 		</trim>
 	</insert>
-	<!-- 新增用户结束 -->
-
+	<!--mysql或SqlServer 新增用户结束 -->
+	<!-- oracle新增用户开始 -->
+	<insert id="saveEntity" useGeneratedKeys="false" databaseId="oracle"
+		parameterType="com.mingsoft.base.entity.BaseEntity">
+		<selectKey resultType="Integer"  keyProperty="peopleId" order="BEFORE">
+			select seq_people_id.nextval as peopleId from dual
+		</selectKey>
+		insert into people
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			PEOPLE_ID,
+			<include refid="insertColumns"></include>
+		</trim> 
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{peopleId},
+			<include refid="insertValues"></include>
+		</trim>
+	</insert>
+	<!--oracle 新增用户结束 -->
 	<!-- 查询用户开始 -->
 	<select id="getEntity" resultMap="resultMap" parameterType="int">
 		select
@@ -228,7 +249,7 @@
 	</select>
 	<!-- 查询用户列表结束 -->
 
-	<!-- 根据AppId查询用户列表根据Id排序并进行分页开始 -->
+	<!-- 过期方法 根据AppId查询用户列表根据Id排序并进行分页开始 -->
 	<select id="queryPageListByAppId" resultMap="resultMap">
 		select
 		<include refid="column_list" />
@@ -295,7 +316,7 @@
 	</delete>
 	<!-- 批量删除用户结束 -->
 
-	<!-- 根据应用id和其他查询条件查询用户列表信息开始 -->
+	<!-- 过期方法根据应用id和其他查询条件查询用户列表信息开始 -->
 	<select id="queryByAppIdAndMap" resultMap="resultMap"
 		parameterType="int">
 		select
