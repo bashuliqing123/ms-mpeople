@@ -24,7 +24,6 @@ import com.mingsoft.people.entity.PeopleEntity;
 import com.mingsoft.people.entity.PeopleUserEntity;
 import net.mingsoft.base.util.JSONObject;
 import com.mingsoft.util.StringUtil;
-import com.mingsoft.base.constant.Const;
 import com.mingsoft.base.entity.BaseEntity;
 import net.mingsoft.basic.util.BasicUtil;
 import com.mingsoft.base.filter.DateValueFilter;
@@ -121,7 +120,6 @@ public class PeopleUserAction extends com.mingsoft.people.action.BaseAction{
 			BaseEntity peopleUserEntity = peopleUserBiz.getEntity(peopleUser.getPuPeopleId());			
 			model.addAttribute("peopleUserEntity",peopleUserEntity);
 		}
-		model.addAttribute("peopleImagesUrl", com.mingsoft.basic.constant.Const.UPLOAD_PATH+Const.SEPARATOR+BasicUtil.getAppId()+Const.SEPARATOR);
 		return view ("/people/user/form");
 	}
 	
